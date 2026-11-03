@@ -1,0 +1,102 @@
+/* the subjects page (/subjects/) and the units on a subject's page */
+.subhead { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin: 40px 0 28px; }
+.subhead h1 { margin: 0; }
+.seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--card); box-shadow: var(--lift); }
+.seg button { border: 0; background: none; cursor: pointer; padding: 9px 16px; border-radius: 999px; font: 500 12px var(--mono); letter-spacing: .04em; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--hi); color: #fff; }
+.v-chapters { display: none; }
+html[data-view="chapters"] .v-subjects { display: none; }
+html[data-view="chapters"] .v-chapters { display: block; }
+
+.subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 22px; grid-auto-rows: 1fr; }   /* every row as tall as the tallest, coming-soon rows too */
+.subject { display: flex; flex-direction: column; background: var(--card); box-shadow: var(--lift); border-radius: 16px; overflow: hidden; text-decoration: none; color: var(--text);
+  transition: transform .5s cubic-bezier(.16,1,.3,1); }
+@media (hover: hover) { a.subject:hover { transform: translateY(-4px); } }
+.subject img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+.subject .body { padding: 18px 22px 22px; }
+.subject h2 { font: 400 34px/1 var(--serif); color: var(--strong); margin: 0 0 6px; }
+.subject .sub { font: italic 19px var(--serif); color: var(--muted); }
+.subject ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 4px; font-size: 14px; }
+.subject ul span { font: 12px var(--mono); color: var(--muted); } .subject ul span::before { content: '· '; }
+.subject.soon { box-shadow: none; border: 1px dashed var(--faint); background: transparent; justify-content: center; padding: 28px 22px; }
+.subject.soon h2 { color: var(--lo); font-size: 26px; } .subject.soon .sub { color: var(--muted); }
+
+.unit-list { margin: 0 0 36px; }
+.unit-list > h2, .unit-list > summary > h2 { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; font: 400 26px var(--serif); color: var(--strong); margin: 0 0 12px; }
+.unit-list h2 a { text-decoration: none; } .unit-list h2 small { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+/* all chapters: a subject's heading opens and closes its shelves, a chevron at its end */
+/* as rows between the dividers (app.css's details): the heading centred between them, the shelves clear of the next */
+details.unit-list { margin: 0; padding: 20px 0; }
+details.unit-list > .shelf:last-child { margin-bottom: 12px; }
+.unit-list > summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 12px; }
+.unit-list > summary::-webkit-details-marker { display: none; }
+.unit-list > summary > h2 { margin: 0; }
+.unit-list > summary::after { content: '›'; margin-left: auto; font: 26px/1 var(--serif); color: var(--muted); transform: rotate(90deg); transition: transform .2s; }
+.unit-list:not([open]) > summary::after { transform: none; }
+/* the shelves slide shut and open (the height eased to and from auto); clipped with room left for the cards' shadows.
+   ponytail: ::details-content and interpolate-size are Chromium-only for now; other browsers open and close instantly */
+.unit-list { interpolate-size: allow-keywords; }
+.unit-list::details-content { block-size: 0; overflow: clip; overflow-clip-margin: 28px;
+  transition: block-size .4s cubic-bezier(.16,1,.3,1), content-visibility .4s allow-discrete; }
+.unit-list[open]::details-content { block-size: auto; }
+@media (prefers-reduced-motion: reduce) { .unit-list::details-content { transition: none; } }
+.unit-list h3 { font: 500 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; }
+/* all chapters: each subject's shelves of books, the cards as on a subject's own page (its <style>) */
+.v-chapters .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 22px; }
+.v-chapters .card { position: relative; background: var(--card); border-radius: 14px; box-shadow: var(--lift); padding: 18px 20px 20px; text-decoration: none; display: flex; flex-direction: column; min-height: 360px; transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s; }
+@media (hover: hover) { .v-chapters a.card:hover { transform: translateY(-4px) rotate(-.4deg); } }
+.v-chapters a.card:focus-visible { transform: translateY(-4px) rotate(-.4deg); }
+.v-chapters .card .no { display: flex; justify-content: space-between; font: 11px var(--mono); color: var(--muted); letter-spacing: .04em; }
+.v-chapters .card h2 { font: 400 30px/1.05 var(--serif); color: var(--strong); margin: 18px 0 0; }
+.v-chapters .card h2 + i { font: italic 400 20px/1.2 var(--serif); color: var(--muted); }
+.v-chapters .card img { margin-top: auto; width: 100%; aspect-ratio: 9 / 8; object-fit: cover; border-radius: 6px; }
+
+/* a subject's own page: its units, each a clearly separate shelf */
+/* the body is a flex column (nav.css), so the shelves take the full width themselves, as .crumbs does */
+.shelf, .unit { width: 100%; }
+/* the first course close under the hero (its own bottom margin and the course's top would leave a gap) */
+.hero:has(+ .unit) { margin-bottom: 0; }
+.hero + .unit { margin-top: 40px; }
+.unit { max-width: 1180px; margin: 64px auto 18px; padding: 0 4px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; border-top: 1px solid var(--faint); padding-top: 22px; }
+.unit h2 { font: 400 clamp(28px, 3.4vw, 40px)/1.05 var(--serif); color: var(--strong); margin: 0; }
+.unit .count { margin-left: auto; font: 500 12px var(--mono); color: var(--muted); }
+.crumbs { width: 100%; max-width: 1180px; margin: 6px auto 0; padding: 0; display: flex; gap: 14px; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.crumbs a { color: var(--muted); text-decoration: none; } .crumbs a:hover { color: var(--strong); }
+/* a subject's equation sheet: a pill under the hero's subtext */
+.hero .pill { display: inline-block; margin-top: 22px; padding: 10px 18px; border: 1px solid var(--faint); border-radius: 999px; background: var(--card);
+  font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--hi); text-decoration: none; }
+.hero .pill:hover { border-color: var(--mid); color: var(--strong); }
+
+/* phones: full-width view toggle, a shorter picture, each unit a row with its count on the right; the subject page's
+   units as numbered shelves of cards, a card a row */
+@media (max-width: 600px) {
+  .subhead { display: block; margin: 18px 0 20px; }
+  .subhead h1 { font-size: 40px; margin-bottom: 14px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; }
+  .seg button { padding: 11px 0; }
+  .subjects { gap: 14px; grid-auto-rows: auto; }
+  .subject img { aspect-ratio: 2 / 1; }
+  .subject .body { padding: 14px 16px 6px; }
+  .subject h2 { font-size: 30px; margin-bottom: 2px; }
+  .subject .sub { font-size: 17px; }
+  .subject ul { gap: 0; margin-top: 10px; }
+  .subject li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--faint); color: var(--strong); line-height: 1.35; }
+  .subject ul span { white-space: nowrap; } .subject ul span::before { content: none; }
+  .subject.soon { flex-direction: row; align-items: baseline; gap: 10px; padding: 16px; }
+  .subject.soon h2 { font-size: 22px; margin: 0; }
+
+  .crumbs { margin-top: 6px; padding: 0; gap: 8px; font-size: 11px; white-space: nowrap; }
+  .hero { text-align: left; margin: 18px 0 8px; }
+  .hero h1 { font-size: 40px; }
+  .hero p { font-size: 17px; margin-top: 8px; }
+  .hero .pill { margin-top: 14px; padding: 9px 14px; font-size: 11px; }
+  .unit-list h3 { margin: 26px 0 10px; }
+  .hero + .unit { margin-top: 24px; }
+  .unit { margin: 36px auto 12px; padding-top: 16px; gap: 10px; }
+  .unit h2 { font-size: 26px; }
+  .v-chapters .shelf { gap: 10px; }
+  .v-chapters .card { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 104px; grid-template-rows: auto auto 1fr; column-gap: 14px; padding: 14px 14px 14px 16px; }
+  .v-chapters .card h2 { font-size: 25px; margin-top: 10px; }
+  .v-chapters .card h2 + i { font-size: 17px; }
+  .v-chapters .card img { grid-column: 2; grid-row: 1 / 4; margin: 0; width: 104px; align-self: center; }
+}

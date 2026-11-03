@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chi-square tests · AP Statistics · Atlas of Statistics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="A chi-square test asks whether counts in categories are too far from what a hypothesis predicts to blame on chance.">
+<meta property="og:title" content="Chi-square tests · AP Statistics · Atlas of Statistics"><meta property="og:description" content="A chi-square test asks whether counts in categories are too far from what a hypothesis predicts to blame on chance.">
+<meta property="og:image" content="https://atlasclass.app/statistics/img/chisquare.jpg"><meta property="og:url" content="https://atlasclass.app/statistics/chisquare/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "/vendor/three/build/three.module.js", "three/addons/": "/vendor/three/jsm/" } }
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="/vendor/three/build/three.module.js">
+<link rel="modulepreload" href="/vendor/three/build/three.core.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="/vendor/three/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="/vendor/three/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/statistics/chisquare/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/statistics/chisquare/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/statistics/chisquare/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/statistics/chisquare/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/statistics/chisquare/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/statistics/chisquare/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/statistics/chisquare/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/statistics/chisquare/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/statistics/chisquare/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/statistics/chisquare/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/statistics/chisquare/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/statistics/chisquare/">
+<link rel="canonical" href="https://atlasclass.app/statistics/chisquare/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/statistics/chisquare/#chapter","name":"Chi-square tests","headline":"Chi-square tests · AP Statistics · Atlas of Statistics","description":"A chi-square test asks whether counts in categories are too far from what a hypothesis predicts to blame on chance.","url":"https://atlasclass.app/statistics/chisquare/","image":"https://atlasclass.app/statistics/img/chisquare.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":8,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Statistics"},"teaches":["Are my results unexpected?","Setting up a goodness-of-fit test","The chi-square statistic","The p-value and the conclusion","The chi-square distributions","Expected counts in two-way tables","Homogeneity or independence?","Carrying out a test for a two-way table","The conclusion, in context","Selecting a procedure"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/statistics/#course","name":"Statistics","url":"https://atlasclass.app/statistics/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Statistics","item":"https://atlasclass.app/statistics/"},{"@type":"ListItem","position":4,"name":"Chi-square tests","item":"https://atlasclass.app/statistics/chisquare/"}]}]}</script>
+
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Statistics</a>
+    <span class="crumb">No. 08 · Chi-square tests</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Chi-square tests</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure: a bag of candies counted by colour against the expected counts, the gaps stacked into the chi-square statistic, its distribution and tail, and a two-way table built from its margins. Hover a thing and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/statistics/">Statistics</a> · AP Statistics</p>
+<h1>Chi-square tests</h1>
+<article><h2><a href="#0">Chapter 8 · Chi-square tests</a></h2><p><i>counts against expectations</i></p>
+<p>A chi-square test asks whether counts in categories are too far from what a hypothesis predicts to blame on chance.</p> <p>A candy maker says its bags are 24% blue, 20% orange, 16% green, 14% yellow, 13% red, 13% brown. A bag of 200 is counted (black bars). If the claim is true, the bag should hold about 200 × 0.24 = 48 blue, and so on (blue ghosts).</p> <p>No bag matches exactly. The red rods are the gaps, observed − expected. Each gap is squared and divided by its expected count, and the pieces stack into one number, the <b>chi-square statistic</b>, χ² = 12.11.</p> <p>Small χ² means the counts sit close to the claim; large χ² means they don’t. This chapter asks how large is too large: for one variable against a claimed distribution (<b>goodness of fit</b>), and for two-way tables (<b>homogeneity</b> and <b>independence</b>).</p></article>
+<article><h2><a href="#1">8.1 · Are my results unexpected?</a></h2><p><i>what chance alone would produce</i></p>
+<p>Random samples vary. To judge a result, compare it with the results chance alone produces when the claim is true.</p> <p>The figure fills 300 bags of 200 at random from exactly the claimed mix. Each simulated bag (left) misses the expected counts a little, and its χ² lands as one dot in the dot plot.</p> <p>Even with the claim true, χ² is never 0, and it is usually a few units. These 300 values average 4.99. Only 10 of the 300 (red) reach the real bag’s 12.11: a proportion of 0.033.</p> <p>That is the logic of every test: <b>if the claim were true, how often would we see a result at least this extreme?</b> If rarely, the result is <b>statistically significant</b> evidence against the claim. If often, the data give no reason to doubt it, which is not proof that it is true.</p> <p>The grey curve is the χ² distribution the dots pile up toward. It lets us find the probability without simulating (8.3).</p></article>
+<article><h2><a href="#2">8.2 · Setting up a goodness-of-fit test</a></h2><p><i>hypotheses, expected counts, conditions</i></p>
+<p>A <b>chi-square test for goodness of fit</b> tests whether the distribution of one categorical variable matches a claimed distribution.</p> <p><b>Hypotheses</b> are about the population proportions, never the sample counts:</p> <p>H<sub>0</sub>: <i>p</i><sub>blue</sub> = 0.24, <i>p</i><sub>orange</sub> = 0.2, … , <i>p</i><sub>brown</sub> = 0.13 (the claimed distribution is correct).<br>H<sub>a</sub>: at least one of the proportions differs from the claim.</p> <p>H<sub>a</sub> is not “all of them differ”, and it names no direction.</p> <p><b>Expected counts</b> are <i>n</i> × <i>p</i><sub><i>i</i></sub>, worked out from H<sub>0</sub>:</p> <table><tr><th>colour</th><td>blue</td><td>orange</td><td>green</td><td>yellow</td><td>red</td><td>brown</td></tr><tr><th>claimed <i>p</i></th><td>0.24</td><td>0.2</td><td>0.16</td><td>0.14</td><td>0.13</td><td>0.13</td></tr><tr><th>expected</th><td>48</td><td>40</td><td>32</td><td>28</td><td>26</td><td>26</td></tr></table> <p>They add up to <i>n</i> = 200, and they need not be whole numbers: don’t round them.</p> <p><b>Conditions.</b> <b>Random:</b> a random sample (or randomized experiment). <b>10%:</b> sampling without replacement, <i>n</i> ≤ 10% of the population (200 candies is far less than 10% of all the maker’s candies). <b>Large counts:</b> every <i>expected</i> count is at least 5; here the smallest is 26. Check the expected counts, not the observed ones.</p></article>
+<article><h2><a href="#3">8.3 · The chi-square statistic</a></h2><p><i>squared gaps, scaled by what was expected</i></p>
+<p>The χ² statistic adds up, over every category, the squared gap between observed and expected, divided by the expected count.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>χ</mi><mn>2</mn></msup><mo>=</mo><mo>∑</mo><mfrac><mrow><mo stretchy="false">(</mo><mtext>observed</mtext><mo>−</mo><mtext>expected</mtext><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><mtext>expected</mtext></mfrac></mrow><annotation encoding="application/x-tex">\chi^2 = \sum \frac{(\text{observed} - \text{expected})^2}{\text{expected}}</annotation></semantics></math></span></div> <table><tr><th>colour</th><th>O</th><th>E</th><th>O − E</th><th>(O − E)²/E</th></tr> <tr><td>blue</td><td>34</td><td>48</td><td>−14</td><td>4.08</td></tr><tr><td>orange</td><td>48</td><td>40</td><td>+8</td><td>1.60</td></tr><tr><td>green</td><td>41</td><td>32</td><td>+9</td><td>2.53</td></tr><tr><td>yellow</td><td>19</td><td>28</td><td>−9</td><td>2.89</td></tr><tr><td>red</td><td>27</td><td>26</td><td>+1</td><td>0.04</td></tr><tr><td>brown</td><td>31</td><td>26</td><td>+5</td><td>0.96</td></tr> <tr><th>total</th><td>200</td><td>200</td><td>0</td><td>12.11</td></tr></table> <p>The gaps always add up to 0, so they can’t be summed as they are: squaring makes every one count. Dividing by E makes a gap count for more when little was expected: missing by 10 out of an expected 20 matters more than missing by 10 out of 200.</p> <p>The <b>degrees of freedom</b> are the number of categories minus one: df = 6 − 1 = 5. Once five counts are known, the sixth is fixed by the total.</p> <p>The <b>largest contribution</b> says where the data and the claim disagree most: blue, 4.08 of the 12.11, with 34 observed against 48 expected: fewer blue candies than claimed.</p></article>
+<article><h2><a href="#4">8.3 · The p-value and the conclusion</a></h2><p><i>how far into the tail</i></p>
+<p>The p-value is the area under the χ² curve with the test’s df, at and beyond the observed χ²: large values are the evidence against H<sub>0</sub>, so the test always looks at the right tail.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>p</mi><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><msubsup><mi>χ</mi><mn>5</mn><mn>2</mn></msubsup><mo>≥</mo><mn>12.11</mn><mo stretchy="false">)</mo><mo>=</mo><mn>0.033</mn></mrow><annotation encoding="application/x-tex">p = P(\chi^2_{5} \ge 12.11) = 0.033</annotation></semantics></math></span></div> <p>The simulation in 8.1 gave 0.033, close to the same answer.</p> <p><b>Interpretation.</b> Assuming the maker’s claimed distribution is correct, there is a 0.033 probability of getting a χ² of 12.11 or larger by chance alone in a random sample of 200 candies.</p> <p><b>Conclusion.</b> Since <i>p</i> = 0.033 &lt; α = 0.05, reject H<sub>0</sub>. There is convincing evidence that the colour distribution of this maker’s candies differs from the claim.</p> <p>With a table instead of technology: the critical value for df = 5 and a tail of 0.05 is χ²* = 11.07 (blue). 12.11 &gt; 11.07, so <i>p</i> &lt; 0.05.</p> <p>Had <i>p</i> been above α, the conclusion would be “not convincing evidence that the distribution differs”: never “the claim is correct”, and never “accept H<sub>0</sub>”. A χ² test also can’t say which way the distribution is off; for that, look at the largest contributions.</p></article>
+<article><h2><a href="#5">8.3 · The chi-square distributions</a></h2><p><i>a family, one for each df</i></p>
+<p>The χ² distributions are a family of density curves, one for each number of degrees of freedom.</p> <p>Each takes only values of 0 or more, since χ² is a sum of squares. Each is <b>skewed right</b>. Its <b>mean is df</b>, and for df ≥ 2 its peak is at df − 2.</p> <p>As df grows the curve moves right, spreads out and becomes less skewed (the red curve steps through df = 1 to 12). More categories mean more pieces in the sum, so a larger χ² is expected even when H<sub>0</sub> is true.</p> <p>So the same χ² can be strong evidence at one df and none at another. The upper critical values:</p> <table><tr><th>df</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>10</td></tr> <tr><th>tail 0.05</th><td>3.84</td><td>5.99</td><td>7.81</td><td>9.49</td><td>11.07</td><td>18.31</td></tr> <tr><th>tail 0.01</th><td>6.63</td><td>9.21</td><td>11.34</td><td>13.28</td><td>15.09</td><td>23.21</td></tr></table> <p>A rough check: a χ² near its df is ordinary. The candies’ 12.11 is more than twice its df of 5.</p> <p>The χ² distribution is only an approximation to the true sampling distribution of the statistic. It is good when every expected count is at least 5: that is why the condition matters.</p></article>
+<article><h2><a href="#6">8.4 · Expected counts in two-way tables</a></h2><p><i>from the margins</i></p>
+<p>For a two-way table, each expected count is the row total times the column total, divided by the table total.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>expected count</mtext><mo>=</mo><mfrac><mrow><mtext>row total</mtext><mo>×</mo><mtext>column total</mtext></mrow><mtext>table total</mtext></mfrac></mrow><annotation encoding="application/x-tex">\text{expected count} = \frac{\text{row total} \times \text{column total}}{\text{table total}}</annotation></semantics></math></span></div> <p>A random sample of 400 adults, each classified by age group and main news source. Observed counts, with expected counts in brackets:</p> <table> <tr><th></th><th>online</th><th>TV</th><th>print</th><th>total</th></tr> <tr><th>18–34</th><td>64 (48.2)</td><td>46 (49.6)</td><td>24 (36.2)</td><td>134</td></tr><tr><th>35–54</th><td>43 (47.5)</td><td>48 (48.8)</td><td>41 (35.6)</td><td>132</td></tr><tr><th>55+</th><td>37 (48.2)</td><td>54 (49.6)</td><td>43 (36.2)</td><td>134</td></tr> <tr><th>total</th><td>144</td><td>148</td><td>108</td><td>400</td></tr></table> <p><b>Why it works.</b> Overall, 144 of 400 adults (36%) get their news online. If age group made no difference, the same share of the 134 adults aged 18–34 would: 134 × 144/400 = 48.24.</p> <p>The expected counts have the same margins as the observed ones. The figure works out one cell at a time: the red lid is the expected count, the blue tiles the two totals it comes from.</p> <p>Keep the decimals. Expected counts are averages over many samples, not counts that could be observed.</p></article>
+<article><h2><a href="#7">8.5 · Homogeneity or independence?</a></h2><p><i>the design decides</i></p>
+<p>The same two-way table can come from two designs, and the design decides which test it is.</p> <p><b>Homogeneity</b> (left): <i>separate</i> random samples from several populations (or groups in an experiment), with one categorical variable recorded. Here, a sample from each age group, each person asked their news source. The row totals were chosen by the design.</p> <p>H<sub>0</sub>: the distribution of news source is the same for all three age groups. H<sub>a</sub>: the distribution of news source is not the same for all three.</p> <p><b>Independence</b> (right): <i>one</i> random sample from one population, with two categorical variables recorded for each individual. Only the table total was fixed; how many fall in each age group is up to chance.</p> <p>H<sub>0</sub>: there is no association between age group and news source among adults (they are independent). H<sub>a</sub>: there is an association (they are not independent).</p> <table><tr><th></th><th>homogeneity</th><th>independence</th></tr> <tr><td>samples</td><td>one per population or group</td><td>one</td></tr><tr><td>variables</td><td>one</td><td>two</td></tr> <tr><td>question</td><td>same distribution in each?</td><td>an association?</td></tr></table> <p>The arithmetic is the same: expected counts, χ², df and p-value. <b>Conditions</b>, for both: random samples (or random assignment); each sample at most 10% of its population; every expected count at least 5.</p></article>
+<article><h2><a href="#8">8.6 · Carrying out a test for a two-way table</a></h2><p><i>χ² and df = (r − 1)(c − 1)</i></p>
+<p>For a two-way table, χ² adds (O − E)²/E over every cell, and df = (rows − 1)(columns − 1).</p> <p>The news-source sample is one sample with two variables: a test for independence, at α = 0.05.</p> <p>H<sub>0</sub>: age group and main news source are independent among adults. H<sub>a</sub>: they are associated.</p> <p><b>Conditions.</b> A random sample; 400 is less than 10% of all adults; the smallest expected count is 35.6, at least 5.</p> <p>Each cell’s contribution (red columns):</p> <table><tr><th></th><th>online</th><th>TV</th><th>print</th></tr> <tr><th>18–34</th><td>5.15</td><td>0.26</td><td>4.10</td></tr><tr><th>35–54</th><td>0.43</td><td>0.01</td><td>0.81</td></tr><tr><th>55+</th><td>2.62</td><td>0.39</td><td>1.29</td></tr></table> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>χ</mi><mn>2</mn></msup><mo>=</mo><mn>15.06</mn><mspace width="2em"/><mtext>df</mtext><mo>=</mo><mo stretchy="false">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mn>3</mn><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\chi^2 = 15.06 \qquad \text{df} = (3-1)(3-1) = 4</annotation></semantics></math></span></div> <p>Why (<i>r</i> − 1)(<i>c</i> − 1): with the margins fixed, once a 2 × 2 corner of the table is filled in, every other cell follows from the totals.</p> <p>The largest contributions: 18–34, online (5.15: 64 observed, 48.2 expected) and 18–34, print (4.10: 24 observed, 36.2 expected). Younger adults lean online and away from print.</p></article>
+<article><h2><a href="#9">8.6 · The conclusion, in context</a></h2><p><i>evidence of an association, not a cause</i></p>
+<p>The p-value is the area beyond χ² under the curve with df = (<i>r</i> − 1)(<i>c</i> − 1), and the conclusion is about the populations, in context.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>p</mi><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><msubsup><mi>χ</mi><mn>4</mn><mn>2</mn></msubsup><mo>≥</mo><mn>15.06</mn><mo stretchy="false">)</mo><mo>=</mo><mn>0.0046</mn></mrow><annotation encoding="application/x-tex">p = P(\chi^2_{4} \ge 15.06) = 0.0046</annotation></semantics></math></span></div> <p><b>Conclusion.</b> Since <i>p</i> = 0.0046 &lt; α = 0.05, reject H<sub>0</sub>. There is convincing evidence of an association between age group and main news source among adults.</p> <p>By the critical value: χ²* = 9.49 for df = 4, and 15.06 &gt; 9.49.</p> <p><b>Not a cause.</b> This is an observational study: the test finds an association, and says nothing about age causing a choice of news source. Only a randomized experiment, tested for homogeneity across its treatment groups, can show cause.</p> <p>Had the same counts come from three separate samples, the conclusion would read: convincing evidence that the distribution of news source differs among the three age groups.</p> <p><b>Common mistakes.</b> Writing hypotheses about the sample; using percentages in place of counts; checking the observed rather than the expected counts; df = <i>rc</i> − 1; concluding H<sub>0</sub> is true when <i>p</i> is large.</p></article>
+<article><h2><a href="#10">8.7 · Selecting a procedure</a></h2><p><i>z for proportions, or χ²</i></p>
+<p>For categorical data, the choice turns on how many samples there are, how many variables, and how many categories.</p> <table><tr><th>the data</th><th>procedure</th></tr> <tr><td>one sample, a two-category variable, a claim about <i>p</i></td><td>one-sample <i>z</i> test (or interval) for <i>p</i></td></tr> <tr><td>two samples or groups, a two-category variable</td><td>two-sample <i>z</i> for <i>p</i><sub>1</sub> − <i>p</i><sub>2</sub></td></tr> <tr><td>one sample, one variable with several categories, against a claim</td><td>χ² goodness of fit, df = <i>k</i> − 1</td></tr> <tr><td>several samples or groups, one variable</td><td>χ² homogeneity, df = (<i>r</i> − 1)(<i>c</i> − 1)</td></tr> <tr><td>one sample, two variables</td><td>χ² independence, df = (<i>r</i> − 1)(<i>c</i> − 1)</td></tr></table> <p>The z procedures estimate: they give a confidence interval and allow a one-sided H<sub>a</sub> (“greater than”). χ² tests only test, and their H<sub>a</sub> has no direction.</p> <p>With two groups and two categories, the two-sample <i>z</i> test with a two-sided H<sub>a</sub> and the χ² test for homogeneity give the same p-value (χ² = <i>z</i><sup>2</sup>).</p> <p>Read the design first: how was the sample taken, and what was recorded about each individual? The figure shows the shape each design leaves in the data, and picks one for each question.</p></article>
+<p><a href="/statistics/means/">← Inference for means</a> · <a href="/statistics/slopes/">Inference for slopes →</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

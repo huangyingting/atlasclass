@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluids · AP Physics 1/C · Atlas of Physics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="A fluid is anything that flows: a liquid or a gas. Its molecules are not locked in place, so it takes the shape of its container. We describe it by its…">
+<meta property="og:title" content="Fluids · AP Physics 1/C · Atlas of Physics"><meta property="og:description" content="A fluid is anything that flows: a liquid or a gas. Its molecules are not locked in place, so it takes the shape of its container. We describe it by its…">
+<meta property="og:image" content="https://atlasclass.app/physics/img/fluids.jpg"><meta property="og:url" content="https://atlasclass.app/physics/fluids/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/physics/fluids/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/physics/fluids/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/physics/fluids/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/physics/fluids/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/physics/fluids/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/physics/fluids/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/physics/fluids/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/physics/fluids/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/physics/fluids/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/physics/fluids/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/physics/fluids/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/physics/fluids/">
+<link rel="canonical" href="https://atlasclass.app/physics/fluids/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/physics/fluids/#chapter","name":"Fluids","headline":"Fluids · AP Physics 1/C · Atlas of Physics","description":"A fluid is anything that flows: a liquid or a gas. Its molecules are not locked in place, so it takes the shape of its container. We describe it by its…","url":"https://atlasclass.app/physics/fluids/","image":"https://atlasclass.app/physics/img/fluids.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":8,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Physics 1/C · Mechanics"},"teaches":["Pressure","Pressure and depth","Pascal’s principle","Buoyancy","Float or sink","Continuity","Bernoulli","Torricelli’s law"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/physics/#course","name":"Physics","url":"https://atlasclass.app/physics/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Physics","item":"https://atlasclass.app/physics/"},{"@type":"ListItem","position":4,"name":"Fluids","item":"https://atlasclass.app/physics/fluids/"}]}]}</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Physics</a>
+    <span class="crumb">No. 08 · Fluids</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Fluids</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure: water at rest and in motion, in nine scenes. Hover a scene and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/physics/">Physics</a> · AP Physics 1/C · Mechanics</p>
+<h1>Fluids</h1>
+<article><h2><a href="#0">Chapter 8 · Fluids</a></h2><p><i>density</i></p>
+<p>A <b>fluid</b> is anything that flows: a liquid or a gas. Its molecules are not locked in place, so it takes the shape of its container. We describe it by its <b>density</b>, mass per volume:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>ρ</mi><mo>=</mo><mfrac><mi>m</mi><mi>V</mi></mfrac></mrow><annotation encoding="application/x-tex">\rho = \frac{m}{V}</annotation></semantics></math></span></div> <p>These five cubes are all 10 cm on a side, 1.0 L each: the same volume, very different masses, from 0.24 kg of cork to 7.87 kg of iron. On a graph of mass against volume each material is a straight line whose slope is its density.</p> <p>Density belongs to the material, not the object: cut a cube in half and both <i>m</i> and <i>V</i> halve. An <b>ideal fluid</b> is incompressible (its density never changes) and flows without friction. Water is very nearly one.</p> <div></div> <p>Click the cubes to cut each into eight.</p></article>
+<article><h2><a href="#1">8.1 · Pressure</a></h2><p><i>force spread over an area</i></p>
+<p><b>Pressure</b> is the force pushing straight onto a surface, per area:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><msub><mi>F</mi><mo>⊥</mo></msub><mi>A</mi></mfrac></mrow><annotation encoding="application/x-tex">P = \frac{F_\perp}{A}</annotation></semantics></math></span></div> <p>It is a scalar, measured in pascals: 1 Pa = 1 N/m². The same 70 kg person (686 N) stands on snow twice:</p> <table> <tr><th></th><th>area</th><th>pressure</th></tr> <tr><td>shoes</td><td>0.050 m²</td><td>13.7 kPa</td></tr> <tr><td>snowshoes</td><td>0.40 m²</td><td>1.72 kPa</td></tr> </table> <p>Eight times the area, one eighth of the pressure, so the snow holds. A nail works the other way: push its 1 cm² head with 50 N and its 0.5 mm² tip presses on the wood at 100 MPa.</p> <div></div> <p>Arrows: the push on the snow, one per 125 cm², 2.2 cm per kPa. Click to lift the people.</p></article>
+<article><h2><a href="#2">8.2 · Pressure and depth</a></h2><p><i>the weight of the water above</i></p>
+<p>Under water, pressure comes from the weight of the water above. A column of height <i>h</i> and area <i>A</i> weighs ρ<i>Ah g</i>, so it adds ρ<i>gh</i> to the pressure on top:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>=</mo><msub><mi>P</mi><mn>0</mn></msub><mo>+</mo><mi>ρ</mi><mi>g</mi><mi>h</mi></mrow><annotation encoding="application/x-tex">P = P_0 + \rho g h</annotation></semantics></math></span></div> <p><i>P</i><sub>0</sub> = 101.3 kPa is the atmosphere pressing on the surface. <i>P</i> is the <b>absolute</b> pressure; ρ<i>gh</i> alone is the <b>gauge</b> pressure, the part above atmospheric. Every 10.3 m of water adds about one more atmosphere: at 10 m the diver feels 199 kPa.</p> <p>At one depth the pressure is the same in every direction, whatever the shape of the water around.</p> <div></div> <p>Arrows 1.2 cm per kPa. Click the diver to see the column of water above.</p></article>
+<article><h2><a href="#3">8.3 · Pascal’s principle</a></h2><p><i>a push felt everywhere</i></p>
+<p>Push on a liquid shut in a container and the extra pressure reaches every part of it, and every wall, undiminished. That is <b>Pascal’s principle</b>.</p> <p>A 50 N push on the small piston adds <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>P</mi><mo>=</mo><mfrac><msub><mi>F</mi><mn>1</mn></msub><msub><mi>A</mi><mn>1</mn></msub></mfrac></mrow><annotation encoding="application/x-tex">\Delta P = \frac{F_1}{A_1}</annotation></semantics></math></span> = 2.49 kPa everywhere. Under the large piston, 16 times the area, the same Δ<i>P</i> gives 800 N, enough to hold up 81.6 kg:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><msub><mi>F</mi><mn>1</mn></msub><msub><mi>A</mi><mn>1</mn></msub></mfrac><mo>=</mo><mfrac><msub><mi>F</mi><mn>2</mn></msub><msub><mi>A</mi><mn>2</mn></msub></mfrac></mrow><annotation encoding="application/x-tex">\frac{F_1}{A_1} = \frac{F_2}{A_2}</annotation></semantics></math></span></div> <p>Nothing is free. Water can’t be squeezed, so the volume pushed down on the left comes up on the right: <i>A</i><sub>1</sub><i>d</i><sub>1</sub> = <i>A</i><sub>2</sub><i>d</i><sub>2</sub>. The big piston moves 16 times less, so the work in equals the work out, <i>F</i><sub>1</sub><i>d</i><sub>1</sub> = <i>F</i><sub>2</sub><i>d</i><sub>2</sub>.</p> <table> <tr><th></th><th>area</th><th>force</th><th>moves</th></tr> <tr><td>small piston</td><td>201 cm²</td><td>50 N</td><td>32 cm</td></tr> <tr><td>large piston</td><td>3217 cm²</td><td>800 N</td><td>2 cm</td></tr> </table> <p>Each small arrow is Δ<i>P</i> on one 201 cm² patch: one under the small piston, sixteen under the large. Click to see Δ<i>P</i> on every wall.</p></article>
+<article><h2><a href="#4">8.4 · Buoyancy</a></h2><p><i>Archimedes’ principle</i></p>
+<p>Water pushes on every face of a submerged object, and it pushes harder lower down. The sideways pushes cancel; the push up on the bottom beats the push down on the top. The difference is the <b>buoyant force</b>.</p> <p>For a cube of side <i>s</i>: (<i>P</i><sub>bottom</sub> − <i>P</i><sub>top</sub>)<i>s</i>² = ρ<i>gs</i>·<i>s</i>² = ρ<i>Vg</i>, the weight of the water it pushes aside:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mi>b</mi></msub><mo>=</mo><msub><mi>ρ</mi><mtext>fluid</mtext></msub><msub><mi>V</mi><mtext>displaced</mtext></msub><mtext> </mtext><mi>g</mi></mrow><annotation encoding="application/x-tex">F_b = \rho_\text{fluid} V_\text{displaced}\, g</annotation></semantics></math></span></div> <p>It grows as the cube goes in, then stays at 265 N however deep. The string holds the rest, the <b>apparent weight</b> <i>T</i> = <i>W</i> − <i>F</i><sub>b</sub> = 450 N instead of 714 N.</p> <div></div> <p>Gauge pressure, 2.0 cm per kPa; forces 0.6 mm per N. Click for each face’s total push.</p></article>
+<article><h2><a href="#5">8.5 · Float or sink</a></h2><p><i>compare densities</i></p>
+<p>If an object is less dense than water it sinks only until the water it displaces weighs as much as it does: ρ<sub>fluid</sub><i>V</i><sub>under</sub><i>g</i> = ρ<sub>obj</sub><i>Vg</i>, so</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><msub><mi>V</mi><mtext>under</mtext></msub><mi>V</mi></mfrac><mo>=</mo><mfrac><msub><mi>ρ</mi><mtext>obj</mtext></msub><msub><mi>ρ</mi><mtext>fluid</mtext></msub></mfrac></mrow><annotation encoding="application/x-tex">\frac{V_\text{under}}{V} = \frac{\rho_\text{obj}}{\rho_\text{fluid}}</annotation></semantics></math></span></div> <table> <tr><th></th><th>ρ (kg/m³)</th><th>result</th></tr> <tr><td>wooden block</td><td>600</td><td>floats, 60% under</td></tr> <tr><td>ice</td><td>917</td><td>floats, 91.7% under</td></tr> <tr><td>steel ball</td><td>7850</td><td>sinks</td></tr> <tr><td>steel ship, average</td><td>285</td><td>floats, 11.4 cm deep</td></tr> </table> <p>An iceberg in sea water is 89% under. The ball’s <i>F</i><sub>b</sub> = 139 N can’t match its 1088 N; the floor pushes up the rest. The ship is steel shaped to hold air.</p> <div></div> <p>Forces 0.4 mm per N. Click to lift out the displaced water.</p></article>
+<article><h2><a href="#6">8.6 · Continuity</a></h2><p><i>what goes in comes out</i></p>
+<p>Water can’t be squeezed and the pipe doesn’t leak, so every second the same volume passes every cross-section. That is the <b>volume flow rate</b>, <i>Q</i> = <i>Av</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><msub><mi>v</mi><mn>1</mn></msub><mo>=</mo><msub><mi>A</mi><mn>2</mn></msub><msub><mi>v</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">A_1 v_1 = A_2 v_2</annotation></semantics></math></span></div> <p>The pipe narrows to half the radius, a quarter of the area, so the water speeds up four times: from 0.5 m/s to 2.0 m/s. <i>Q</i> = 141 L/s everywhere.</p> <p>Follow the dark slice of water: in the wide part it is short and fat; in the narrow part the same volume is long and thin. A thumb over a hose does the same thing.</p> <div></div> <p>Velocity 40 cm per m/s. Click the pipe to pull out its two cross-sections.</p></article>
+<article><h2><a href="#7">8.7 · Bernoulli</a></h2><p><i>energy conservation for a fluid</i></p>
+<p>Follow a bit of water along the pipe. Where it speeds up, something has to push it forward: the pressure behind it must be higher than ahead. So <b>fast flow means low pressure</b>.</p> <p>Energy per volume is conserved along the flow (ideal fluid, steady flow):</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>+</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>ρ</mi><msup><mi>v</mi><mn>2</mn></msup><mo>+</mo><mi>ρ</mi><mi>g</mi><mi>y</mi><mo>=</mo><mtext>constant</mtext></mrow><annotation encoding="application/x-tex">P + \tfrac12\rho v^2 + \rho g y = \text{constant}</annotation></semantics></math></span></div> <table> <tr><th></th><th><i>v</i></th><th><i>y</i></th><th><i>P</i> (gauge)</th></tr> <tr><td>1 wide, low</td><td>2.0 m/s</td><td>0.0 m</td><td>50.0 kPa</td></tr><tr><td>2 narrow, low</td><td>8.0 m/s</td><td>0.0 m</td><td>20.0 kPa</td></tr><tr><td>3 wide, high</td><td>2.0 m/s</td><td>1.2 m</td><td>38.2 kPa</td></tr> </table> <div></div> <p>Half speed. Pressure 1.6 cm per kPa. Click to stand the bars beside the pipe.</p></article>
+<article><h2><a href="#8">8.8 · Torricelli’s law</a></h2><p><i>a jet from a hole</i></p>
+<p>Water leaves a hole <i>h</i> below the surface. Apply Bernoulli from the open surface (atmospheric, nearly still) to the jet (atmospheric again): the pressure terms cancel, leaving ρ<i>gh</i> = ½ρ<i>v</i>², so</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>v</mi><mo>=</mo><msqrt><mrow><mn>2</mn><mi>g</mi><mi>h</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">v = \sqrt{2gh}</annotation></semantics></math></span></div> <p>The same speed as a drop falling freely through <i>h</i>. Here <i>h</i> starts at 1.2 m, so <i>v</i> = 4.85 m/s. As the tank drains, <i>h</i> and <i>v</i> fall together.</p> <p>Once out, every drop is a projectile: <i>v</i> across, falling 1.08 m in 0.469 s. Its range is <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>t</mi><mo>=</mo><mn>2</mn><msqrt><mrow><mi>h</mi><mtext> </mtext><msub><mi>y</mi><mtext>hole</mtext></msub></mrow></msqrt></mrow><annotation encoding="application/x-tex">vt = 2\sqrt{h\,y_\text{hole}}</annotation></semantics></math></span>, 2.28 m when full.</p> <div></div> <p>Velocity 15 cm per m/s. Click the tank to split a drop’s velocity.</p></article>
+<p><a href="/physics/rotation/">← Rotation</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* The site nav, on every page but the chapters' book (tools/build.mjs writes it into the HTML).
+   Scoped by id, and every property set here, so the pages' own header styles can't reach it. */
+#top { box-sizing: border-box; width: min(1180px, calc(100vw - 32px)); max-width: none; margin: 0 auto; padding: 22px 0; display: flex; justify-content: space-between;
+  align-items: baseline; gap: 10px 18px; flex-wrap: wrap; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  view-transition-name: site-nav; }   /* held still while the page crossfades */
+#top .brand { font: 500 19px var(--serif); letter-spacing: 0; text-transform: none; color: var(--strong); text-decoration: none; margin-right: auto; }
+/* the links are a popover (tools/build.mjs), shown inline here: author styles win over the browser's popover ones */
+#top nav { display: flex; gap: 18px; flex-wrap: wrap; position: static; inset: auto; width: auto; height: auto; overflow: visible; margin: 0; padding: 0; border: 0; background: none;
+  color: inherit; backdrop-filter: none; -webkit-backdrop-filter: none; z-index: auto; }
+#top nav a, #top #nav-auth { font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--muted); text-decoration: none; padding: 0; white-space: nowrap; }
+#top nav a:hover, #top nav a[aria-current], #top #nav-auth:hover, #top #nav-auth[aria-current] { color: var(--strong); }
+/* Log in (or Account): a pill, set apart from the page links; the same on phones, where it stands alone in the bar */
+#top #nav-auth { color: var(--hi); padding: 7px 12px; margin: -8px 0; border: 1px solid var(--faint); border-radius: 999px; background: var(--card); }
+#top #nav-auth:hover { border-color: var(--mid); color: var(--strong); }
+#top .menu { display: none; }
+/* the light/dark button: centred on the links' line (the row aligns text by baseline, and an icon has none), its
+   36px target overhanging the line so the bar keeps its height */
+#top .theme { align-self: center; margin: -7px -8px -11px 0; }   /* 2px lower than centred: level with the capitals' middle */
+@media (max-width: 600px) { #top { padding: 18px 0; } #top nav { gap: 14px; } }
+
+/* phones: one row (brand, log in, menu); the links open as a sheet from the bottom, in thumb reach */
+@supports selector(:popover-open) { @media (max-width: 600px) {
+  #top { padding: 8px 0; align-items: center; gap: 10px; flex-wrap: nowrap; }
+  #top #nav-auth { color: var(--hi); padding: 7px 12px; border: 1px solid var(--faint); border-radius: 999px; background: var(--card); }
+  #top .menu { display: grid; place-content: center; gap: 5px; width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
+  #top .menu i { display: block; width: 18px; height: 1.5px; background: var(--hi); }
+  #top nav:not(:popover-open) { display: none; }
+  #top nav:popover-open { position: fixed; inset: auto 0 0; width: auto; display: flex; flex-direction: column; gap: 0;
+    padding: 10px 16px calc(24px + env(safe-area-inset-bottom)); background: var(--card); border-radius: 22px 22px 0 0; box-shadow: 0 -12px 40px #00000026; }
+  #top nav:popover-open::backdrop { background: #00000026; }
+  #top nav a { display: flex; align-items: center; justify-content: space-between; height: 54px; border-bottom: 1px solid var(--faint);
+    font: 400 22px var(--serif); letter-spacing: 0; text-transform: none; color: var(--strong); }
+  #top nav a:last-child { border-bottom: 0; }
+  #top nav a::after { content: '→'; font: 14px var(--sans); color: var(--muted); }
+} }
+
+/* the footer (tools/build.mjs): an engraved plate the window's width (js/footer.js draws it: a coast by day, the same
+   coast under a night sky in dark mode), its links set in the sky; at the foot of the window on a short page */
+body:has(> #foot) { min-height: 100dvh; display: flex; flex-direction: column; padding-bottom: 0; }
+body:has(> #foot)::after { content: ''; flex: 1 0 72px; }
+#foot { order: 1; position: relative; overflow: hidden; margin: 0 -16px; min-height: 760px; background: var(--page); color: var(--strong); font: 14px/1.5 var(--sans); }
+#foot canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#foot .spin { position: absolute; z-index: 1; border-radius: 50%; cursor: grab; touch-action: none; }
+#foot .spin:active { cursor: grabbing; }
+#foot .in { position: relative; display: grid; gap: 32px; width: min(1180px, calc(100vw - 48px)); margin: 0 auto; padding-top: 40px; }
+#foot .brand { display: flex; align-items: center; gap: 12px; }
+#foot .name { font: 500 28px/1 var(--serif); color: var(--strong); text-decoration: none; }
+#foot .soc { display: flex; gap: 4px; }
+#foot .soc a { width: 36px; height: 36px; display: grid; place-items: center; color: var(--strong); border-radius: 50%; }
+#foot .soc a:hover { background: color-mix(in srgb, var(--strong) 10%, transparent); }
+#foot .soc svg { width: 17px; height: 17px; }
+#foot .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 16px; }
+#foot .cols div { display: grid; gap: 8px; align-content: start; }
+#foot .cols b { font-weight: 500; margin-bottom: 4px; }
+#foot .cols a { color: var(--strong); opacity: .85; text-decoration: none; font-size: 13px; overflow-wrap: anywhere; }
+#foot .cols a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+#foot a:focus-visible, #foot select:focus-visible { outline: 2px solid var(--strong); outline-offset: 2px; border-radius: 4px; }
+/* the small print and the language menu, on a paper card at the foot of the plate */
+#foot .base { position: absolute; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(1180px, calc(100vw - 32px));
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 12px 16px; border-radius: 12px; font-size: 12px; color: var(--text);
+  background: color-mix(in srgb, var(--page) 90%, transparent); }
+#foot .ap { flex-basis: 100%; font-size: 11.5px; color: var(--muted); }
+#foot #lang { appearance: none; -webkit-appearance: none; margin-left: 0; font: 500 12px var(--mono); letter-spacing: .02em; color: var(--hi);
+  padding: 7px 32px 7px 14px; border: 1px solid var(--faint); border-radius: 999px; cursor: pointer;
+  background: var(--page) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%238c8c90' stroke-width='1.5'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 13px center; }
+#foot #lang:hover { border-color: var(--mid); }
+/* the light/dark button sits with the language menu, on the right */
+#foot .base .theme { margin: -4px -4px -4px auto; }
+@media (min-width: 760px) {
+  #foot { min-height: 600px; }
+  #foot .in { grid-template-columns: 200px 1fr; padding-top: 64px; }
+  #foot .brand { flex-direction: column; align-items: flex-start; gap: 20px; }
+  #foot .soc { flex-direction: column; margin-left: -8px; }
+  #foot .cols { grid-template-columns: repeat(4, max-content); gap: 64px; }
+  #foot .base { width: min(1180px, calc(100vw - 48px)); }
+}

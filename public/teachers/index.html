@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teachers · Atlas</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Heavily discounted Atlas Premium for your class: seats for your students’ school email domain.">
+<meta property="og:title" content="Teachers · Atlas"><meta property="og:description" content="Heavily discounted Atlas Premium for your class: seats for your students’ school email domain.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/kinematics.jpg"><meta property="og:url" content="https://atlasclass.app/teachers/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/atlas.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/nav.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/teachers/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/teachers/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/teachers/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/teachers/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/teachers/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/teachers/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/teachers/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/teachers/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/teachers/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/teachers/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/teachers/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/teachers/">
+<link rel="canonical" href="https://atlasclass.app/teachers/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+</head>
+<body>
+<header id="top"><a class="brand" href="/">Atlas</a><nav id="site-menu" aria-label="Site" popover><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a><a href="/pricing/">Premium</a><a href="/teachers/" aria-current="page">Teachers</a></nav><a id="nav-auth" href="/login/">Log in</a><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  <button type="button" class="menu" popovertarget="site-menu" aria-label="Menu"><i></i><i></i><i></i></button></header><script>(() => { const a = document.getElementById('nav-auth'), p = location.pathname; let on = false;
+  try { on = Object.keys(localStorage).some(k => /^sb-.+-auth-token$/.test(k)); } catch {}
+  if (on) { a.textContent = 'Account'; a.href = '/account/'; } else if (!p.startsWith('/login')) a.href = '/login/?next=' + encodeURIComponent(p + location.search);
+  if (p.startsWith(on ? '/account' : '/login')) a.setAttribute('aria-current', 'page'); })();</script>
+<main class="narrow">
+  <h1>For teachers</h1>
+  <p class="lede">Heavily discounted Premium for your class.</p>
+
+  <ol class="steps">
+    <li><b>Sign in with your school email</b> and tell us about your class.</li>
+    <li><b>We check you teach there,</b> then turn on Premium for you, free, so you can show it in class.</li>
+    <li><b>You buy seats for your students at half price:</b> $30 a seat, once, until the end of the school year (Annual is $59.99).</li>
+    <li><b>Students make a free account with their school email.</b> Each one takes a seat, and every practice set opens, with nothing for them to pay.</li>
+  </ol>
+  <p class="note">Students: we can’t set this up for individual students. Ask your teacher to fill this in.</p>
+
+  <div class="banner" id="paid" hidden><p>Payment received. Your students’ seats turn on in a minute.</p></div>
+  <!-- a skeleton card per class this teacher had last time, until they arrive -->
+  <div id="classes"></div>
+  <script>try { document.getElementById('classes').innerHTML = '<div class="gate"><p><span class="sk" style="width:100%">&nbsp;</span><br><span class="sk" style="width:60%">&nbsp;</span></p><span class="btn sk" style="width:150px">&nbsp;</span></div>'.repeat(+localStorage.classes || 0); } catch {}</script>
+
+  <!-- which of these shows is decided before the first paint (the script just below), so nothing moves -->
+  <div id="out" class="gate">
+    <p>Sign in with your <b>school</b> email address to request access. That’s how we know the request comes from your school.</p>
+    <a class="btn" href="/login/?next=%2Fteachers%2F">Sign in with your school email</a>
+  </div>
+  <form id="f" class="form" novalidate hidden>
+    <p class="note" id="as"></p>
+    <label>Your name<input name="name" required maxlength="120" autocomplete="name"></label>
+    <label>School<input name="school" required maxlength="200" autocomplete="organization"></label>
+    <label>A page on your school’s website that lists you<input name="staff_url" type="url" required maxlength="500" placeholder="https://yourschool.org/staff/your-name">
+      <span class="hint">A staff directory or class page, so we can check you teach there.</span></label>
+    <label>Your students’ email domain<input name="domain" required maxlength="253" placeholder="students.yourschool.org" autocapitalize="off" spellcheck="false">
+      <span class="hint">The part after the @ in your students’ school email addresses.</span></label>
+    <div class="pair">
+      <label>Seats (students)<input name="students" type="number" inputmode="numeric" min="1" max="5000" required></label>
+      <label>Course<select name="course">
+        <option>AP Physics 1</option><option>AP Physics C: Mechanics</option><option>AP Physics C: E&amp;M</option>
+        <option>AP Physics 1 and C</option><option>AP Calculus AB</option><option>AP Calculus BC</option><option>Other</option></select></label>
+    </div>
+    <label>Anything else <span class="hint">(optional)</span><textarea name="note" rows="4" maxlength="2000"></textarea></label>
+    <button class="btn" id="go">Request class access</button>
+    <p id="msg" class="note" role="status"></p>
+  </form>
+  <script>
+    (() => { let email = null;
+      try { for (const k of Object.keys(localStorage)) if (/^sb-.+-auth-token$/.test(k)) email = JSON.parse(localStorage[k])?.user?.email ?? null; } catch {}
+      if (!email) return;
+      document.getElementById('out').hidden = true; document.getElementById('f').hidden = false;
+      document.getElementById('as').textContent = `Requesting as ${email}.`; })();
+  </script>
+</main>
+<script type="module">
+  import { esc, fn, sb, status } from '/js/app.js';
+  const f = document.getElementById('f'), msg = document.getElementById('msg'), go = document.getElementById('go');
+  // a stored sign-in the server no longer knows (status() drops it): back to "sign in"
+  if (!f.hidden && !(await status())) { f.hidden = true; document.getElementById('out').hidden = false; }
+  document.getElementById('paid').hidden = !new URLSearchParams(location.search).has('paid');
+
+  // approved classes: buy the seats, or see that they're on
+  // ponytail: $30 a seat is written here as the pricing page writes its prices; class-checkout charges half of Annual's Stripe price
+  const SEAT = 30;
+  const { data: classes } = f.hidden ? { data: [] } : await sb.rpc('my_classes');
+  const box = document.getElementById('classes');
+  try { localStorage.classes = (classes ?? []).length; } catch {}
+  box.innerHTML = (classes ?? []).map(c => `<div class="gate"><p>${c.paid
+      ? `Your class at ${esc(c.school)} is on: ${c.seats} seats for @${esc(c.domain)}, until ${c.until}.`
+      : `Your class at ${esc(c.school)} is approved: ${c.seats} seats for @${esc(c.domain)}, until ${c.until}. $${SEAT * c.seats} in all, $${SEAT} a seat.`}</p>
+    ${c.paid ? '' : `<button class="btn" data-id="${c.id}"><span class="lbl">Buy ${c.seats} seats</span></button>`}</div>`).join('');
+  box.addEventListener('click', async e => {
+    const b = e.target.closest('[data-id]'); if (!b) return;
+    b.classList.add('busy'); b.setAttribute('aria-busy', 'true'); b.disabled = true; msg.textContent = '';
+    try { location.assign((await fn('class-checkout', { id: Number(b.dataset.id), base: document.documentElement.dataset.base })).url); }
+    catch (err) { msg.className = 'err'; msg.textContent = err.message; b.classList.remove('busy'); b.removeAttribute('aria-busy'); b.disabled = false; }
+  });
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!f.checkValidity()) { msg.className = 'err'; msg.textContent = 'Please fill in every field.'; f.reportValidity(); return; }
+    const d = Object.fromEntries(new FormData(f));
+    go.disabled = true; msg.className = 'note'; msg.textContent = 'Sending…';
+    try {
+      await fn('teacher-request', d);
+      f.innerHTML = '<p class="banner"><span>Thanks. We’ll check and email you when you can buy your seats.</span></p>';
+    } catch (err) {
+      msg.className = 'err';
+      msg.textContent = err.detail?.hint === 'webmail' ? `${err.message[0].toUpperCase()}${err.message.slice(1)}.`
+        : err.message === 'check the form' ? 'Something in the form doesn’t look right: check the link and the domain.' : err.message;
+    } finally { go.disabled = false; }
+  });
+</script>
+<footer id="foot"><canvas aria-hidden="true"></canvas>
+  <div class="in"><div class="brand"><a class="name" href="/">Atlas</a><span class="soc">
+    <a href="https://x.com/tryatlasclass" target="_blank" rel="noopener" aria-label="Atlas on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://www.instagram.com/tryatlasclass/" target="_blank" rel="noopener" aria-label="Atlas on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg></a></span></div>
+    <nav class="cols" aria-label="Footer"><div><b>Learn</b><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a></div>
+      <div><b>Plans</b><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></div>
+      <div><b>Atlas</b><a href="/about/">About</a><a href="mailto:support@atlasclass.app">support@atlasclass.app</a></div>
+      <div><b>Legal</b><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></div></nav></div>
+  <div class="base"><span>© 2026 Atlas</span><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button><select id="lang" aria-label="Language"><option value="" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option><option value="ms" lang="ms">Bahasa Melayu</option><option value="vi" lang="vi">Tiếng Việt</option><option value="zh" lang="zh-Hans">简体中文</option><option value="zh-tw" lang="zh-Hant">繁體中文</option><option value="ja" lang="ja">日本語</option><option value="ko" lang="ko">한국어</option><option value="hi" lang="hi">हिन्दी</option><option value="es" lang="es-419">Español</option><option value="pt" lang="pt-BR">Português</option></select><script>(() => { const s = document.getElementById('lang'), rest = location.pathname.replace(/^\/(id|ms|vi|zh|zh-tw|ja|ko|hi|es|pt)(?=\/)/, '');
+  s.value = document.documentElement.dataset.base?.slice(1) ?? '';
+  s.onchange = () => { try { localStorage.lang = s.value || 'en'; } catch {} location.href = (s.value && '/' + s.value) + rest + location.search + location.hash; }; })();</script><span class="ap">AP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, this site.</span></div>
+  <script type="module" src="/js/footer.js"></script></footer>
+</body>
+</html>

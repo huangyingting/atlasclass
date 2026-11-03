@@ -1,0 +1,46 @@
+{
+  "@context": "/contexts/Message",
+  "@id": "/messages/6ae95314c6b7971ef768edca",
+  "@type": "Message",
+  "id": "6ae95314c6b7971ef768edca",
+  "msgid": "<010001a19f6c841f-37b2fa67-c155-4034-983b-7d814a09d3e8-000000@email.amazonses.com>",
+  "from": {
+    "address": "hello@atlasclass.app",
+    "name": "Atlas"
+  },
+  "to": [
+    {
+      "address": "alexcartercslvie@fldubai.com",
+      "name": ""
+    }
+  ],
+  "cc": [],
+  "bcc": [],
+  "subject": "Welcome to Atlas: your sign-in link",
+  "intro": "Atlas of Physics Welcome to Atlas Press the button to finish making your free account and sign in. Any three practice sets are…",
+  "seen": false,
+  "flagged": false,
+  "isDeleted": false,
+  "verifications": {
+    "tls": {
+      "name": "TLS_AES_256_GCM_SHA384",
+      "standardName": "TLS_AES_256_GCM_SHA384",
+      "version": "TLSv1.3"
+    },
+    "spf": false,
+    "dkim": false
+  },
+  "retention": true,
+  "retentionDate": "2026-11-10T03:20:52+00:00",
+  "text": "Atlas of Physics Welcome to Atlas Press the button to finish making your free account and sign in. Any three practice sets are yours. Sign in https://atlasclass.app/login/?next=%2Fpractice%2F#token_hash=872b8f5227c8dbb00e1c5b23314f96f89296f14455ca145523217507 The link works once and expires in an hour. If you didn’t ask for it, ignore this email: nobody can sign in without it.\n\natlasclass.app · support@atlasclass.app",
+  "html": [
+    "<!doctype html>\r\n<html><body style=\"margin:0;background:#f2f2ef;padding:32px 16px;font-family:Georgia,'EB Garamond',serif;color:#18181a\">\r\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\"><tr><td align=\"center\">\r\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:480px;background:#fbfbfa;border-radius:14px;padding:32px\">\r\n<tr><td style=\"font-size:19px;padding-bottom:24px\">Atlas of Physics</td></tr>\r\n<tr><td style=\"font-size:30px;line-height:1.15;padding-bottom:12px\">Welcome to Atlas</td></tr>\r\n<tr><td style=\"font-family:-apple-system,Segoe UI,Inter,Arial,sans-serif;font-size:15px;line-height:1.6;color:#57575a;padding-bottom:24px\">Press the button to finish making your free account and sign in. Any three practice sets are yours.</td></tr>\r\n<tr><td style=\"padding-bottom:24px\"><a href=\"https://atlasclass.app/login/?next=%2Fpractice%2F#token_hash=872b8f5227c8dbb00e1c5b23314f96f89296f14455ca145523217507\" style=\"display:inline-block;background:#26262a;color:#ffffff;text-decoration:none;font-family:Menlo,Consolas,monospace;font-size:13px;letter-spacing:.04em;padding:13px 22px;border-radius:999px\">Sign in</a></td></tr>\r\n<tr><td style=\"font-family:-apple-system,Segoe UI,Inter,Arial,sans-serif;font-size:13px;line-height:1.6;color:#8c8c90\">The link works once and expires in an hour. If you didn’t ask for it, ignore this email: nobody can sign in without it.</td></tr>\r\n</table>\r\n<p style=\"font-family:-apple-system,Segoe UI,Inter,Arial,sans-serif;font-size:12px;color:#8c8c90;margin:16px 0 0\">atlasclass.app · support@atlasclass.app</p>\r\n</td></tr></table></body></html>"
+  ],
+  "hasAttachments": false,
+  "size": 4546,
+  "downloadUrl": "/messages/6ae95314c6b7971ef768edca/download",
+  "sourceUrl": "/sources/6ae95314c6b7971ef768edca",
+  "createdAt": "2026-11-03T03:20:51+00:00",
+  "updatedAt": "2026-11-03T03:20:52+00:00",
+  "accountId": "/accounts/6ae952f3a0ac5976dc0026fa"
+}

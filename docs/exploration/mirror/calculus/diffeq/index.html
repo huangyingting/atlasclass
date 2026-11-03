@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Differential equations · AP Calculus AB · Atlas of Calculus</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="A differential equation states how fast a quantity changes in terms of the quantity itself. Solving it means finding the function that changes that way.">
+<meta property="og:title" content="Differential equations · AP Calculus AB · Atlas of Calculus"><meta property="og:description" content="A differential equation states how fast a quantity changes in terms of the quantity itself. Solving it means finding the function that changes that way.">
+<meta property="og:image" content="https://atlasclass.app/calculus/img/diffeq.jpg"><meta property="og:url" content="https://atlasclass.app/calculus/diffeq/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+</script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/calculus/diffeq/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/calculus/diffeq/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/calculus/diffeq/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/calculus/diffeq/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/calculus/diffeq/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/calculus/diffeq/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/calculus/diffeq/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/calculus/diffeq/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/calculus/diffeq/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/calculus/diffeq/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/calculus/diffeq/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/calculus/diffeq/">
+<link rel="canonical" href="https://atlasclass.app/calculus/diffeq/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/calculus/diffeq/#chapter","name":"Differential equations","headline":"Differential equations · AP Calculus AB · Atlas of Calculus","description":"A differential equation states how fast a quantity changes in terms of the quantity itself. Solving it means finding the function that changes that way.","url":"https://atlasclass.app/calculus/diffeq/","image":"https://atlasclass.app/calculus/img/diffeq.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":7,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Calculus AB"},"teaches":["Modeling with differential equations","Verifying solutions","Sketching slope fields","Reasoning using slope fields","Euler’s method","Separation of variables","Particular solutions","Exponential models","Logistic models"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/calculus/#course","name":"Calculus","url":"https://atlasclass.app/calculus/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Calculus","item":"https://atlasclass.app/calculus/"},{"@type":"ListItem","position":4,"name":"Differential equations","item":"https://atlasclass.app/calculus/diffeq/"}]}]}</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Calculus</a>
+    <span class="crumb">No. 07 · Differential equations</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Differential equations</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure of slope fields and the solution curves that follow them. Hover a thing and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/calculus/">Calculus</a> · AP Calculus AB</p>
+<h1>Differential equations</h1>
+<article><h2><a href="#0">Chapter 7 · Differential equations</a></h2><p><i>how a rate decides a function</i></p>
+<p>A differential equation states how fast a quantity changes in terms of the quantity itself. Solving it means finding the function that changes that way.</p> <p>The figure is the equation for a population of fish in a lake:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mn>0.6</mn><mtext> </mtext><mi>P</mi><mrow><mo fence="true">(</mo><mn>1</mn><mo>−</mo><mfrac><mi>P</mi><mn>1200</mn></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{dP}{dt} = 0.6\,P\left(1 - \frac{P}{1200}\right)</annotation></semantics></math></span></div> <p>At every point (<i>t</i>, <i>P</i>) it gives a slope, drawn as a short segment. Every solution follows the segments. Lakes stocked with 40, 150, 450 or 1550 fish all end at the same size, 1200, without anyone solving anything.</p> <p>The chapter writes such equations from words (7.1), checks proposed solutions (7.2), pictures them (7.3, 7.4), steps along them (7.5), solves them exactly (7.6, 7.7), and studies the two most important models, exponential and logistic growth (7.8, 7.9).</p></article>
+<article><h2><a href="#1">7.1 · Modeling with differential equations</a></h2><p><i>a sentence about a rate, as an equation</i></p>
+<p>“The coffee cools at a rate proportional to how much hotter it is than the room.” That sentence is a differential equation.</p> <p>The rate is <i>dT</i>/<i>dt</i>; how much hotter is <i>T</i> − 20; proportional means a constant multiple, negative because hot coffee cools:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>T</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mo>−</mo><mi>k</mi><mtext> </mtext><mo stretchy="false">(</mo><mi>T</mi><mo>−</mo><mn>20</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\frac{dT}{dt} = -k\,(T - 20)</annotation></semantics></math></span></div> <p>With <i>k</i> = 0.1 per minute it gives the rate at any temperature, without knowing <i>T</i>(<i>t</i>). The red tangent’s slope is always −0.1 times the blue gap.</p> <table> <tr><th><i>T</i> (°C)</th><td>90</td><td>55</td><td>30</td><td>20</td></tr> <tr><th><i>dT</i>/<i>dt</i> (°C/min)</th><td>−7.0</td><td>−3.5</td><td>−1.0</td><td>0.0</td></tr> </table> <p>Likewise “proportional to √<i>y</i>” is <i>dy</i>/<i>dt</i> = <i>k</i>√<i>y</i>, and “jointly to <i>y</i> and 100 − <i>y</i>” is <i>ky</i>(100 − <i>y</i>).</p></article>
+<article><h2><a href="#2">7.2 · Verifying solutions</a></h2><p><i>substitute, and both sides must agree</i></p>
+<p>A function is a solution if putting it into the equation makes the two sides equal for every <i>x</i> in an interval. One point is not enough.</p> <p>Test <i>y</i> = <i>x</i> − 1 + 2<i>e</i><sup>−<i>x</i></sup> in <i>dy</i>/<i>dx</i> = <i>x</i> − <i>y</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mfrac><mrow><mi>d</mi><mi>y</mi></mrow><mrow><mi>d</mi><mi>x</mi></mrow></mfrac></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mn>2</mn><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>x</mi><mo>−</mo><mi>y</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mi>x</mi><mo>−</mo><mo stretchy="false">(</mo><mi>x</mi><mo>−</mo><mn>1</mn><mo>+</mo><mn>2</mn><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup><mo stretchy="false">)</mo></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mn>1</mn><mo>−</mo><mn>2</mn><msup><mi>e</mi><mrow><mo>−</mo><mi>x</mi></mrow></msup></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \frac{dy}{dx} &amp;= 1 - 2e^{-x} \\ x - y &amp;= x - (x - 1 + 2e^{-x}) \\ &amp;= 1 - 2e^{-x} \end{aligned}</annotation></semantics></math></span></div> <p>They match, so it is a solution, and <i>y</i>(0) = 1 picks it out. Now <i>y</i> = <i>x</i> + 2<i>e</i><sup>−<i>x</i></sup>: its derivative is the same, 1 − 2<i>e</i><sup>−<i>x</i></sup>, but <i>x</i> − <i>y</i> = −2<i>e</i><sup>−<i>x</i></sup>. They differ by 1 everywhere: not a solution.</p> <p>In the figure each curve carries its tangent (red, the slope it has) and a segment of slope <i>x</i> − <i>y</i> (blue, the slope the equation demands). On the solution they lie on top of each other.</p> <p>Second derivatives work the same way: <i>y</i> = sin 2<i>x</i> gives <i>y</i>″ = −4 sin 2<i>x</i> = −4<i>y</i>, so it solves <i>y</i>″ = −4<i>y</i>.</p></article>
+<article><h2><a href="#3">7.3 · Sketching slope fields</a></h2><p><i>the equation, drawn point by point</i></p>
+<p>A differential equation gives a slope at every point. Draw a short segment with that slope at each point of a grid: that is a slope field.</p> <p>For <i>dy</i>/<i>dx</i> = <i>x</i> − <i>y</i>, evaluate at each point:</p> <table> <tr><th>(<i>x</i>, <i>y</i>)</th><td>(0, 0)</td><td>(1, 0)</td><td>(0, 1)</td><td>(2, −1)</td><td>(−1, 2)</td></tr> <tr><th>slope</th><td>0</td><td>1</td><td>−1</td><td>3</td><td>−3</td></tr> </table> <p>Shortcuts save work. The slope is the same all along any line <i>x</i> − <i>y</i> = <i>c</i>: on <i>y</i> = <i>x</i> every segment is flat (dashed line); one step to the right of it, on <i>y</i> = <i>x</i> − 1, every slope is 1. Moving right raises the slope, moving up lowers it, so the top left is steeply downhill and the bottom right steeply uphill.</p> <p>If the equation involves only <i>x</i>, every column of segments is parallel; if only <i>y</i>, every row is.</p></article>
+<article><h2><a href="#4">7.4 · Reasoning using slope fields</a></h2><p><i>following the segments</i></p>
+<p>A solution curve is tangent to the field everywhere it goes. Start at a point and follow the segments.</p> <p>From (0, 1) the slope is −1, so the curve falls. It levels off where it meets <i>y</i> = <i>x</i>, at (ln 2, ln 2) ≈ (0.69, 0.69), its lowest point, then climbs.</p> <p>Concavity comes from the equation too. Differentiate both sides with respect to <i>x</i>, remembering that <i>y</i> depends on <i>x</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><msup><mi>d</mi><mn>2</mn></msup><mi>y</mi></mrow><mrow><mi>d</mi><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mrow><mi>d</mi><mi>y</mi></mrow><mrow><mi>d</mi><mi>x</mi></mrow></mfrac><mo>=</mo><mn>1</mn><mo>−</mo><mi>x</mi><mo>+</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">\frac{d^2y}{dx^2} = 1 - \frac{dy}{dx} = 1 - x + y</annotation></semantics></math></span></div> <p>At (0, 1) that is 2 &gt; 0: concave up. It is positive at every point above the line <i>y</i> = <i>x</i> − 1, so every solution above that line is concave up, and every one below it concave down.</p> <p>The line itself (blue) is a solution, and as <i>x</i> grows every other solution, <i>y</i> = <i>x</i> − 1 + <i>Ce</i><sup>−<i>x</i></sup>, closes in on it.</p></article>
+<article><h2><a href="#5">7.5 · BC · Euler’s method</a></h2><p><i>stepping along tangent lines</i></p>
+<p>When a solution can’t be found exactly, step along it. From a known point, move a short distance <i>h</i> along the tangent, then work out the slope again where you land. With <i>x</i><sub><i>n</i>+1</sub> = <i>x</i><sub><i>n</i></sub> + <i>h</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>y</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>y</mi><mi>n</mi></msub><mo>+</mo><mi>h</mi><mo>⋅</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>n</mi></msub><mo separator="true">,</mo><msub><mi>y</mi><mi>n</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">y_{n+1} = y_n + h \cdot f(x_n, y_n)</annotation></semantics></math></span></div> <p>For <i>dy</i>/<i>dx</i> = <i>x</i> − <i>y</i> from (0, 1) with <i>h</i> = 0.5:</p> <table> <tr><th><i>x</i></th><th><i>y</i></th><th>slope <i>x</i> − <i>y</i></th><th><i>h</i> · slope</th></tr> <tr><td>0.0</td><td>1.000</td><td>−1.000</td><td>−0.500</td></tr><tr><td>0.5</td><td>0.500</td><td>0.000</td><td>0.000</td></tr><tr><td>1.0</td><td>0.500</td><td>0.500</td><td>0.250</td></tr><tr><td>1.5</td><td>0.750</td><td>0.750</td><td>0.375</td></tr> <tr><td>2.0</td><td>1.125</td><td></td><td></td></tr> </table> <p>So <i>y</i>(2) ≈ 1.125. The true value is 1 + 2<i>e</i><sup>−2</sup> = 1.271. The estimate is low because the solution is concave up (7.4): every tangent line lies below the curve.</p> <p>Halving the step to 0.25 gives 1.200; to 0.125, 1.236. Each halving roughly halves the error (blue).</p></article>
+<article><h2><a href="#6">7.6 · Separation of variables</a></h2><p><i>the general solution</i></p>
+<p>If <i>dy</i>/<i>dx</i> is a function of <i>x</i> times a function of <i>y</i>, gather every <i>y</i> with <i>dy</i> on one side, every <i>x</i> with <i>dx</i> on the other, and integrate both sides.</p> <p>Solve <i>dy</i>/<i>dx</i> = <i>y</i> cos <i>x</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mo>∫</mo><mfrac><mrow><mi>d</mi><mi>y</mi></mrow><mi>y</mi></mfrac></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mo>∫</mo><mi>cos</mi><mo>⁡</mo><mi>x</mi><mtext> </mtext><mi>d</mi><mi>x</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mi>ln</mi><mo>⁡</mo><mi mathvariant="normal">∣</mi><mi>y</mi><mi mathvariant="normal">∣</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mi>sin</mi><mo>⁡</mo><mi>x</mi><mo>+</mo><mi>C</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mi>y</mi></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mi>A</mi><msup><mi>e</mi><mrow><mi>sin</mi><mo>⁡</mo><mi>x</mi></mrow></msup></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \int \frac{dy}{y} &amp;= \int \cos x\,dx \\ \ln|y| &amp;= \sin x + C \\ y &amp;= Ae^{\sin x} \end{aligned}</annotation></semantics></math></span></div> <p>Only one constant is needed: constants from both sides combine into one. Exponentiating gives |<i>y</i>| = <i>e</i><sup><i>C</i></sup><i>e</i><sup>sin <i>x</i></sup>, and the ± and <i>e</i><sup><i>C</i></sup> merge into one constant <i>A</i>.</p> <p>Dividing by <i>y</i> assumed <i>y</i> ≠ 0, so check <i>y</i> = 0 separately: it is a solution too (<i>A</i> = 0).</p> <p>Check by differentiating: <i>Ae</i><sup>sin <i>x</i></sup> · cos <i>x</i> = <i>y</i> cos <i>x</i>. This is the <b>general solution</b>: a family of curves, one for each <i>A</i>. Here <i>A</i> = <i>y</i>(0), because sin 0 = 0.</p></article>
+<article><h2><a href="#7">7.7 · Particular solutions</a></h2><p><i>one curve, and where it lives</i></p>
+<p>An initial condition picks one curve from the family. Find the constant as soon as you have integrated, before solving for <i>y</i>.</p> <p>Solve <i>dy</i>/<i>dx</i> = 2<i>xy</i>² with <i>y</i>(0) = 1:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mo>∫</mo><msup><mi>y</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup><mtext> </mtext><mi>d</mi><mi>y</mi></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mo>∫</mo><mn>2</mn><mi>x</mi><mtext> </mtext><mi>d</mi><mi>x</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mo>−</mo><mfrac><mn>1</mn><mi>y</mi></mfrac></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>C</mi></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned} \int y^{-2}\,dy &amp;= \int 2x\,dx \\ -\frac{1}{y} &amp;= x^2 + C \end{aligned}</annotation></semantics></math></span></div> <p>At <i>x</i> = 0, <i>y</i> = 1: −1 = 0 + <i>C</i>, so <i>C</i> = -1. Then −1/<i>y</i> = <i>x</i>² − 1, and</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>−</mo><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac><mo separator="true">,</mo><mspace width="2em"/><mo>−</mo><mn>1</mn><mo>&lt;</mo><mi>x</mi><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">y = \frac{1}{1 - x^2}, \qquad -1 &lt; x &lt; 1</annotation></semantics></math></span></div> <p>The domain matters. A solution must be differentiable on an <b>interval</b> containing the initial point. The formula breaks at <i>x</i> = ±1, so the particular solution is only the middle piece. The grey pieces satisfy the equation too, but the asymptotes cut them off from (0, 1).</p></article>
+<article><h2><a href="#8">7.8 · Exponential models</a></h2><p><i>dy/dt = ky</i></p>
+<p>When a quantity changes at a rate proportional to itself, the solution is always exponential:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>y</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>k</mi><mi>y</mi><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><mi>y</mi><mo>=</mo><msub><mi>y</mi><mn>0</mn></msub><mtext> </mtext><msup><mi>e</mi><mrow><mi>k</mi><mi>t</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\frac{dy}{dt} = ky \quad\Rightarrow\quad y = y_0\,e^{kt}</annotation></semantics></math></span></div> <p>(Separate: ∫ <i>dy</i>/<i>y</i> = ∫ <i>k dt</i>, so ln|<i>y</i>| = <i>kt</i> + <i>C</i>.) <i>k</i> &gt; 0 is growth, <i>k</i> &lt; 0 decay. A culture of 500 bacteria doubles every 4 hours:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>e</mi><mrow><mn>4</mn><mi>k</mi></mrow></msup><mo>=</mo><mn>2</mn><mtext> </mtext><mo>⇒</mo><mtext> </mtext><mi>k</mi><mo>=</mo><mfrac><mrow><mi>ln</mi><mo>⁡</mo><mn>2</mn></mrow><mn>4</mn></mfrac><mo>≈</mo><mn>0.1733</mn></mrow><annotation encoding="application/x-tex">e^{4k} = 2 \;\Rightarrow\; k = \frac{\ln 2}{4} \approx 0.1733</annotation></semantics></math></span></div> <p>After 10 hours, <i>P</i> = 500<i>e</i><sup>10<i>k</i></sup> = 500 · 2<sup>2.5</sup> ≈ 2828. When <i>P</i> = 2000, it is growing at <i>kP</i> = 346.6 bacteria per hour: the bigger it is, the faster it grows.</p> <p>The coffee of 7.1 fits too: its excess <i>D</i> = <i>T</i> − 20 obeys <i>dD</i>/<i>dt</i> = −0.1<i>D</i>, so <i>T</i> = 20 + 70<i>e</i><sup>−0.1<i>t</i></sup>, 45.8 °C after 10 minutes.</p></article>
+<article><h2><a href="#9">7.9 · BC · Logistic models</a></h2><p><i>growth with a ceiling</i></p>
+<p>Real populations can’t grow exponentially forever. The logistic equation slows growth as <i>P</i> nears a carrying capacity <i>L</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>k</mi><mi>P</mi><mrow><mo fence="true">(</mo><mn>1</mn><mo>−</mo><mfrac><mi>P</mi><mi>L</mi></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{dP}{dt} = kP\left(1 - \frac{P}{L}\right)</annotation></semantics></math></span></div> <p>Read it without solving. For small <i>P</i> it is nearly <i>kP</i>: exponential. As <i>P</i> → <i>L</i> the rate → 0. Above <i>L</i> the rate is negative, so <i>P</i> falls back. <i>P</i> = 0 and <i>P</i> = <i>L</i> are constant solutions, and for any <i>P</i>(0) &gt; 0, <i>P</i> → <i>L</i>.</p> <p>As a function of <i>P</i> the rate is a parabola (below), highest halfway between its zeros. So growth is fastest at <b><i>P</i> = <i>L</i>/2</b>, where <i>P</i>(<i>t</i>) has its inflection point.</p> <p>A lake holds at most <i>L</i> = 1200 fish; <i>k</i> = 0.6 per year; it is stocked with 100. The fastest growth is at 600 fish, at 0.60 · 600(1 − ½) = 180 fish per year. With the solution <i>P</i> = 1200/(1 + 11<i>e</i><sup>−0.6<i>t</i></sup>), that happens at <i>t</i> = ln 11/0.6 ≈ 4.00 years.</p></article>
+<p><a href="/calculus/integrals/">← Integration</a> · <a href="/calculus/applications/">Applications of integration →</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

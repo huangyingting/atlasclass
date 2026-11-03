@@ -1,0 +1,22 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://atlasclass.app",
+      "localStorage": [
+        {
+          "name": "practiceView",
+          "value": "subjects"
+        },
+        {
+          "name": "premium",
+          "value": ""
+        },
+        {
+          "name": "sb-qxievfudxvpaqjcumfnv-auth-token",
+          "value": "{\"access_token\":\"eyJhbGciOiJFUzI1NiIsImtpZCI6IjRmOWUxZmU1LThkNTEtNDk3Yy05OTU4LTM4MDA2OGM1NGEzOCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3F4aWV2ZnVkeHZwYXFqY3VtZm52LnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI2MTZkOWFkMC0yY2E0LTQ5MDEtYTM3ZS02Yzg2ZGVjOTQ4NTIiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzkzNjc5NzAyLCJpYXQiOjE3OTM2NzYxMDIsImVtYWlsIjoiYWxleGNhcnRlcmNzbHZpZUBmbGR1YmFpLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoiZW1haWwiLCJwcm92aWRlcnMiOlsiZW1haWwiXX0sInVzZXJfbWV0YWRhdGEiOnsiZW1haWwiOiJhbGV4Y2FydGVyY3NsdmllQGZsZHViYWkuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiNjE2ZDlhZDAtMmNhNC00OTAxLWEzN2UtNmM4NmRlYzk0ODUyIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoib3RwIiwidGltZXN0YW1wIjoxNzkzNjc2MTAyfV0sInNlc3Npb25faWQiOiI1OTQ0NTg4YS0zYWE3LTRiZTEtYTUxZC00MjZhNjAzZjY3NzIiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.jxCleHFy3lOBaOAJ5lWL63RxBfANhbkj4DAuYJAez_GjYrn_3DMHMfTqjD4gqSKI9Uv0jYfQZ6AfwKvnEjJFTw\",\"token_type\":\"bearer\",\"expires_in\":3600,\"expires_at\":1793679702,\"refresh_token\":\"vwg2qutnowqg\",\"user\":{\"id\":\"616d9ad0-2ca4-4901-a37e-6c86dec94852\",\"aud\":\"authenticated\",\"role\":\"authenticated\",\"email\":\"alexcartercslvie@fldubai.com\",\"email_confirmed_at\":\"2026-11-03T03:21:42.272031Z\",\"phone\":\"\",\"confirmation_sent_at\":\"2026-11-03T03:20:50.487982Z\",\"confirmed_at\":\"2026-11-03T03:21:42.272031Z\",\"last_sign_in_at\":\"2026-11-03T03:21:42.277082239Z\",\"app_metadata\":{\"provider\":\"email\",\"providers\":[\"email\"]},\"user_metadata\":{\"email\":\"alexcartercslvie@fldubai.com\",\"email_verified\":true,\"phone_verified\":false,\"sub\":\"616d9ad0-2ca4-4901-a37e-6c86dec94852\"},\"identities\":[{\"identity_id\":\"b4b7675d-13a0-470d-8f63-e5143b1ebbd0\",\"id\":\"616d9ad0-2ca4-4901-a37e-6c86dec94852\",\"user_id\":\"616d9ad0-2ca4-4901-a37e-6c86dec94852\",\"identity_data\":{\"email\":\"alexcartercslvie@fldubai.com\",\"email_verified\":true,\"phone_verified\":false,\"sub\":\"616d9ad0-2ca4-4901-a37e-6c86dec94852\"},\"provider\":\"email\",\"last_sign_in_at\":\"2026-11-03T03:20:50.485101Z\",\"created_at\":\"2026-11-03T03:20:50.485149Z\",\"updated_at\":\"2026-11-03T03:20:50.485149Z\",\"email\":\"alexcartercslvie@fldubai.com\"}],\"created_at\":\"2026-11-03T03:20:50.482351Z\",\"updated_at\":\"2026-11-03T03:21:42.280318Z\",\"is_anonymous\":false}}"
+        }
+      ]
+    }
+  ]
+}

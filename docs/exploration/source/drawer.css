@@ -1,0 +1,288 @@
+/* The practice drawer on chapter pages (js/drawer.js). Choice and solution styles come from engine/book.css
+   (.practice, .choices, .why, .eq). */
+.sheet .practice { display: none; }            /* the open repo's in-page questions: practice lives in the drawer */
+:root { --pd-w: 440px; }
+
+.pd-open {
+  position: fixed; right: 22px; bottom: calc(22px + env(safe-area-inset-bottom)); z-index: 6;
+  border: 0; border-radius: 999px; padding: 13px 20px; background: var(--hi); color: #fff; cursor: pointer;
+  font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; box-shadow: 0 6px 20px #0000002e;
+}
+.pd-open:hover { background: var(--lit); }
+html.pd-on .pd-open { display: none; }
+/* the figure's readout sits above the button, not under it (phones place both themselves, below) */
+@media (min-width: 901px) and (min-height: 521px) { .corner.br { bottom: 62px; } }
+
+.pd {
+  position: fixed; z-index: 20; top: 56px; right: 0; bottom: 0; width: min(var(--pd-w), 100vw); border-top-left-radius: 14px;
+  display: flex; flex-direction: column; background: var(--card);
+  box-shadow: -1px 0 0 #0000000f, -24px 0 48px -24px #00000033;
+  transform: translateX(100%); visibility: hidden; transition: transform .35s cubic-bezier(.16,1,.3,1), visibility 0s .35s;
+}
+.pd.open { transform: none; visibility: visible; transition: transform .35s cubic-bezier(.16,1,.3,1); }
+/* wide screens: the book moves over and narrows so the whole figure stays in view beside the drawer */
+@media (min-width: 901px) and (min-height: 521px) {
+  .book { transition: left .35s cubic-bezier(.16,1,.3,1), width .35s cubic-bezier(.16,1,.3,1); }
+  html.pd-on .book { left: calc((100vw - var(--pd-w)) / 2); width: calc(100vw - var(--pd-w) - 40px); }
+}
+.pd-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 20px 24px 14px; border-bottom: 1px solid var(--faint); }
+.pd-title { font: 400 24px/1.15 var(--serif); color: var(--strong); margin-top: 8px; }
+.pd-x { width: 40px; height: 40px; flex: none; border: 0; border-radius: 50%; background: none; font: 300 28px/1 var(--sans); color: var(--hi); cursor: pointer; }
+.pd-x:hover { background: #f0f0ec; }
+.pd-body { --pd-pb: calc(28px + env(safe-area-inset-bottom)); flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 4px 24px var(--pd-pb); }
+.pd .note { color: var(--muted); font-size: 14px; }
+.pd .err { color: var(--red); font-size: 14px; min-height: 0; margin: 6px 0 0; }
+.pd-pad { margin: 16px 0; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.pd-btn { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--hi); background: var(--hi); color: #fff;
+  font: 500 12px var(--mono); letter-spacing: .04em; padding: 10px 16px; border-radius: 999px; cursor: pointer; text-decoration: none; }
+.pd-btn:hover:not(:disabled) { background: var(--lit); }
+.pd-btn.ghost { background: var(--card); color: var(--hi); border-color: var(--faint); }
+.pd-btn.ghost:hover:not(:disabled) { border-color: var(--mid); background: var(--card); }
+.pd-btn:disabled { opacity: .45; cursor: default; }
+.pd-link { border: 0; background: none; padding: 0; font: 500 12px var(--mono); letter-spacing: .04em; color: var(--hi); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+.pd-cta { margin: 18px 0; padding: 16px 18px; border-radius: 12px; background: var(--page); }
+.pd-cta p { margin: 0 0 12px; color: var(--strong); }
+
+.pd-sets { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 6px; }
+.pd-sets button { width: 100%; display: grid; grid-template-columns: 64px 1fr auto; gap: 10px; align-items: baseline; padding: 11px 12px; text-align: left; cursor: pointer;
+  border: 1px solid var(--faint); border-radius: 8px; background: var(--card); color: var(--text); font: 14px/1.35 var(--sans); }
+.pd-sets button:hover { border-color: var(--mid); color: var(--strong); }
+.pd-sets button.here { border-color: var(--hi); color: var(--strong); }
+.pd-sets .pg { font: 12px var(--mono); color: var(--muted); }
+.pd .tag { font: 500 10px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.pd .tag.free { color: #2f8f5b; } .pd .tag.lock { color: var(--lo); } .pd .tag.done { color: var(--hi); }
+
+/* a question */
+.pd .practice { display: block; margin: 0; padding: 0; border: 0; max-width: none; }
+.pd-q .qtext { margin: 18px 0 6px; color: var(--strong); font-size: 16px; }
+.pd-hint { margin: 0 0 12px; font-size: 13px !important; }
+.pd-num { margin: 12px 0 4px; }
+.pd-num .row { margin-top: 8px; flex-wrap: nowrap; }
+.pd-num input { flex: 1; min-width: 0; font: 17px var(--sans); padding: 10px 12px; border: 1px solid var(--faint); border-radius: 10px; background: var(--card); color: var(--strong); }
+.pd-num input:focus { outline: 2px solid var(--hi); outline-offset: 1px; }
+.pd-num .unit { font: 16px var(--serif); color: var(--hi); min-width: 2ch; }
+.pd-ok, .pd-no { margin: 14px 0 6px; font-weight: 500; }
+.pd-ok { color: #2f8f5b; } .pd-no { color: var(--red); }
+.pd-slip { margin: 0 0 8px; padding: 8px 12px; border-left: 2px solid var(--red); background: #fcefef; border-radius: 0 8px 8px 0; color: var(--strong); }
+.pd-step { margin: 14px 0; padding: 14px 16px; border-radius: 12px; background: var(--page); }
+.pd-step p { margin: 8px 0; color: var(--strong); }
+.pd-step .eq { font-size: 19px; margin: 8px 0 12px; }
+.pd-step .row { margin-top: 10px; }
+.pd .mark { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+/* a question: a column, so its way on sits at the foot of the drawer even when the question is short */
+.pd-body:has(> .pd-nav) { display: flex; flex-direction: column; }
+.pd-body:has(> .pd-nav) > * { flex-shrink: 0; }
+.pd-body > .pd-nav { margin-top: auto; }
+.pd-q { margin-bottom: 22px; }
+/* a question's way on stays at the foot of the drawer; it covers the body's bottom padding so nothing shows beneath it */
+.pd-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin: 22px 0 0;
+  position: sticky; bottom: calc(-1 * var(--pd-pb)); z-index: 1; padding: 12px 0 var(--pd-pb); margin-bottom: calc(-1 * var(--pd-pb)); background: var(--card); border-top: 1px solid var(--faint); }
+/* the way on: always one line. Short of room, ← All sets gives up its words first (down to the arrow), then the
+   buttons' labels end in … (block, not flex, so text-overflow applies) */
+.pd-nav { flex-wrap: nowrap; }
+.pd-nav .pd-link { flex: 0 1000 auto; min-width: 1.3em; letter-spacing: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pd-nav .row { flex: 0 1 auto; min-width: 0; flex-wrap: nowrap; justify-content: flex-end; gap: 6px; }
+.pd-nav .pd-btn { display: block; flex: 0 1 auto; min-width: 0; line-height: 1.5; padding-inline: 11px; letter-spacing: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pd-paused { margin: 14px 0 0; padding: 10px 12px; border-radius: 8px; background: var(--page); font-size: 14px; color: var(--strong); }
+.pd-paused .pd-link { display: block; margin-top: 6px; }
+
+/* phones and tablets: a bottom sheet over the text half, so the figure above stays in view */
+@media (max-width: 900px), (max-height: 520px) {
+  :root { --pd-w: 100vw; }
+  .pd-open { right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .pd { top: auto; left: 0; width: auto; height: min(50vh, 50dvh); border-radius: 16px 16px 0 0; transform: translateY(100%); box-shadow: 0 -12px 40px #00000026; }
+  .pd-head { padding: 12px 16px 8px; }
+  .pd-title { font-size: 19px; margin-top: 4px; }
+  .pd-body { --pd-pb: calc(20px + env(safe-area-inset-bottom)); padding: 0 16px var(--pd-pb); }
+  html.pd-on { overflow: hidden; }   /* answering doesn't turn the page */
+  .pd-sets button { grid-template-columns: 1fr auto; } .pd-sets .pg { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { .pd, .pd.open, .book { transition: none; } }
+
+/* a question's marks on the figure (each chapter's world.js setMarks) */
+.lbl.qmark { font: 15px/1.1 var(--serif); color: var(--hi); transform: translate(0, -125%); background: #fbfbfacc; padding: 1px 4px; border-radius: 3px; }
+.lbl.qmark.red { color: var(--red); }
+
+/* the book's top bar carries the site's links: all on wide screens, fewer as it narrows */
+.sitelinks { display: flex; gap: 18px; align-items: center; }
+@media (max-width: 1240px) { .sitelinks .wide { display: none; } }
+@media (max-width: 900px) { .sitelinks .mid { display: none; } }
+.sitelinks a { white-space: nowrap; }
+/* Log in (or Account): a pill, as in the site nav */
+.sitelinks #nav-auth { color: var(--hi); padding: 7px 12px; margin: -8px 0; border: 1px solid var(--faint); border-radius: 999px; background: var(--card); }
+.sitelinks #nav-auth:hover { border-color: var(--mid); color: var(--strong); }
+/* the menu: shown once any link is hidden, it opens the hidden ones (engine/book.js #sitemenu) — a dropdown from the
+   top right, a sheet from the bottom on phones */
+.sitelinks .menu { display: none; place-content: center; gap: 4px; width: 36px; height: 36px; flex: none; margin: -8px -6px -8px 0; padding: 0; border: 0;
+  border-radius: 50%; background: none; cursor: pointer; }
+.sitelinks .menu:hover { background: color-mix(in srgb, var(--strong) 10%, transparent); }
+.sitelinks .menu i { display: block; width: 16px; height: 1.5px; background: var(--hi); }
+@media (max-width: 1240px) { .sitelinks .menu { display: grid; } }
+#sitemenu { position: fixed; inset: 56px 14px auto auto; width: 220px; margin: 0; padding: 6px; border: 0; border-radius: 14px;
+  background: var(--card); box-shadow: var(--lift), 0 12px 40px #00000026; flex-direction: column; }
+#sitemenu:popover-open { display: flex; }
+#sitemenu a.mid { display: none; }
+@media (max-width: 900px) { #sitemenu a.mid { display: flex; } }
+#sitemenu a { display: flex; align-items: center; justify-content: space-between; height: 44px; padding: 0 12px; border-radius: 9px;
+  font: 400 18px var(--serif); color: var(--strong); text-decoration: none; }
+#sitemenu a:hover { background: color-mix(in srgb, var(--strong) 7%, transparent); }
+#sitemenu a::after { content: '→'; font: 13px var(--sans); color: var(--muted); }
+@media (max-width: 900px) and (min-height: 521px) {
+  #sitemenu { inset: auto 0 0; width: auto; padding: 10px 16px calc(24px + env(safe-area-inset-bottom)); border-radius: 22px 22px 0 0; box-shadow: 0 -12px 40px #00000026; }
+  #sitemenu::backdrop { background: #00000026; }
+  #sitemenu a { height: 54px; padding: 0; border-radius: 0; border-bottom: 1px solid var(--faint); font-size: 22px; }
+  #sitemenu a:last-child { border-bottom: 0; }
+  #sitemenu a:hover { background: none; }
+}
+
+/* math (KaTeX, chapters/engine/tex.js): displayed equations sit left in the book's .eq rule, sized to the text */
+.eq .katex-display { margin: 0; text-align: left; }
+.eq .katex-display > .katex { text-align: left; }
+.eq .katex { font-size: 1em; }
+.katex { font-size: 1em; color: var(--strong); }
+.eq .katex-display > .katex { font-size: 1.12em; }   /* displayed equations a touch larger than in-text math */
+.eq { overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+
+/* follow-up questions to the tutor (Premium), under the question */
+.pd-ask { margin: 18px 0 0; }
+.pd-ask summary { display: inline-block; cursor: pointer; list-style: none; font: 500 12px var(--mono); letter-spacing: .04em; color: var(--hi); text-decoration: underline; text-underline-offset: 3px; }
+.pd-ask summary::-webkit-details-marker { display: none; }
+.pd-ask summary::before { content: '+ '; text-decoration: none; display: inline-block; width: 1.4ch; }
+.pd-ask[open] summary::before { content: '− '; }
+.pd-thread { display: grid; gap: 8px; margin: 10px 0; }
+.pd-msg { padding: 10px 12px; border-radius: 12px; font-size: 15px; line-height: 1.45; color: var(--strong); overflow-wrap: anywhere; }
+.pd-msg.me { justify-self: end; max-width: 85%; background: var(--hi); color: #fff; white-space: pre-wrap; border-bottom-right-radius: 4px; }
+.pd-msg.ai { background: var(--page); border-bottom-left-radius: 4px; }
+.pd-msg.ai p { margin: 0 0 8px; } .pd-msg.ai p:last-child { margin: 0; }
+.pd-msg .katex-display { margin: 6px 0; overflow-x: auto; overflow-y: hidden; }
+.pd-askf { display: flex; gap: 8px; align-items: flex-end; }
+.pd-askf textarea { flex: 1; min-width: 0; resize: vertical; font: 15px/1.4 var(--sans); padding: 9px 12px; border: 1px solid var(--faint); border-radius: 10px; background: var(--card); color: var(--strong); }
+.pd-askf textarea:focus { outline: 2px solid var(--hi); outline-offset: 1px; }
+.pd-ask-note { margin: 6px 0 0; font-size: 12px !important; }
+.pd .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* phones and tablets upright: the pager and Practice in one bar at the foot of the screen, in thumb reach, with the book
+   above it; the figure's hint a pill and its readout a strip on its bottom edge, clear of each other; the practice sheet
+   starts where the figure ends, so the whole figure stays in view while answering */
+@media (max-width: 900px) and (min-height: 521px) {
+  :root { --dock: calc(68px + env(safe-area-inset-bottom)); --bookh: calc(100dvh - 68px - var(--dock)); --fig: .55; }
+  /* placed by its edges, not centred with translate(-50%, -50%): half an odd height is a half pixel, and the text,
+     on its own layer (the left page's backface-visibility), was drawn between pixels and blurred. The book doesn't zoom
+     open on phones (engine/cover.js), so nothing here needs the transform */
+  .book { height: var(--bookh); top: 60px; left: 0; right: 0; margin: 0 auto; transform: none; }
+  .book-body::after { content: ''; position: fixed; inset: auto 0 0; height: var(--dock); z-index: 4; border-top: 1px solid var(--faint);
+    background: color-mix(in srgb, var(--card) 92%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .pager { position: fixed; z-index: 6; left: 14px; bottom: calc(10px + env(safe-area-inset-bottom)); width: 156px; height: 48px; margin: 0; padding: 2px;
+    justify-content: space-between; gap: 0; border-radius: 999px; background: var(--page); }
+  .pager button { width: 44px; height: 44px; }
+  .pager #pagenum { height: 44px; }   /* in thumb reach here; on a phone on its side it fits the 40px top bar */
+  #pagenum { flex: 1; text-align: center; }
+  .pd-open { left: calc(14px + 156px + 8px); right: 14px; bottom: calc(10px + env(safe-area-inset-bottom)); height: 48px; padding: 0; box-shadow: none; }
+  .sitelinks { margin-left: auto; }
+  .sitelinks a { padding: 7px 12px; border: 1px solid var(--faint); border-radius: 999px; background: var(--card); color: var(--hi); text-decoration: none; }
+
+  .corner.bl { top: auto; bottom: 54px; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 28px); text-align: center;
+    padding: 5px 10px; border-radius: 999px; background: #fbfbfae6; box-shadow: var(--lift); color: var(--hi); font-size: 10.5px; line-height: 1.35; }
+  .corner.br { left: 0; right: 0; bottom: 0; padding: 6px 12px; text-align: center; font-size: 11px; line-height: 1.5;
+    background: #fbfbfaee; border-top: 1px solid var(--faint); }
+  .corner.bl:empty, .corner.br:empty { display: none; }
+  .corner.bl { display: none; }   /* the how-to pill (drag to turn, tap empty space to close): turning and tapping are clear enough */
+
+  .pd { top: calc(60px + var(--fig) * var(--bookh) + 6px); height: auto; }
+}
+@media (max-width: 599px) and (min-height: 521px) { :root { --fig: .42; } }
+
+/* phones: the drawer's header on one line when it fits, a short call to action beside its button, and the sets as
+   one list, each a title over its pages */
+@media (max-width: 900px), (max-height: 520px) {
+  .pd-head { align-items: center; padding: 8px 8px 8px 16px; }
+  .pd-head > div { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; min-width: 0; }
+  .pd-title { margin-top: 0; font-size: 20px; }
+  .pd-x { width: 44px; height: 44px; }
+  .pd-cta:has(> p:only-of-type):has(> .pd-btn) { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 14px; margin: 14px 0 10px; }
+  .pd-cta:has(> p:only-of-type):has(> .pd-btn) p { flex: 1; margin: 0; font-size: 14px; line-height: 1.4; }
+  .pd-cta:has(> p:only-of-type) .pd-btn { flex: none; white-space: nowrap; }
+  .pd-sets { gap: 0; border: 1px solid var(--faint); border-radius: 12px; overflow: hidden; }
+  .pd-sets li + li { border-top: 1px solid var(--faint); }
+  .pd-sets button { grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; padding: 10px 14px; border: 0; border-radius: 0; }
+  .pd-sets button.here { border: 0; box-shadow: inset 3px 0 0 var(--hi); }
+  .pd-sets .t { grid-area: 1 / 1; }
+  .pd-sets .tag { grid-area: 1 / 2; }
+  .pd-sets .pg { grid-area: 2 / 1; font-size: 11px; }
+}
+
+/* ---- a choice is picked, then checked (js/drawer.js) ---- */
+.choices button[aria-pressed="true"] { border-color: var(--hi); box-shadow: 0 0 0 1px var(--hi); color: var(--strong); }
+.choices button[aria-pressed="true"] .letter { color: var(--hi); }
+.pd-check { margin-top: 12px; }
+/* phones: choices a thumb can't miss, and the way on in buttons, not small links */
+@media (max-width: 900px), (max-height: 520px) {
+  .pd .choices { gap: 8px; }
+  .pd .choices button { min-height: 52px; align-items: center; padding: 12px 14px; border-radius: 12px; }
+  .pd-check { width: 100%; min-height: 48px; font-size: 13px; }
+  .pd-nav .pd-btn { padding-block: 12px; }   /* 44px tall: 18 + 24 + 2 */
+  .pd-nav .pd-link { padding: 14px 0; }
+}
+
+/* ---- the page number opens the chapter's contents (engine/book.js #toc, a native popover) ---- */
+.pager #pagenum { flex: 1; width: auto; height: 36px; padding: 0 4px; font: 500 12px var(--mono); color: var(--hi); border-radius: 999px; }
+.pager #pagenum::after { content: ' ▾'; color: var(--muted); }
+.toc { position: fixed; inset: auto 0 0; width: auto; max-width: none; margin: 0; max-height: 70dvh; overflow-y: auto; overscroll-behavior: contain;
+  border: 0; border-radius: 16px 16px 0 0; padding: 10px 12px calc(16px + env(safe-area-inset-bottom)); background: var(--card); color: var(--text); box-shadow: 0 -12px 40px #00000026; }
+.toc::backdrop { background: #18181a40; }
+.toc button { display: grid; gap: 2px; width: 100%; min-height: 52px; text-align: left; padding: 9px 10px; border: 0; border-top: 1px solid var(--faint); background: none;
+  font: 15px/1.3 var(--sans); color: var(--strong); cursor: pointer; }
+.toc button:first-child { border-top: 0; }
+.toc button[aria-current="true"] { font-weight: 600; box-shadow: inset 3px 0 0 var(--hi); }
+
+/* ---- phones and tablets upright: the figure docks while the text is read, and opens full screen (engine/book.js) ---- */
+.xopen, .xbar { display: none; }
+@media (max-width: 900px) and (min-height: 521px) {
+  /* reading: the text page runs the book's full height, under the figure, and starts below it; as it scrolls the figure
+     gives up height pixel for pixel (--shrink, engine/book.js), down to half, cropped about its middle so the canvas
+     keeps its size. Both pages in column 1: the text page spanning both rows pushed the figure into a new, empty column */
+  .book { grid-template-rows: calc(var(--fig) * 100%) 1fr; }
+  .page.right { grid-column: 1; z-index: 2; align-self: start; height: calc(var(--fig) * var(--bookh) - var(--shrink, 0px)); }
+  .page.left { grid-column: 1; grid-row: 1 / -1; padding-top: calc(var(--fig) * var(--bookh) + 20px); border-radius: 14px; }   /* its top corners sit under the figure's */
+  .page.left > .plate { top: calc(var(--fig) * var(--bookh) - var(--shrink, 0px)); }
+  .page.right .figure { top: 50%; bottom: auto; height: calc(var(--bookh) * var(--fig)); transform: translateY(-50%); }
+  html.pd-on .page.right { height: auto; align-self: stretch; }
+  html.docked:not(.pd-on):not(.explore) :is(.corner, .paused, .xopen) { opacity: 0; pointer-events: none; }
+  .corner, .xopen { transition: opacity .2s; }   /* fade as the figure finishes docking */
+  /* answering: a smaller figure, a taller sheet (the sheet's top follows --fig) */
+  html.pd-on { --fig: .45; }
+
+  .xopen { display: grid; place-items: center; position: absolute; top: 8px; right: 8px; z-index: 3; width: 40px; height: 40px; padding: 0; border-radius: 50%;
+    border: 1px solid var(--faint); background: #fbfbfae6; color: var(--hi); cursor: pointer; }
+  .xopen svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .corner.tr { right: 56px; }
+
+  /* explore: the figure has the book; a breakdown takes its lower part */
+  html.explore .book { grid-template-rows: 1fr 0; }
+  html.explore .page.left { display: none; grid-row: 2; padding-top: 20px; }
+  html.explore .page.right { height: auto; align-self: stretch; }
+  html.explore .page.left > .plate { top: 0; }
+  html.explore:has(#plate:not([hidden])) .book { grid-template-rows: 58% 42%; }
+  html.explore:has(#plate:not([hidden])) .page.left { display: block; }
+  html.explore #sheet { display: none; }
+  html.explore .page.right .figure { top: 0; bottom: 0; height: auto; transform: none; }
+  html.explore #gl { touch-action: none; }   /* one finger turns it every way; the page doesn't turn under it */
+  html.explore .xopen svg { display: none; }
+  html.explore .xopen::before { content: '×'; font: 300 26px/1 var(--sans); }
+  html.explore .xbar { display: flex; position: absolute; inset: auto 0 0; z-index: 3; gap: 8px; align-items: center; padding: 8px 10px;
+    background: #fbfbfaf0; border-top: 1px solid var(--faint); }
+  html.explore .corner.br { bottom: 61px; }
+  .xhold { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 1px solid var(--faint); background: var(--card); cursor: pointer; }
+  .xhold::before { content: ''; width: 10px; height: 12px; box-sizing: border-box; border-left: 3px solid var(--hi); border-right: 3px solid var(--hi); }
+  .xhold[aria-pressed="true"]::before { width: 0; height: 0; margin-left: 3px; border: 0; border-left: 11px solid var(--hi); border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+  .xchips { display: flex; gap: 6px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+  .xchips::-webkit-scrollbar { display: none; }
+  .xchips button { flex: none; height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--faint); background: var(--card); color: var(--hi);
+    font: 500 13px var(--sans); white-space: nowrap; cursor: pointer; }
+  .xchips button[aria-pressed="true"] { background: var(--hi); border-color: var(--hi); color: #fff; }
+}
+@media (max-width: 599px) and (min-height: 521px) { html.pd-on { --fig: .34; } }
+@media (prefers-reduced-motion: reduce) { .book, .corner, .xopen { transition: none; } }

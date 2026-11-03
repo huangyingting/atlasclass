@@ -1,0 +1,126 @@
+/* Atlas of Physics: shared tokens (Anatomy light theme). */
+:root {
+  --page: #f2f2ef; --card: #fbfbfa; --text: #57575a; --strong: #18181a; --muted: #8c8c90;
+  --hi: #26262a; --mid: #8a8a8f; --lo: #b4b4b8; --faint: #d4d4d6; --lit: #000;
+  --red: #e5484d;
+  --serif: 'EB Garamond', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --lift: inset 0 1px 0 0 #fff, 0 0 0 1px #0000000f, 0 1px 1px -.5px #0000000a, 0 3px 3px -1.5px #0000000a, 0 6px 6px -3px #0000000a, 0 12px 12px -6px #0000000a, 0 24px 24px -12px #0000000a;
+}
+* { box-sizing: border-box; margin: 0; }
+html { background: var(--page); color: var(--text); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+body { background: var(--page); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--hi); outline-offset: 3px; }
+
+/* Page to page: a soft crossfade, under the book opening from its card and closing into it (engine/cover.js). */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+/* The book and the contents page around it move with engine/cover.js, which animates these itself. The cover (the
+   card's picture) and the pages swing about the spine, showing one side; the cover sits over the opening book. */
+html.book-vt::view-transition-old(root), html.book-vt::view-transition-new(root), ::view-transition-new(book),
+::view-transition-old(cover), ::view-transition-new(cover), ::view-transition-old(left), ::view-transition-old(right) { animation: none; mix-blend-mode: normal; backface-visibility: hidden; }
+html.book-vt::view-transition-old(root), html.book-vt::view-transition-new(root) { transform-origin: 0 0; }
+::view-transition-old(cover), ::view-transition-new(cover), ::view-transition-old(right) { transform-origin: 0 50%; }
+::view-transition-old(left) { transform-origin: 100% 50%; }
+::view-transition-group(cover) { z-index: 1; }
+
+@media (prefers-color-scheme: dark) {
+
+:root:not([data-theme="light"]) {
+  --page: #121214; --card: #1c1c1f; --text: #a9a9ae; --strong: #f1f1ee; --muted: #85858b;
+  --hi: #e6e6e3; --mid: #7c7c82; --lo: #55555b; --faint: #303035; --lit: #ffffff;
+  --red: #ef5a5f;
+  --lift: inset 0 1px 0 0 #ffffff0d, 0 0 0 1px #ffffff14, 0 2px 4px -1px #00000066, 0 12px 24px -12px #0000008c;
+  --green: #4fbf83; --green-bg: #15291e; --red-bg: #331a1b; --blue: #7ea0e6; --veil: rgba(28, 28, 31, .92);
+  color-scheme: dark;
+}
+
+/* the figures and their pictures: paper to night, ink to light */
+:root:not([data-theme="light"]) :is(#gl, .panel canvas, .panel img, .vis img, .vis video, .demo video, .subject img, .card img, .shelf img, img[src*="/img/"]) {
+  filter: invert(.9) hue-rotate(180deg);
+}
+
+/* text on a filled (now light) button reads dark */
+:root:not([data-theme="light"]) :is(.btn, .pd-btn):not(.ghost), :root:not([data-theme="light"]) .pd-open, :root:not([data-theme="light"]) .pd-msg.me, :root:not([data-theme="light"]) .plan .ribbon,
+:root:not([data-theme="light"]) .seg button[aria-pressed="true"], :root:not([data-theme="light"]) .xchips button[aria-pressed="true"] { color: var(--page); }
+
+/* light literals: hovers, veils behind labels on the figure, the pills over it */
+:root:not([data-theme="light"]) .parts button:hover, :root:not([data-theme="light"]) .parts button:focus-visible, :root:not([data-theme="light"]) .pager button:hover, :root:not([data-theme="light"]) .pd-x:hover { background: #2a2a2e; }
+:root:not([data-theme="light"]) .chart .bar { fill: #2a2a2e; }
+:root:not([data-theme="light"]) .paused, :root:not([data-theme="light"]) .lbl.qmark, :root:not([data-theme="light"]) .tagp, :root:not([data-theme="light"]) .xopen, :root:not([data-theme="light"]) .xbar { background: var(--veil); }
+@media (max-width: 900px) and (min-height: 521px) { :root:not([data-theme="light"]) .corner.br { background: var(--veil); } }
+:root:not([data-theme="light"]) .leaf-back .folio, :root:not([data-theme="light"]) .page.left .folio { background: linear-gradient(transparent, var(--card) 45%); }
+
+/* right and wrong, Premium's blue */
+:root:not([data-theme="light"]) .choices button.right, :root:not([data-theme="light"]) .ui .mc.ok { background: var(--green-bg); border-color: var(--green); }
+:root:not([data-theme="light"]) .choices button.right .letter, :root:not([data-theme="light"]) .ui .mc.ok b, :root:not([data-theme="light"]) .tag.free, :root:not([data-theme="light"]) .pd .tag.free, :root:not([data-theme="light"]) .pd-ok { color: var(--green); }
+:root:not([data-theme="light"]) .ui .mc.ok .L { background: var(--green); border-color: var(--green); color: var(--page); }
+:root:not([data-theme="light"]) .choices button.wrong, :root:not([data-theme="light"]) .pd-slip { background: var(--red-bg); }
+:root:not([data-theme="light"]) .lbl.vec.blue, :root:not([data-theme="light"]) .panel .lbl.blue, :root:not([data-theme="light"]) .xref a, :root:not([data-theme="light"]) .marq .row em { color: var(--blue); }
+:root:not([data-theme="light"]) .xref { border-left-color: var(--blue); }
+:root:not([data-theme="light"]) .chart .total { stroke: var(--blue); }
+}
+
+:root[data-theme="dark"] {
+  --page: #121214; --card: #1c1c1f; --text: #a9a9ae; --strong: #f1f1ee; --muted: #85858b;
+  --hi: #e6e6e3; --mid: #7c7c82; --lo: #55555b; --faint: #303035; --lit: #ffffff;
+  --red: #ef5a5f;
+  --lift: inset 0 1px 0 0 #ffffff0d, 0 0 0 1px #ffffff14, 0 2px 4px -1px #00000066, 0 12px 24px -12px #0000008c;
+  --green: #4fbf83; --green-bg: #15291e; --red-bg: #331a1b; --blue: #7ea0e6; --veil: rgba(28, 28, 31, .92);
+  color-scheme: dark;
+}
+
+/* the figures and their pictures: paper to night, ink to light */
+:root[data-theme="dark"] :is(#gl, .panel canvas, .panel img, .vis img, .vis video, .demo video, .subject img, .card img, .shelf img, img[src*="/img/"]) {
+  filter: invert(.9) hue-rotate(180deg);
+}
+
+/* text on a filled (now light) button reads dark */
+:root[data-theme="dark"] :is(.btn, .pd-btn):not(.ghost), :root[data-theme="dark"] .pd-open, :root[data-theme="dark"] .pd-msg.me, :root[data-theme="dark"] .plan .ribbon,
+:root[data-theme="dark"] .seg button[aria-pressed="true"], :root[data-theme="dark"] .xchips button[aria-pressed="true"] { color: var(--page); }
+
+/* light literals: hovers, veils behind labels on the figure, the pills over it */
+:root[data-theme="dark"] .parts button:hover, :root[data-theme="dark"] .parts button:focus-visible, :root[data-theme="dark"] .pager button:hover, :root[data-theme="dark"] .pd-x:hover { background: #2a2a2e; }
+:root[data-theme="dark"] .chart .bar { fill: #2a2a2e; }
+:root[data-theme="dark"] .paused, :root[data-theme="dark"] .lbl.qmark, :root[data-theme="dark"] .tagp, :root[data-theme="dark"] .xopen, :root[data-theme="dark"] .xbar { background: var(--veil); }
+@media (max-width: 900px) and (min-height: 521px) { :root[data-theme="dark"] .corner.br { background: var(--veil); } }
+:root[data-theme="dark"] .leaf-back .folio, :root[data-theme="dark"] .page.left .folio { background: linear-gradient(transparent, var(--card) 45%); }
+
+/* right and wrong, Premium's blue */
+:root[data-theme="dark"] .choices button.right, :root[data-theme="dark"] .ui .mc.ok { background: var(--green-bg); border-color: var(--green); }
+:root[data-theme="dark"] .choices button.right .letter, :root[data-theme="dark"] .ui .mc.ok b, :root[data-theme="dark"] .tag.free, :root[data-theme="dark"] .pd .tag.free, :root[data-theme="dark"] .pd-ok { color: var(--green); }
+:root[data-theme="dark"] .ui .mc.ok .L { background: var(--green); border-color: var(--green); color: var(--page); }
+:root[data-theme="dark"] .choices button.wrong, :root[data-theme="dark"] .pd-slip { background: var(--red-bg); }
+:root[data-theme="dark"] .lbl.vec.blue, :root[data-theme="dark"] .panel .lbl.blue, :root[data-theme="dark"] .xref a, :root[data-theme="dark"] .marq .row em { color: var(--blue); }
+:root[data-theme="dark"] .xref { border-left-color: var(--blue); }
+:root[data-theme="dark"] .chart .total { stroke: var(--blue); }
+
+/* The light/dark button (tools/build.mjs puts it in the nav and the footer, engine/book.js in a chapter's top bar):
+   a moon while the page is light, a sun while it is dark (the head script sets aria-pressed to "dark is on") */
+.theme { display: inline-grid; place-items: center; width: 36px; height: 36px; flex: none; padding: 0; border: 0; border-radius: 50%;
+  background: none; color: var(--hi); cursor: pointer; }
+.theme:hover { background: color-mix(in srgb, var(--strong) 10%, transparent); }
+.theme:focus-visible { outline: 2px solid var(--strong); outline-offset: 2px; }
+.theme svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.theme .sun, .theme[aria-pressed="true"] .moon { display: none; }
+.theme[aria-pressed="true"] .sun { display: block; }
+/* switching: the whole page cross-fades, slowly enough to be easy on the eyes (the head script adds .theme-vt for the
+   switch's view transition); every part that has its own transition name (the nav, a book) fades with the page */
+html.theme-vt::view-transition-group(*) { animation-duration: .5s; }
+html.theme-vt::view-transition-old(*), html.theme-vt::view-transition-new(*) { animation: .5s cubic-bezier(.22, 1, .36, 1) both; mix-blend-mode: normal; }
+html.theme-vt::view-transition-old(*) { animation-name: theme-out; }
+html.theme-vt::view-transition-new(*) { animation-name: theme-in; }
+@keyframes theme-out { to { opacity: 0; } }
+@keyframes theme-in { from { opacity: 0; } }
+
+/* Skeletons (the colours win over whatever the placeholder borrows its shape from, a .btn or a .ring): what's loading, drawn in its own place and at its own size, so nothing moves when it arrives (tools/build.mjs
+   appends this to every atlas.css, as it does theme.css). A .sk holds its line height with a &nbsp; and hides the text;
+   a soft light runs across it. */
+.sk { display: inline-block; vertical-align: middle; max-width: 100%; min-width: 2em; border-radius: 6px; color: transparent !important;
+  background: color-mix(in srgb, var(--strong) 8%, transparent) !important; border-color: transparent !important; box-shadow: none !important; position: relative; overflow: hidden; user-select: none; pointer-events: none; line-height: 1; }
+.sk::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--card) 70%, transparent), transparent); animation: sk 1.4s ease-in-out infinite; }
+.sk.round { border-radius: 50%; }
+.sk.block { display: block; }
+@keyframes sk { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .sk::after { animation: none; } }

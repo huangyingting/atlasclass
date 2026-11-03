@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms · Atlas</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="The terms for using the Atlas and Atlas Premium.">
+<meta property="og:title" content="Terms · Atlas"><meta property="og:description" content="The terms for using the Atlas and Atlas Premium.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/kinematics.jpg"><meta property="og:url" content="https://atlasclass.app/terms/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/atlas.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/nav.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/terms/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/terms/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/terms/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/terms/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/terms/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/terms/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/terms/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/terms/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/terms/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/terms/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/terms/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/terms/">
+<link rel="canonical" href="https://atlasclass.app/terms/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+</head>
+<body>
+<header id="top"><a class="brand" href="/">Atlas</a><nav id="site-menu" aria-label="Site" popover=""><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></nav><a id="nav-auth" href="/login/?next=%2Fterms%2F">Log in</a><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+  <button type="button" class="menu" popovertarget="site-menu" aria-label="Menu"><i></i><i></i><i></i></button></header><script>(() => { const a = document.getElementById('nav-auth'), p = location.pathname; let on = false;
+  try { on = Object.keys(localStorage).some(k => /^sb-.+-auth-token$/.test(k)); } catch {}
+  if (on) { a.textContent = 'Account'; a.href = '/account/'; } else if (!p.startsWith('/login')) a.href = '/login/?next=' + encodeURIComponent(p + location.search);
+  if (p.startsWith(on ? '/account' : '/login')) a.setAttribute('aria-current', 'page'); })();</script>
+<main class="narrow legal">
+  <h1>Terms of Service</h1>
+  <p class="note">Last updated 30 October 2026</p>
+
+  <p>These terms cover your use of Atlas at atlasclass.app (“Atlas”, “we”, “us”). By using the site you agree to them. If you don’t agree, please don’t use it.</p>
+
+  <h2>Who can use Atlas</h2>
+  <p>Atlas is for students, teachers and anyone learning any subject on Atlas. You need to be at least 13 to make an account. If you’re under 18, use Atlas with the permission of a parent, guardian or teacher, who should read these terms with you.</p>
+
+  <h2>Your account</h2>
+  <p>You sign in with an email link, so keep access to your email safe. One account is for one person; don’t share it. You’re responsible for what happens on your account.</p>
+
+  <h2>Free and Premium</h2>
+  <p>The chapters, figures and equation sheet are free. With a free account you can open any three practice sets; sample questions are open to everyone. Premium opens every practice set.</p>
+  <ul>
+    <li><b>Monthly and Annual</b> renew automatically at the price shown when you subscribed until you cancel. You can cancel any time from your account; Premium continues until the end of the period you’ve paid for.</li>
+    <li><b>Lifetime</b> is a one-time payment for Premium for as long as Atlas offers it. If you switch to Lifetime from a subscription, the subscription stops so you aren’t charged again.</li>
+    <li><b>Refunds.</b> If you’re not happy, email us and we’ll refund you in full, for any reason, if you ask:
+      <ul>
+        <li>for <b>Annual</b> or <b>Lifetime</b>, within 14 days of buying it;</li>
+        <li>for <b>Monthly</b>, within the month you’ve paid for (that month’s charge only).</li>
+      </ul>
+      Each person can get one refund. A refund ends the Premium it paid for straight away, and a refunded subscription is cancelled. Outside these limits we don’t refund, except where the law requires it, or as these terms say elsewhere.</li>
+    <li><b>Invites.</b> A friend who signs in with your invite link before their first purchase gets 20% off that purchase. A friend’s purchase counts for you once it’s 31 days old and hasn’t been refunded; when 5 have counted, you get 20% off your next payment (your next renewal, or your next purchase), once per account. Lifetime owners don’t get this reward. Invite discounts can’t be combined with a promotion code, and we may cancel rewards from fake or duplicate accounts.</li>
+    <li>Payments are handled by our payment processor. We never see or store your card number. Prices are in US dollars and may include tax where required.</li>
+    <li>We may change prices for new purchases and renewals. We’ll tell subscribers by email before a change applies to them.</li>
+  </ul>
+
+  <h2>Class access for teachers</h2>
+  <p>Teachers can ask for Premium for a class. We may approve, limit or decline a request, and we may end class access that is misused. An approved teacher gets Premium for themselves at no charge and can buy seats for their students at half the Annual price. Class access lasts until the date we give when approving it and covers the number of seats bought. Teachers who request access confirm they are allowed to use Atlas with their students under their school’s rules.</p>
+
+  <h2>Using Atlas fairly</h2>
+  <p>Please don’t:</p>
+  <ul>
+    <li>copy, scrape or republish the practice questions, solutions or other Premium content, or share Premium with people who haven’t paid for it;</li>
+    <li>try to get around the paywall, break or overload the site, or access other people’s accounts;</li>
+    <li>use Atlas to cheat on graded work where your teacher or school doesn’t allow it.</li>
+  </ul>
+  <p>We may suspend or close accounts that do these things. If we close a paid account without good reason, we’ll refund the unused part.</p>
+
+  <h2>Content and ownership</h2>
+  <p>The practice questions, solutions and figures on Atlas are written by us. Premium content is licensed to you for your own learning, not sold to you. Some of the chapters and figures are also published as open source; that code and content is under its own license (MIT), and these terms don’t limit what that license allows.</p>
+
+  <h2>AP® and the College Board</h2>
+  <p>AP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, Atlas. We use “AP” only to say which courses Atlas is written for. The equation sheet follows the published AP Physics equation tables.</p>
+
+  <h2>Accuracy</h2>
+  <p>We work hard to get every answer right, but mistakes happen. Atlas is a study aid: it doesn’t guarantee any grade or exam score. If you find an error, tell us and we’ll fix it.</p>
+
+  <h2>Availability</h2>
+  <p>We try to keep Atlas running, but it may sometimes be down or change. We may add, change or remove content and features. If we ever shut Atlas down, we’ll refund the unused part of active subscriptions, and refund Lifetime purchases made in the 12 months before.</p>
+
+  <h2>Limits on liability</h2>
+  <p>Atlas is provided “as is”. To the extent the law allows, we aren’t liable for indirect or consequential losses, and our total liability to you is limited to what you paid us in the 12 months before the claim. Nothing in these terms limits rights you have under consumer law that can’t be limited.</p>
+
+  <h2>Changes to these terms</h2>
+  <p>We may update these terms. If a change matters, we’ll show a notice on the site or email you before it applies. Using Atlas after a change means you accept the new terms.</p>
+
+  <h2>Contact</h2>
+  <p>Questions, refunds or problems: <a href="mailto:support@atlasclass.app">support@atlasclass.app</a>.</p>
+</main>
+<footer id="foot"><canvas aria-hidden="true" width="1440" height="600"></canvas>
+  <div class="in"><div class="brand"><a class="name" href="/">Atlas</a><span class="soc">
+    <a href="https://x.com/tryatlasclass" target="_blank" rel="noopener" aria-label="Atlas on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a>
+    <a href="https://www.instagram.com/tryatlasclass/" target="_blank" rel="noopener" aria-label="Atlas on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"></rect><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle></svg></a></span></div>
+    <nav class="cols" aria-label="Footer"><div><b>Learn</b><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a></div>
+      <div><b>Plans</b><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></div>
+      <div><b>Atlas</b><a href="/about/">About</a><a href="mailto:support@atlasclass.app">support@atlasclass.app</a></div>
+      <div><b>Legal</b><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></div></nav></div>
+  <div class="base"><span>© 2026 Atlas</span><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button><select id="lang" aria-label="Language"><option value="" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option><option value="ms" lang="ms">Bahasa Melayu</option><option value="vi" lang="vi">Tiếng Việt</option><option value="zh" lang="zh-Hans">简体中文</option><option value="zh-tw" lang="zh-Hant">繁體中文</option><option value="ja" lang="ja">日本語</option><option value="ko" lang="ko">한국어</option><option value="hi" lang="hi">हिन्दी</option><option value="es" lang="es-419">Español</option><option value="pt" lang="pt-BR">Português</option></select><script>(() => { const s = document.getElementById('lang'), rest = location.pathname.replace(/^\/(id|ms|vi|zh|zh-tw|ja|ko|hi|es|pt)(?=\/)/, '');
+  s.value = document.documentElement.dataset.base?.slice(1) ?? '';
+  s.onchange = () => { try { localStorage.lang = s.value || 'en'; } catch {} location.href = (s.value && '/' + s.value) + rest + location.search + location.hash; }; })();</script><span class="ap">AP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, this site.</span></div>
+  <script type="module" src="/js/footer.js"></script><div class="spin" aria-hidden="true" style="left: 1068px; top: 84px; width: 168px; height: 168px;"></div></footer>
+
+
+</body></html>

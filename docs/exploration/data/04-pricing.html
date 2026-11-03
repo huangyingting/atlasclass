@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="en"><head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Premium · Atlas</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Atlas Premium: every practice set in every chapter. Monthly, annual or lifetime.">
+<meta property="og:title" content="Premium · Atlas"><meta property="og:description" content="Atlas Premium: every practice set in every chapter. Monthly, annual or lifetime.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/kinematics.jpg"><meta property="og:url" content="https://atlasclass.app/pricing/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/atlas.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/nav.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/pricing/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/pricing/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/pricing/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/pricing/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/pricing/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/pricing/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/pricing/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/pricing/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/pricing/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/pricing/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/pricing/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/pricing/">
+<link rel="canonical" href="https://atlasclass.app/pricing/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Atlas Premium","description":"Atlas Premium: every practice set in every chapter. Monthly, annual or lifetime.","image":"https://atlasclass.app/physics/img/kinematics.jpg","provider":{"@id":"https://atlasclass.app/#org"},"offers":[{"@type":"Offer","name":"Monthly","price":"19.99","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://atlasclass.app/pricing/","seller":{"@id":"https://atlasclass.app/#org"}},{"@type":"Offer","name":"Annual","price":"59.99","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://atlasclass.app/pricing/","seller":{"@id":"https://atlasclass.app/#org"}},{"@type":"Offer","name":"Lifetime","price":"199","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://atlasclass.app/pricing/","seller":{"@id":"https://atlasclass.app/#org"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I cancel?","acceptedAnswer":{"@type":"Answer","text":"Any time, from your account: “Manage subscription” lets you stop it renewing at the end of the period you’ve paid for."}},{"@type":"Question","name":"What do I get for free?","acceptedAnswer":{"@type":"Answer","text":"Every chapter, and any 3 practice sets of your choosing with a free account. Free sets stay yours."}},{"@type":"Question","name":"Can my students get a discount?","acceptedAnswer":{"@type":"Answer","text":"Teachers get heavily discounted access for a whole class, half the Annual price a seat: request it here. We can’t set this up for individual students, so if you’re a student, ask your teacher."}},{"@type":"Question","name":"What if I don’t like it?","acceptedAnswer":{"@type":"Answer","text":"Email support@atlasclass.app within 14 days of buying Annual or Lifetime, or during the month you’re in for Monthly, and we’ll refund you in full, for any reason. One refund per person; a refund ends the Premium it paid for. See the Terms."}},{"@type":"Question","name":"Can I invite friends?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your account has an invite link. Friends who use it get 20% off their first payment, and once 5 of them have bought Premium (and kept it past the refund window), you get 20% off your next payment. One reward per account; Lifetime owners have nothing left to discount. An invite discount takes the place of a promotion code."}},{"@type":"Question","name":"Where do I use a discount code?","acceptedAnswer":{"@type":"Answer","text":"Press any Upgrade button. Checkout has a field for a promotion code."}}]}</script>
+</head>
+<body>
+<header id="top"><a class="brand" href="/">Atlas</a><nav id="site-menu" aria-label="Site" popover=""><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a><a href="/pricing/" aria-current="page">Premium</a><a href="/teachers/">Teachers</a></nav><a id="nav-auth" href="/login/?next=%2Fpricing%2F">Log in</a><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+  <button type="button" class="menu" popovertarget="site-menu" aria-label="Menu"><i></i><i></i><i></i></button></header><script>(() => { const a = document.getElementById('nav-auth'), p = location.pathname; let on = false;
+  try { on = Object.keys(localStorage).some(k => /^sb-.+-auth-token$/.test(k)); } catch {}
+  if (on) { a.textContent = 'Account'; a.href = '/account/'; } else if (!p.startsWith('/login')) a.href = '/login/?next=' + encodeURIComponent(p + location.search);
+  if (p.startsWith(on ? '/account' : '/login')) a.setAttribute('aria-current', 'page'); })();</script>
+<main>
+  <div class="banner" id="locked" hidden=""><p>You’ve used your 3 free practice sets. Upgrade to keep practicing.</p></div>
+  <h1>Atlas Premium</h1>
+  <p class="lede">One plan with everything included. Just choose how you’d like to pay.</p>
+
+  <section class="plans">
+    <div class="plan">
+      <h3>Monthly</h3><span class="sub">flexible, cancel any time</span>
+      <div class="price">$19.99 <small>/ month</small></div><div class="per">billed monthly</div>
+      <button class="btn ghost" data-plan="monthly"><span class="lbl">Upgrade</span></button></div>
+    <div class="plan best"><span class="ribbon">Most popular · save 75%</span>
+      <h3>Annual</h3><span class="sub">a school year and the exam</span>
+      <div class="price">$59.99 <small>/ year</small></div><div class="per">about $5 a month, billed yearly</div>
+      <button class="btn" data-plan="annual"><span class="lbl">Upgrade</span></button></div>
+    <div class="plan">
+      <h3>Lifetime</h3><span class="sub">pay once, yours forever</span>
+      <div class="price">$199 <small>one time</small></div><div class="per">every set we add, for good</div>
+      <button class="btn ghost" data-plan="lifetime"><span class="lbl">Upgrade</span></button></div>
+  </section>
+  <div class="assure"><span>Cancel any time</span><span>Full refund within 14 days</span><span>Promotion codes at checkout</span></div>
+  <p class="note" style="text-align:center">Monthly and Annual renew until you cancel. By upgrading you agree to the <a href="/terms/">Terms</a>.</p>
+  <p id="msg" class="note" role="status" style="text-align:center;min-height:1.6em"></p>
+
+  <h2>What’s included</h2>
+  <section class="demos">
+    <figure class="demo">
+      <video src="/demos/worked.mp4" poster="/demos/worked.jpg" muted="" loop="" playsinline="" preload="none" width="960" height="712" aria-label="A wrong answer drawn on the figure, then the worked solution played out step by step"></video>
+      <figcaption><b>Worked solutions, on the figure</b><span>Get one wrong and your answer is drawn in. Then the working plays out, step by step.</span></figcaption>
+    </figure>
+    <figure class="demo">
+      <video src="/demos/figure.mp4" poster="/demos/figure.jpg" muted="" loop="" playsinline="" preload="none" width="960" height="712" aria-label="Moving between questions, the 3D figure rebuilds with each question’s numbers"></video>
+      <figcaption><b>Every question sets up its figure</b><span>Its own numbers, in 3D.</span></figcaption>
+    </figure>
+    <figure class="demo">
+      <video src="/demos/tutor.mp4" poster="/demos/tutor.jpg" muted="" loop="" playsinline="" preload="none" width="960" height="712" aria-label="A follow-up typed under a practice question, and the AI tutor’s reply with the equation to use"></video>
+      <figcaption><b>An AI tutor for follow-ups</b><span>Ask about any question. It sees what you see: the question, your answer, the working and the figure.</span></figcaption>
+    </figure>
+    <div class="bank">
+      <div class="nums"><div><b>1163</b><span>questions</span></div>
+      <div><b>177</b><span>practice sets</span></div><div><b>34</b><span>chapters</span></div></div>
+    </div>
+  </section>
+  <script>
+    // the demos play only while on screen, and not at all for reduced motion (their poster frame stays)
+    (() => { const vs = document.querySelectorAll('.demo video');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause()), { threshold: .35 });
+      vs.forEach(v => io.observe(v)); })();
+  </script>
+
+  <h2>Questions</h2>
+  <details><summary>How can I cancel?</summary><p>Any time, from your <a href="/account/">account</a>: “Manage subscription” lets you stop it renewing at the end of the period you’ve paid for.</p></details>
+  <details><summary>What do I get for free?</summary><p>Every chapter, and any 3 practice sets of your choosing with a free account. Free sets stay yours.</p></details>
+  <details><summary>Can my students get a discount?</summary><p>Teachers get heavily discounted access for a whole class, half the Annual price a seat: <a href="/teachers/">request it here</a>. We can’t set this up for individual students, so if you’re a student, ask your teacher.</p></details>
+  <details><summary>What if I don’t like it?</summary><p>Email <a class="contact" href="mailto:support@atlasclass.app">support@atlasclass.app</a> within 14 days of buying Annual or Lifetime, or during the month you’re in for Monthly, and we’ll refund you in full, for any reason. One refund per person; a refund ends the Premium it paid for. See the <a href="/terms/">Terms</a>.</p></details>
+  <details><summary>Can I invite friends?</summary><p>Yes. Your <a href="/account/">account</a> has an invite link. Friends who use it get 20% off their first payment, and once 5 of them have bought Premium (and kept it past the refund window), you get 20% off your next payment. One reward per account; Lifetime owners have nothing left to discount. An invite discount takes the place of a promotion code.</p></details>
+  <details><summary>Where do I use a discount code?</summary><p>Press any Upgrade button. Checkout has a field for a promotion code.</p></details>
+</main>
+<script type="module">
+  import { sb, status, fn, loginUrl } from '/js/app.js';
+  import { CONTACT_EMAIL } from '/js/config.js';
+  const q = new URLSearchParams(location.search), msg = document.getElementById('msg');
+  document.querySelectorAll('.contact').forEach(a => { a.href = `mailto:${CONTACT_EMAIL}`; a.textContent = CONTACT_EMAIL; });
+  if (q.get('locked')) document.getElementById('locked').hidden = false;
+
+  // already Premium: Lifetime stays on sale (a subscription stops when it starts); nothing once Lifetime is owned
+  const st = await status(), PLAN = { monthly: 'Monthly', annual: 'Annual' };
+  const life = document.querySelector('[data-plan="lifetime"]');
+  if (st?.premium) {
+    const lifetime = st.plan === 'lifetime' && st.status === 'paid';
+    document.querySelectorAll('[data-plan]').forEach(b => b.disabled = lifetime || b !== life);
+    if (!lifetime) life.querySelector('.lbl').textContent = 'Switch to Lifetime';
+    if (lifetime) life.querySelector('.lbl').textContent = 'Your plan';
+    msg.innerHTML = lifetime ? ''
+      : PLAN[st.plan] ? `You’re on ${PLAN[st.plan]}. Switch to Lifetime and your subscription stops, so you’re not charged again.`
+      : 'You have Premium through your class. Lifetime keeps it for good.';
+  }
+
+  // 20% off the next payment (a friend's invite, or a referrer's reward): each card shows the price checkout will charge,
+  // the full price struck through; a subscription's discount is its first payment only
+  const FULL = { monthly: [19.99, 'first month, then $19.99 a month'], annual: [59.99, 'first year, then $59.99 a year'], lifetime: [199, 'one time'] };
+  const money = x => '$' + (Number.isInteger(x) ? x : x.toFixed(2));
+  const discount = plans => plans.forEach(plan => {
+    const card = document.querySelector(`[data-plan="${plan}"]`).closest('.plan'), [full, per] = FULL[plan];
+    card.querySelector('.price').innerHTML = `<s>${money(full)}</s> ${money(Math.round(full * 80) / 100)}`;
+    card.querySelector('.per').textContent = `20% off: ${per}`;
+  });
+  if (!st && q.get('ref')) { msg.textContent = 'A friend invited you: sign in and get 20% off your first payment.'; discount(Object.keys(FULL)); }
+  else if (st && st.plan !== 'lifetime') sb.rpc('my_referrals').then(({ data: r }) => {
+    if (!st.premium && r?.discount) { msg.textContent = 'Your friend’s invite gives you 20% off your first payment. It’s applied at checkout.'; discount(Object.keys(FULL)); }
+    else if (r?.reward === 'earned') {
+      msg.textContent = st.premium ? 'Your invite reward: 20% off your next renewal, or off Lifetime if you switch first.' : 'Your invite reward: 20% off your next payment. It’s applied at checkout.';
+      discount(st.premium ? ['lifetime'] : Object.keys(FULL));
+    }
+  });
+
+  async function checkout(plan) {
+    if (!st) return location.assign(loginUrl(`/pricing/?plan=${plan}`));   // back here after signing in, then on to Stripe
+    // the button itself shows the wait: its label fades to a spinner, at the same size, until Stripe's page opens
+    const b = document.querySelector(`[data-plan="${plan}"]`);
+    b.classList.add('busy'); b.setAttribute('aria-busy', 'true'); b.disabled = true; msg.textContent = '';
+    try { location.assign((await fn('checkout', { plan, base: document.documentElement.dataset.base })).url); }
+    catch (e) {
+      b.classList.remove('busy'); b.removeAttribute('aria-busy'); b.disabled = false;
+      msg.className = 'err'; msg.textContent = e.status === 503 ? 'Payments aren’t switched on yet. Check back soon.' : e.message;
+    }
+  }
+  document.querySelectorAll('[data-plan]').forEach(b => b.onclick = () => checkout(b.dataset.plan));
+  // back from Stripe with the browser's Back button: the page comes from cache, so put the buttons back
+  addEventListener('pageshow', e => e.persisted && document.querySelectorAll('[data-plan].busy').forEach(b => { b.classList.remove('busy'); b.removeAttribute('aria-busy'); b.disabled = false; }));
+  const want = q.get('plan');
+  if (st && (st.premium ? want === 'lifetime' && !life.disabled : ['monthly', 'annual', 'lifetime'].includes(want))) checkout(want);
+</script>
+<footer id="foot"><canvas aria-hidden="true" width="1440" height="600"></canvas>
+  <div class="in"><div class="brand"><a class="name" href="/">Atlas</a><span class="soc">
+    <a href="https://x.com/tryatlasclass" target="_blank" rel="noopener" aria-label="Atlas on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a>
+    <a href="https://www.instagram.com/tryatlasclass/" target="_blank" rel="noopener" aria-label="Atlas on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"></rect><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle></svg></a></span></div>
+    <nav class="cols" aria-label="Footer"><div><b>Learn</b><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a></div>
+      <div><b>Plans</b><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></div>
+      <div><b>Atlas</b><a href="/about/">About</a><a href="mailto:support@atlasclass.app">support@atlasclass.app</a></div>
+      <div><b>Legal</b><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></div></nav></div>
+  <div class="base"><span>© 2026 Atlas</span><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button><select id="lang" aria-label="Language"><option value="" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option><option value="ms" lang="ms">Bahasa Melayu</option><option value="vi" lang="vi">Tiếng Việt</option><option value="zh" lang="zh-Hans">简体中文</option><option value="zh-tw" lang="zh-Hant">繁體中文</option><option value="ja" lang="ja">日本語</option><option value="ko" lang="ko">한국어</option><option value="hi" lang="hi">हिन्दी</option><option value="es" lang="es-419">Español</option><option value="pt" lang="pt-BR">Português</option></select><script>(() => { const s = document.getElementById('lang'), rest = location.pathname.replace(/^\/(id|ms|vi|zh|zh-tw|ja|ko|hi|es|pt)(?=\/)/, '');
+  s.value = document.documentElement.dataset.base?.slice(1) ?? '';
+  s.onchange = () => { try { localStorage.lang = s.value || 'en'; } catch {} location.href = (s.value && '/' + s.value) + rest + location.search + location.hash; }; })();</script><span class="ap">AP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, this site.</span></div>
+  <script type="module" src="/js/footer.js"></script><div class="spin" aria-hidden="true" style="left: 1068px; top: 84px; width: 168px; height: 168px;"></div></footer>
+
+
+</body></html>

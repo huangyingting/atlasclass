@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electric Potential · AP Physics C · Atlas of Physics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Push a charge toward another of the same sign and you do work against the repulsion. That work is stored as electric potential energy.">
+<meta property="og:title" content="Electric Potential · AP Physics C · Atlas of Physics"><meta property="og:description" content="Push a charge toward another of the same sign and you do work against the repulsion. That work is stored as electric potential energy.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/potential.jpg"><meta property="og:url" content="https://atlasclass.app/physics/potential/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/physics/potential/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/physics/potential/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/physics/potential/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/physics/potential/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/physics/potential/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/physics/potential/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/physics/potential/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/physics/potential/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/physics/potential/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/physics/potential/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/physics/potential/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/physics/potential/">
+<link rel="canonical" href="https://atlasclass.app/physics/potential/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/physics/potential/#chapter","name":"Electric Potential","headline":"Electric Potential · AP Physics C · Atlas of Physics","description":"Push a charge toward another of the same sign and you do work against the repulsion. That work is stored as electric potential energy.","url":"https://atlasclass.app/physics/potential/","image":"https://atlasclass.app/physics/img/potential.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":3,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Physics C · Electricity and magnetism"},"teaches":["Assembling charges","Electric potential","The potential hill","The dipole","A charged rod","Ring, arc and disc","Charged spheres","The electron volt"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/physics/#course","name":"Physics","url":"https://atlasclass.app/physics/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Physics","item":"https://atlasclass.app/physics/"},{"@type":"ListItem","position":4,"name":"Electric Potential","item":"https://atlasclass.app/physics/potential/"}]}]}</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Physics</a>
+    <span class="crumb">No. 11 · Electric potential</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Electric potential</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure: charges, potential surfaces and equipotentials in nine scenes. Hover a scene and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/physics/">Physics</a> · AP Physics C · Electricity and magnetism</p>
+<h1>Electric Potential</h1>
+<article><h2><a href="#0">Chapter 11 · Electric potential energy</a></h2><p><i>the work stored in a pair of charges</i></p>
+<p>Push a charge toward another of the same sign and you do work against the repulsion. That work is stored as <b>electric potential energy</b>.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>U</mi><mo>=</mo><mfrac><mrow><mi>k</mi><msub><mi>q</mi><mn>1</mn></msub><msub><mi>q</mi><mn>2</mn></msub></mrow><mi>r</mi></mfrac></mrow><annotation encoding="application/x-tex">U = \frac{kq_1q_2}{r}</annotation></semantics></math></span></div> <p><i>U</i> = 0 when the charges are infinitely far apart. Bringing +2 nC in from 40 cm to 10 cm of +4 nC takes 0.539 μJ. Unlike charges pull together, so their <i>U</i> is <b>negative</b> and falls as they close. <i>U</i> is a scalar: the signs of the charges carry its sign.</p> <div></div> <p>Click for the path in steps, each adding <i>F</i>Δ<i>r</i>. 1 square = 10 cm; force 0.8 cm per μN.</p></article>
+<article><h2><a href="#1">11.1 · Assembling charges</a></h2><p><i>add up every pair</i></p>
+<p>The energy of a group of charges is the work to bring them in from infinity, one at a time.</p> <table> <tr><td><i>q</i><sub>1</sub></td><td>nothing there yet</td><td>0</td></tr> <tr><td><i>q</i><sub>2</sub></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">kq^2/a</annotation></semantics></math></span></td><td>0.180 μJ</td></tr> <tr><td><i>q</i><sub>3</sub></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mi>a</mi><mo>+</mo><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><msqrt><mn>2</mn></msqrt><mtext> </mtext><mi>a</mi></mrow><annotation encoding="application/x-tex">kq^2/a + kq^2/\sqrt{2}\,a</annotation></semantics></math></span></td><td>0.307 μJ</td></tr> <tr><td><i>q</i><sub>4</sub></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mi>a</mi><mo>+</mo><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><msqrt><mn>2</mn></msqrt><mtext> </mtext><mi>a</mi></mrow><annotation encoding="application/x-tex">2kq^2/a + kq^2/\sqrt{2}\,a</annotation></semantics></math></span></td><td>0.487 μJ</td></tr> </table> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>U</mi><mo>=</mo><mfrac><mrow><mn>4</mn><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup></mrow><mi>a</mi></mfrac><mo>+</mo><mfrac><mrow><mn>2</mn><mi>k</mi><msup><mi>q</mi><mn>2</mn></msup></mrow><mrow><msqrt><mn>2</mn></msqrt><mtext> </mtext><mi>a</mi></mrow></mfrac><mo>=</mo><mn>0.973</mn><mtext> </mtext><mi>μ</mi><mtext>J</mtext></mrow><annotation encoding="application/x-tex">U = \frac{4kq^2}{a} + \frac{2kq^2}{\sqrt2\,a} = 0.973\ \mu\text{J}</annotation></semantics></math></span></div> <p>Four +2 nC charges, <i>a</i> = 20 cm. Six pairs, in any order.</p> <div></div> <p>Click the square to see its six pairs.</p></article>
+<article><h2><a href="#2">11.2 · Electric potential</a></h2><p><i>energy per unit charge</i></p>
+<p><b>Potential</b> <i>V</i> is potential energy per unit charge, in volts (J/C). A charge <i>q</i> placed there has <i>U</i> = <i>qV</i>.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mo>−</mo><msubsup><mo>∫</mo><mi>A</mi><mi>B</mi></msubsup><mover accent="true"><mi>E</mi><mo>⃗</mo></mover><mo>⋅</mo><mi>d</mi><mover accent="true"><mi>s</mi><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\Delta V = -\int_A^B \vec{E}\cdot d\vec{s}</annotation></semantics></math></span></div> <p>Only the part of each step d<b><i>s</i></b> along <b><i>E</i></b> counts. With <i>E</i> = 50 N/C: A → B runs across <b><i>E</i></b> and adds 0; B → C is 0.2 m along it, −50 × 0.2 = <b>−10 V</b>. A → C straight gives the same. Moving <b>with</b> <b><i>E</i></b>, <i>V</i> falls. The pale sheets are <b>equipotentials</b>, at right angles to <b><i>E</i></b>. For <i>E</i> = 4<i>x</i>: <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><msubsup><mo>∫</mo><mn>0</mn><mn>4</mn></msubsup><mn>4</mn><mi>x</mi><mtext> </mtext><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">-\int_0^4 4x\,dx</annotation></semantics></math></span> = -32 V.</p> <div></div> <p>Click to split A → C into steps d<b><i>s</i></b>. <b><i>E</i></b>: one square per 25 N/C.</p></article>
+<article><h2><a href="#3">11.3 · The potential hill</a></h2><p><i>V = kq/r, and E = −∇V</i></p>
+<p>Around a point charge only the radial part of each step counts, <b>r̂</b> · d<b><i>s</i></b> = d<i>r</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mo>−</mo><mo>∫</mo><mfrac><mrow><mi>k</mi><mi>q</mi></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac><mtext> </mtext><mi>d</mi><mi>r</mi><mo>=</mo><mi>k</mi><mi>q</mi><mrow><mo fence="true">(</mo><mfrac><mn>1</mn><msub><mi>r</mi><mi>B</mi></msub></mfrac><mo>−</mo><mfrac><mn>1</mn><msub><mi>r</mi><mi>A</mi></msub></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\Delta V = -\int \frac{kq}{r^2}\,dr = kq\left(\frac{1}{r_B} - \frac{1}{r_A}\right)</annotation></semantics></math></span></div> <p>From infinity, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>k</mi><mi>q</mi><mi mathvariant="normal">/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">V = kq/r</annotation></semantics></math></span>, drawn as height for +1 nC. The circles are equipotentials every 30 V; they crowd in where the hill is steep. <b><i>E</i></b> points straight downhill, as big as the slope: <b><i>E</i></b> = −∇<i>V</i>, or <i>E</i> = <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mi>d</mi><mi>V</mi><mi mathvariant="normal">/</mi><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">-dV/dr</annotation></semantics></math></span>.</p> <div></div> <p></p> <p>Click to lift the hill off its map. Height: one square per 60 V (rounded above 150 V); <b><i>E</i></b>: one square per kN/C.</p></article>
+<article><h2><a href="#4">11.4 · The dipole</a></h2><p><i>potentials add as numbers</i></p>
+<p>Potential is a scalar: for several charges, add each <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>q</mi><mi mathvariant="normal">/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">kq/r</annotation></semantics></math></span> with its sign. No components.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>V</mi><mtext>axis</mtext></msub><mo>=</mo><mo>−</mo><mfrac><mrow><mn>2</mn><mi>a</mi><mi>k</mi><mi>q</mi></mrow><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>−</mo><msup><mi>a</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">V_\text{axis} = -\frac{2akq}{x^2 - a^2}</annotation></semantics></math></span></div> <p>That is <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>q</mi><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><mi>a</mi><mo stretchy="false">)</mo><mo>−</mo><mi>k</mi><mi>q</mi><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mi>x</mi><mo>−</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">kq/(x + a) - kq/(x - a)</annotation></semantics></math></span> for ±1 nC, 20 cm apart: a hill beside a well. At P, 20 cm out, <i>V</i> = −59.9 V. Every point of the perpendicular bisector is equally far from both, so <i>V</i> = <b>0</b> there, though <b><i>E</i></b> is not. For two like charges <i>V</i> on the bisector is not 0: it peaks at the midpoint.</p> <div></div> <p>Click for each charge’s share at P and P′. Height: one square per 60 V. Blue: field lines traced from the model.</p></article>
+<article><h2><a href="#5">11.5 · A charged rod</a></h2><p><i>add up every dq</i></p>
+<p>Cut a spread-out charge into pieces d<i>q</i>, each adding <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mtext> </mtext><mi>d</mi><mi>q</mi><mi mathvariant="normal">/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">k \,dq/r</annotation></semantics></math></span>, and integrate.</p> <table> <tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">\lambda = Q/L</annotation></semantics></math></span>, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>q</mi><mo>=</mo><mi>λ</mi><mtext> </mtext><mi>d</mi><mi>x</mi></mrow><annotation encoding="application/x-tex">dq = \lambda\,dx</annotation></semantics></math></span></td><td>10 nC/m</td></tr> <tr><td>P, on the axis: <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>λ</mi><mi>ln</mi><mo>⁡</mo><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mi>a</mi><mo>+</mo><mi>L</mi><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">k\lambda \ln((a + L)/a)</annotation></semantics></math></span></td><td>124.6 V</td></tr> <tr><td>P′, on the bisector: <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>λ</mi><mi>ln</mi><mo>⁡</mo><mo stretchy="false">[</mo><mo stretchy="false">(</mo><mi>L</mi><mo>+</mo><mi>s</mi><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mo>−</mo><mi>L</mi><mo>+</mo><mi>s</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">k\lambda \ln[(L + s)/(-L + s)]</annotation></semantics></math></span></td><td>214.8 V</td></tr> </table> <p>+3 nC over 30 cm, values at <i>a</i> = 10 cm, with <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>=</mo><msqrt><mrow><msup><mi>L</mi><mn>2</mn></msup><mo>+</mo><mn>4</mn><msup><mi>a</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">s = \sqrt{L^2 + 4a^2}</annotation></semantics></math></span> from <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∫</mo><mtext> </mtext><mi>d</mi><mi>x</mi><mi mathvariant="normal">/</mi><msqrt><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>a</mi><mn>2</mn></msup></mrow></msqrt><mo>=</mo><mi>ln</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><msqrt><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>a</mi><mn>2</mn></msup></mrow></msqrt><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\int \,dx/\sqrt{x^2 + a^2} = \ln(x + \sqrt{x^2 + a^2})</annotation></semantics></math></span>. Far away the rod acts like a point charge (dashed).</p> <div></div> <p>Click the rod to cut it into 12 pieces d<i>q</i>.</p></article>
+<article><h2><a href="#6">11.6 · Ring, arc and disc</a></h2><p><i>when every dq is the same distance away</i></p>
+<p>At the centre of a ring or arc, every d<i>q</i> is the same distance <i>R</i> away, so <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>V</mi><mi>c</mi></msub><mo>=</mo><mo stretchy="false">(</mo><mi>k</mi><mi mathvariant="normal">/</mi><mi>R</mi><mo stretchy="false">)</mo><mo>∫</mo><mi>d</mi><mi>q</mi><mo>=</mo><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">V_c = (k/R)\int dq = kQ/R</annotation></semantics></math></span>.</p> <table> <tr><td>ring, on its axis</td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><msqrt><mrow><msup><mi>R</mi><mn>2</mn></msup><mo>+</mo><msup><mi>z</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">kQ/\sqrt{R^2 + z^2}</annotation></semantics></math></span></td></tr> <tr><td>disc, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>q</mi><mo>=</mo><mi>σ</mi><mo>⋅</mo><mn>2</mn><mi>π</mi><mi>r</mi><mtext> </mtext><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">dq = \sigma\cdot 2\pi r\,dr</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>π</mi><mi>k</mi><mi>σ</mi><mo stretchy="false">(</mo><msqrt><mrow><msup><mi>R</mi><mn>2</mn></msup><mo>+</mo><msup><mi>z</mi><mn>2</mn></msup></mrow></msqrt><mo>−</mo><mi>z</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">2\pi k\sigma(\sqrt{R^2 + z^2} - z)</annotation></semantics></math></span></td></tr> <tr><td>disc centre, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><mi>π</mi><msup><mi>R</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\sigma = Q/\pi R^2</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">2kQ/R</annotation></semantics></math></span></td></tr> </table> <p>Each +2 nC, <i>R</i> = 15 cm. Ring and half-ring centres: 119.9 V. Disc centre: 239.7 V, twice as much, since the same charge sits closer.</p> <div></div> <p>Click the ring, arc or disc to break it into pieces d<i>q</i>.</p></article>
+<article><h2><a href="#7">11.7 · Charged spheres</a></h2><p><i>conductor and insulator</i></p>
+<p>Find <b><i>E</i></b> in each region with Gauss’s law, then walk in from infinity: ∞ → <i>R</i> outside, <i>R</i> → <i>r</i> inside.</p> <p>Outside, both act like a point charge, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>=</mo><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">V = kQ/r</annotation></semantics></math></span>. Inside a <b>conductor</b> <i>E</i> = 0, so <i>V</i> stays <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">kQ/R</annotation></semantics></math></span> = 179.8 V. Inside an <b>insulator</b> <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mi>k</mi><mi>Q</mi><mi>r</mi><mi mathvariant="normal">/</mi><msup><mi>R</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">E = kQr/R^3</annotation></semantics></math></span> keeps adding:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>V</mi><mo>=</mo><mfrac><mrow><mi>k</mi><mi>Q</mi></mrow><mi>R</mi></mfrac><mrow><mo fence="true">(</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>−</mo><mfrac><msup><mi>r</mi><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>R</mi><mn>2</mn></msup></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">V = \frac{kQ}{R}\left(\frac32 - \frac{r^2}{2R^2}\right)</annotation></semantics></math></span></div> <p><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><mn>2</mn><mi>R</mi></mrow><annotation encoding="application/x-tex">3kQ/2R</annotation></semantics></math></span> = 269.7 V at the centre (+2 nC, <i>R</i> = 10 cm). <i>V</i> never jumps.</p> <div></div> <p>Click a sphere for <b><i>E</i></b> along the path. Sticks: one square per 150 V; <b><i>E</i></b>: one square per 2.5 kN/C.</p></article>
+<article><h2><a href="#8">11.8 · The electron volt</a></h2><p><i>energy from a potential difference</i></p>
+<p>Let a charge go: potential energy turns into kinetic, and mechanical energy is conserved.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>q</mi><msub><mi>V</mi><mn>0</mn></msub><mo>=</mo><mi>q</mi><msub><mi>V</mi><mtext>f</mtext></msub><mo>+</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>m</mi><msup><mi>v</mi><mn>2</mn></msup><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><mi>v</mi><mo>=</mo><msqrt><mfrac><mrow><mn>2</mn><mi>q</mi><mtext> </mtext><mi mathvariant="normal">Δ</mi><mi>V</mi></mrow><mi>m</mi></mfrac></msqrt></mrow><annotation encoding="application/x-tex">qV_0 = qV_\text{f} + \tfrac12 mv^2 \quad\Rightarrow\quad v = \sqrt{\frac{2q\,\Delta V}{m}}</annotation></semantics></math></span></div> <p>A proton rolls “downhill” with <b><i>E</i></b> from 7 V to 1 V; an electron goes the other way. Each gains 6 <b>eV</b> (1 eV = 1.60 × 10⁻19 J, one <i>e</i> through 1 V), but the electron is 1833 times lighter:</p> <table> <tr><th></th><th>proton</th><th>electron</th></tr> <tr><td>final speed</td><td>33.9 km/s</td><td>1.45 × 10⁶ m/s</td></tr> <tr><td>time across 6 cm</td><td>3.54 μs</td><td>83 ns</td></tr> </table> <div></div> <p>Each slowed to cross in 3 s. Click for forces and strobes. 1 square = 1 cm; <b><i>E</i></b>: one square per 50 V/m.</p></article>
+<p><a href="/physics/gauss/">← Gauss’s Law</a> · <a href="/physics/capacitors/">Capacitors and Conductors →</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

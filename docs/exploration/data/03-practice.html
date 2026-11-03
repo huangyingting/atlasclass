@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="en" data-view="subjects"><head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Practice · Atlas</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="AP-style practice for every chapter of the Atlas, graded as you go, with the working shown on the figure.">
+<meta property="og:title" content="Practice · Atlas"><meta property="og:description" content="AP-style practice for every chapter of the Atlas, graded as you go, with the working shown on the figure.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/kinematics.jpg"><meta property="og:url" content="https://atlasclass.app/practice/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/atlas.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/subjects.css">
+<style>
+  /* one subject (html[data-s]): its sets alone, under breadcrumbs, and no view toggle */
+  html:not([data-s]) .crumbs, html[data-s] .seg, html[data-s] .v-subjects, html[data-s] .unit-list > h2 { display: none; }
+  html[data-s] .v-chapters { display: block; }
+  html[data-s] .subhead { margin-top: 18px; }
+  .unit-list { margin-bottom: 48px; }
+  /* the jump strip (phones) is for the lists, not the subject cards */
+  html:not([data-s]):not([data-view="chapters"]) .jump, .jump:empty { display: none; }
+</style>
+<!-- one subject (?s=physics), or the view chosen last time; set before the first paint so nothing swaps in -->
+<script>{ const s = new URLSearchParams(location.search).get('s'), r = document.documentElement;
+  if (s) r.dataset.s = s; else try { if (localStorage.practiceView === 'chapters') r.dataset.view = 'chapters'; } catch {} }</script>
+<link rel="stylesheet" href="/nav.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/practice/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/practice/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/practice/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/practice/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/practice/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/practice/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/practice/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/practice/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/practice/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/practice/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/practice/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/practice/">
+<link rel="canonical" href="https://atlasclass.app/practice/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+</head>
+<body>
+<header id="top"><a class="brand" href="/">Atlas</a><nav id="site-menu" aria-label="Site" popover=""><a href="/subjects/">Subjects</a><a href="/practice/" aria-current="page">Practice</a><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></nav><a id="nav-auth" href="/login/?next=%2Fpractice%2F">Log in</a><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+  <button type="button" class="menu" popovertarget="site-menu" aria-label="Menu"><i></i><i></i><i></i></button></header><script>(() => { const a = document.getElementById('nav-auth'), p = location.pathname; let on = false;
+  try { on = Object.keys(localStorage).some(k => /^sb-.+-auth-token$/.test(k)); } catch {}
+  if (on) { a.textContent = 'Account'; a.href = '/account/'; } else if (!p.startsWith('/login')) a.href = '/login/?next=' + encodeURIComponent(p + location.search);
+  if (p.startsWith(on ? '/account' : '/login')) a.setAttribute('aria-current', 'page'); })();</script>
+<main>
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/practice/">Practice</a><span>/</span><span id="crumb"></span></nav>
+  <div class="subhead">
+    <h1 id="title">Practice</h1>
+    <div class="seg" role="group" aria-label="View">
+      <button type="button" data-v="subjects" aria-pressed="true">By subject</button><button type="button" data-v="chapters" aria-pressed="false">All chapters</button>
+    </div>
+  </div>
+  <p class="lede">AP-style problem sets for every chapter, graded as you go, with worked solutions.</p>
+  <!-- skeletons until the page knows who's here (Premium, remembered from last time, has no banner) -->
+  <div class="banner" id="banner"><p>Try sample questions on any chapter, no account needed. A free account opens any <b>3 sets</b>.</p>
+       <span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ghost" href="/physics/kinematics/?samples=1#0">Try samples</a><a class="btn" href="/login/?next=%2Fpractice%2F">Make a free account</a></span></div>
+  <script>try { if (localStorage.premium === '1') document.getElementById('banner').hidden = true; } catch {}</script>
+  <p class="err" id="err" hidden=""></p>
+  <nav class="jump" id="jump" aria-label="Chapters"><a href="#kinematics">1 Kinematics</a><a href="#newton">2 Newton’s laws</a><a href="#circular">3 Circular motion</a><a href="#energy">4 Work and energy</a><a href="#momentum">5 Momentum</a><a href="#oscillations">6 Oscillations</a><a href="#rotation">7 Rotation</a><a href="#fluids">8 Fluids</a><a href="#electrostatics">9 Electrostatics</a><a href="#gauss">10 Gauss’s law</a><a href="#potential">11 Electric potential</a><a href="#capacitors">12 Capacitors</a><a href="#circuits">13 Circuits</a><a href="#magnetism">14 Magnetic fields</a><a href="#induction">15 Induction</a><a href="#limits">1 Limits and continuity</a><a href="#derivatives">2 Derivatives</a><a href="#composite">3 Composite, implicit and inverse functions</a><a href="#rates">4 Derivatives in context</a><a href="#extrema">5 Analyzing functions</a><a href="#integrals">6 Integration and accumulation</a><a href="#diffeq">7 Differential equations</a><a href="#applications">8 Applications of integration</a><a href="#parametric">9 Parametric, polar and vector functions</a><a href="#series">10 Infinite series</a><a href="#onevar">1 Exploring one-variable data</a><a href="#twovar">2 Exploring two-variable data</a><a href="#collecting">3 Collecting data</a><a href="#probability">4 Probability and random variables</a><a href="#sampling">5 Sampling distributions</a><a href="#proportions">6 Inference for proportions</a><a href="#means">7 Inference for means</a><a href="#chisquare">8 Chi-square tests</a><a href="#slopes">9 Inference for slopes</a></nav>
+  <section class="v-subjects subjects"><a class="subject" href="?s=physics">
+    <img src="/physics/img/kinematics.jpg" alt="A ball thrown straight up beside a position axis, with velocity and acceleration arrows and motion graphs" width="900" height="804">
+    <div class="body"><h2>Physics</h2><span class="sub">AP Physics 1 and Physics C</span>
+      <ul><li>AP Physics 1/C · Mechanics <span>47 sets</span></li><li>AP Physics C · Electricity and magnetism <span>35 sets</span></li></ul></div></a><a class="subject" href="?s=calculus">
+    <img src="/calculus/img/limits.jpg" alt="The graph of y = sin x / x on graph paper, with an open circle at (0, 1) and a red and a blue point sliding toward it from either side" width="900" height="804">
+    <div class="body"><h2>Calculus</h2><span class="sub">AP Calculus AB and BC</span>
+      <ul><li>AP Calculus AB <span>37 sets</span></li><li>AP Calculus BC <span>9 sets</span></li></ul></div></a><a class="subject" href="?s=statistics">
+    <img src="/statistics/img/onevar.jpg" alt="Forty commute times stacked as balls on a dotplot, one student in red, above a blue histogram of the same times in 5-minute bins" width="900" height="804">
+    <div class="body"><h2>Statistics</h2><span class="sub">AP Statistics</span>
+      <ul><li>AP Statistics <span>49 sets</span></li></ul></div></a></section>
+  <section class="v-chapters"><div class="unit-list" data-s="physics"><h2><a href="?s=physics">Physics</a><small>AP Physics 1 and Physics C</small></h2>
+    <h3>AP Physics 1/C · Mechanics</h3><section class="chapter" id="kinematics"><h2>1. Kinematics<a href="/physics/kinematics/">Read the chapter →</a><a href="/physics/kinematics/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/kinematics/?set=kinematics-1#0" class="">
+      <span class="pg">1–1.2</span><span class="t">Kinematics, Position, Velocity</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/kinematics/?set=kinematics-2#3" class="">
+      <span class="pg">1.3–1.4</span><span class="t">Acceleration, Motion graphs</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/kinematics/?set=kinematics-3#5" class="">
+      <span class="pg">1.5–1.6</span><span class="t">The kinematic equations, Projectile motion</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/kinematics/?set=kinematics-4#7" class="">
+      <span class="pg">1.7–1.8</span><span class="t">Reference frames, Crossing a river</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/kinematics/?set=kinematics-5#9" class="">
+      <span class="pg">1.9–1.10</span><span class="t">Calculus kinematics, Motion from x(t)</span><span class="tag">6 questions · free</span></a></li></ul></section><section class="chapter" id="newton"><h2>2. Newton’s laws<a href="/physics/newton/">Read the chapter →</a><a href="/physics/newton/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/newton/?set=newton-1#0" class="">
+      <span class="pg">2–2.2</span><span class="t">Newton’s laws, Tension, The first law</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/newton/?set=newton-2#3" class="">
+      <span class="pg">2.3–2.4</span><span class="t">Level flight, The second law</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/newton/?set=newton-3#5" class="">
+      <span class="pg">2.5–2.6</span><span class="t">What pushes a car?, Friction</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/newton/?set=newton-4#7" class="">
+      <span class="pg">2.7–2.8</span><span class="t">The third law, Choosing a system</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/newton/?set=newton-5#9" class="">
+      <span class="pg">2.9–2.10</span><span class="t">The centre of mass accelerates, The inclined plane</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/newton/?set=newton-6#11" class="">
+      <span class="pg">2.11–2.12</span><span class="t">Drag proportional to v, Real fluids</span><span class="tag">7 questions · free</span></a></li></ul></section><section class="chapter" id="circular"><h2>3. Circular motion<a href="/physics/circular/">Read the chapter →</a><a href="/physics/circular/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/circular/?set=circular-1#0" class="">
+      <span class="pg">3–3.2</span><span class="t">Circular motion, Centripetal force, A car on a curve</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/circular/?set=circular-2#3" class="">
+      <span class="pg">3.3–3.4</span><span class="t">Swung in a cone, Vertical circles</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/circular/?set=circular-3#5" class="">
+      <span class="pg">3.5–3.6</span><span class="t">Banked curves, Angular velocity</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/circular/?set=circular-4#7" class="">
+      <span class="pg">3.7–3.8</span><span class="t">Gravitation, Orbits</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/circular/?set=circular-5#9" class="">
+      <span class="pg">3.9–3.10</span><span class="t">Elliptical orbits, Energy on an orbit</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/circular/?set=circular-6#11" class="">
+      <span class="pg">3.11–3.12</span><span class="t">Potential energy, Escape</span><span class="tag">6 questions · free</span></a></li></ul></section><section class="chapter" id="energy"><h2>4. Work and energy<a href="/physics/energy/">Read the chapter →</a><a href="/physics/energy/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/energy/?set=energy-1#0" class="">
+      <span class="pg">4–4.1</span><span class="t">Work, Positive and negative work</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/energy/?set=energy-2#2" class="">
+      <span class="pg">4.2–4.3</span><span class="t">Forces that do no work, Kinetic energy</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/energy/?set=energy-3#4" class="">
+      <span class="pg">4.4–4.5</span><span class="t">Gravitational potential energy, Spring potential energy</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/energy/?set=energy-4#6" class="">
+      <span class="pg">4.6–4.7</span><span class="t">Work by a changing force, Conservation of energy</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/energy/?set=energy-5#8" class="">
+      <span class="pg">4.8–4.9</span><span class="t">Force from potential energy, Energy diagrams</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/energy/?set=energy-6#10" class="">
+      <span class="pg">4.10–4.11</span><span class="t">When it isn’t conserved, Power</span><span class="tag">6 questions · free</span></a></li></ul></section><section class="chapter" id="momentum"><h2>5. Momentum<a href="/physics/momentum/">Read the chapter →</a><a href="/physics/momentum/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/momentum/?set=momentum-1#0" class="">
+      <span class="pg">5–5.1</span><span class="t">Momentum, Impulse</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/momentum/?set=momentum-2#2" class="">
+      <span class="pg">5.2–5.3</span><span class="t">Less force, Conservation</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/momentum/?set=momentum-3#4" class="">
+      <span class="pg">5.4–5.5</span><span class="t">Elastic collisions, Explosions</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/momentum/?set=momentum-4#6" class="">
+      <span class="pg">5.6–5.7</span><span class="t">Ballistic pendulum, Two dimensions</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/momentum/?set=momentum-5#8" class="">
+      <span class="pg">5.8–5.9</span><span class="t">Centre of mass, Solid bodies</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/momentum/?set=momentum-6#10" class="">
+      <span class="pg">5.10–5.11</span><span class="t">Plates, Parts and holes</span><span class="tag">5 questions · free</span></a></li></ul></section><section class="chapter" id="oscillations"><h2>6. Oscillations<a href="/physics/oscillations/">Read the chapter →</a><a href="/physics/oscillations/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/oscillations/?set=oscillations-1#0" class="">
+      <span class="pg">6–6.2</span><span class="t">Oscillations, Hooke’s law, x, v and a</span><span class="tag">10 questions · free</span></a></li><li><a href="/physics/oscillations/?set=oscillations-2#3" class="">
+      <span class="pg">6.3–6.4</span><span class="t">Energy, A hanging spring</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/oscillations/?set=oscillations-3#5" class="">
+      <span class="pg">6.5–6.6</span><span class="t">The pendulum, Double the period</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/oscillations/?set=oscillations-4#7" class="">
+      <span class="pg">6.7–6.8</span><span class="t">What it ignores, The SHM equation</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/oscillations/?set=oscillations-5#9" class="">
+      <span class="pg">6.9–6.10</span><span class="t">Physical pendulums, The torsion pendulum</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/oscillations/?set=oscillations-6#11" class="">
+      <span class="pg">6.11</span><span class="t">Everyday oscillators</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="rotation"><h2>7. Rotation<a href="/physics/rotation/">Read the chapter →</a><a href="/physics/rotation/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/rotation/?set=rotation-1#0" class="">
+      <span class="pg">7–7.1</span><span class="t">Rotation, Two riders</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/rotation/?set=rotation-2#2" class="">
+      <span class="pg">7.2–7.3</span><span class="t">Torque, Equilibrium</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/rotation/?set=rotation-3#4" class="">
+      <span class="pg">7.4–7.5</span><span class="t">The ladder, Moment of inertia</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/rotation/?set=rotation-4#6" class="">
+      <span class="pg">7.6–7.7</span><span class="t">Adding up I, Parallel axes</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/rotation/?set=rotation-5#8" class="">
+      <span class="pg">7.8–7.10</span><span class="t">Work and power, Rolling, Sliding, then rolling</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/rotation/?set=rotation-6#11" class="">
+      <span class="pg">7.11–7.13</span><span class="t">The well, Angular impulse, The spin</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/rotation/?set=rotation-7#14" class="">
+      <span class="pg">7.14</span><span class="t">L of a particle</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="fluids"><h2>8. Fluids<a href="/physics/fluids/">Read the chapter →</a><a href="/physics/fluids/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/fluids/?set=fluids-1#0" class="">
+      <span class="pg">8–8.1</span><span class="t">Fluids, Pressure</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/fluids/?set=fluids-2#2" class="">
+      <span class="pg">8.2–8.3</span><span class="t">Pressure and depth, Pascal’s principle</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/fluids/?set=fluids-3#4" class="">
+      <span class="pg">8.4–8.5</span><span class="t">Buoyancy, Float or sink</span><span class="tag">10 questions · free</span></a></li><li><a href="/physics/fluids/?set=fluids-4#6" class="">
+      <span class="pg">8.6–8.7</span><span class="t">Continuity, Bernoulli</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/fluids/?set=fluids-5#8" class="">
+      <span class="pg">8.8</span><span class="t">Torricelli’s law</span><span class="tag">4 questions · free</span></a></li></ul></section><h3>AP Physics C · Electricity and magnetism</h3><section class="chapter" id="electrostatics"><h2>9. Electrostatics<a href="/physics/electrostatics/">Read the chapter →</a><a href="/physics/electrostatics/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/electrostatics/?set=electrostatics-1#0" class="">
+      <span class="pg">9–9.1</span><span class="t">Electric charge, Charging objects</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/electrostatics/?set=electrostatics-2#2" class="">
+      <span class="pg">9.2–9.3</span><span class="t">Coulomb’s law, Net force</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/electrostatics/?set=electrostatics-3#4" class="">
+      <span class="pg">9.4–9.5</span><span class="t">The electric field, The electric dipole</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/electrostatics/?set=electrostatics-4#6" class="">
+      <span class="pg">9.6–9.7</span><span class="t">A charged rod, A ring of charge</span><span class="tag">10 questions · free</span></a></li><li><a href="/physics/electrostatics/?set=electrostatics-5#8" class="">
+      <span class="pg">9.8</span><span class="t">A uniform field</span><span class="tag">4 questions · free</span></a></li></ul></section><section class="chapter" id="gauss"><h2>10. Gauss’s law<a href="/physics/gauss/">Read the chapter →</a><a href="/physics/gauss/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/gauss/?set=gauss-1#0" class="">
+      <span class="pg">10–10.1</span><span class="t">Electric flux, Gauss’s law</span><span class="tag">10 questions · free</span></a></li><li><a href="/physics/gauss/?set=gauss-2#2" class="">
+      <span class="pg">10.2–10.3</span><span class="t">A line of charge, Sheets and plates</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/gauss/?set=gauss-3#4" class="">
+      <span class="pg">10.4–10.5</span><span class="t">A metal sphere, Insulating sphere</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/gauss/?set=gauss-4#6" class="">
+      <span class="pg">10.6–10.7</span><span class="t">Charged rods, Uneven charge</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/gauss/?set=gauss-5#8" class="">
+      <span class="pg">10.8</span><span class="t">Conductors</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="potential"><h2>11. Electric potential<a href="/physics/potential/">Read the chapter →</a><a href="/physics/potential/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/potential/?set=potential-1#0" class="">
+      <span class="pg">11–11.1</span><span class="t">Electric potential energy, Assembling charges</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/potential/?set=potential-2#2" class="">
+      <span class="pg">11.2–11.3</span><span class="t">Electric potential, The potential hill</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/potential/?set=potential-3#4" class="">
+      <span class="pg">11.4–11.5</span><span class="t">The dipole, A charged rod</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/potential/?set=potential-4#6" class="">
+      <span class="pg">11.6–11.7</span><span class="t">Ring, arc and disc, Charged spheres</span><span class="tag">10 questions · free</span></a></li><li><a href="/physics/potential/?set=potential-5#8" class="">
+      <span class="pg">11.8</span><span class="t">The electron volt</span><span class="tag">4 questions · free</span></a></li></ul></section><section class="chapter" id="capacitors"><h2>12. Capacitors<a href="/physics/capacitors/">Read the chapter →</a><a href="/physics/capacitors/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/capacitors/?set=capacitors-1#0" class="">
+      <span class="pg">12–12.1</span><span class="t">Capacitors, Parallel plates</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/capacitors/?set=capacitors-2#2" class="">
+      <span class="pg">12.2–12.3</span><span class="t">Two spheres, Two cylinders</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/capacitors/?set=capacitors-3#4" class="">
+      <span class="pg">12.4–12.5</span><span class="t">Stored energy, Series and parallel</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/capacitors/?set=capacitors-4#6" class="">
+      <span class="pg">12.6–12.7</span><span class="t">Dielectrics, Connected or not</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/capacitors/?set=capacitors-5#8" class="">
+      <span class="pg">12.8</span><span class="t">Conductors</span><span class="tag">5 questions · free</span></a></li></ul></section><section class="chapter" id="circuits"><h2>13. Circuits<a href="/physics/circuits/">Read the chapter →</a><a href="/physics/circuits/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/circuits/?set=circuits-1#0" class="">
+      <span class="pg">13–13.1</span><span class="t">Current, Resistance</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/circuits/?set=circuits-2#2" class="">
+      <span class="pg">13.2–13.3</span><span class="t">Ohm’s law, Power</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/circuits/?set=circuits-3#4" class="">
+      <span class="pg">13.4–13.5</span><span class="t">Emf, Series and parallel</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/circuits/?set=circuits-4#6" class="">
+      <span class="pg">13.6–13.7</span><span class="t">Combinations, Kirchhoff’s rules</span><span class="tag">8 questions · free</span></a></li><li><a href="/physics/circuits/?set=circuits-5#8" class="">
+      <span class="pg">13.8</span><span class="t">RC circuits</span><span class="tag">5 questions · free</span></a></li></ul></section><section class="chapter" id="magnetism"><h2>14. Magnetic fields<a href="/physics/magnetism/">Read the chapter →</a><a href="/physics/magnetism/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/magnetism/?set=magnetism-1#0" class="">
+      <span class="pg">14–14.1</span><span class="t">Magnetic fields, The magnetic force</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/magnetism/?set=magnetism-2#2" class="">
+      <span class="pg">14.2–14.3</span><span class="t">Circling in a field, Crossed E and B</span><span class="tag">10 questions · free</span></a></li><li><a href="/physics/magnetism/?set=magnetism-3#4" class="">
+      <span class="pg">14.4–14.5</span><span class="t">Force on a current, Ampère’s law</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/magnetism/?set=magnetism-4#6" class="">
+      <span class="pg">14.6–14.7</span><span class="t">Biot–Savart, Parallel wires</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/magnetism/?set=magnetism-5#8" class="">
+      <span class="pg">14.8</span><span class="t">Solenoids</span><span class="tag">4 questions · free</span></a></li></ul></section><section class="chapter" id="induction"><h2>15. Induction<a href="/physics/induction/">Read the chapter →</a><a href="/physics/induction/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/physics/induction/?set=induction-1#0" class="">
+      <span class="pg">15–15.1</span><span class="t">Induction, Lenz’s law</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/induction/?set=induction-2#2" class="">
+      <span class="pg">15.2–15.3</span><span class="t">Mutual induction, Leaving a wire</span><span class="tag">9 questions · free</span></a></li><li><a href="/physics/induction/?set=induction-3#4" class="">
+      <span class="pg">15.4–15.5</span><span class="t">Motional emf, Through a field</span><span class="tag">6 questions · free</span></a></li><li><a href="/physics/induction/?set=induction-4#6" class="">
+      <span class="pg">15.6–15.7</span><span class="t">A bar on rails, Inductance</span><span class="tag">7 questions · free</span></a></li><li><a href="/physics/induction/?set=induction-5#8" class="">
+      <span class="pg">15.8–15.9</span><span class="t">RL circuits, LC oscillations</span><span class="tag">8 questions · free</span></a></li></ul></section></div><div class="unit-list" data-s="calculus"><h2><a href="?s=calculus">Calculus</a><small>AP Calculus AB and BC</small></h2>
+    <h3>AP Calculus AB</h3><section class="chapter" id="limits"><h2>1. Limits and continuity<a href="/calculus/limits/">Read the chapter →</a><a href="/calculus/limits/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/limits/?set=limits-1#1" class="">
+      <span class="pg">1.1–1.3</span><span class="t">Change at an instant, The limit, Limits from graphs</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/limits/?set=limits-2#4" class="">
+      <span class="pg">1.4–1.6</span><span class="t">Limits from tables, Limit properties, Algebraic manipulation</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/limits/?set=limits-3#7" class="">
+      <span class="pg">1.7–1.9</span><span class="t">Selecting procedures, The squeeze theorem, Multiple representations</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/limits/?set=limits-4#10" class="">
+      <span class="pg">1.10–1.12</span><span class="t">Types of discontinuities, Continuity at a point, Continuity over an interval</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/limits/?set=limits-5#13" class="">
+      <span class="pg">1.13–1.15</span><span class="t">Removing discontinuities, Infinite limits, Limits at infinity</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/limits/?set=limits-6#16" class="">
+      <span class="pg">1.16</span><span class="t">The Intermediate Value Theorem</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="derivatives"><h2>2. Derivatives<a href="/calculus/derivatives/">Read the chapter →</a><a href="/calculus/derivatives/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/derivatives/?set=derivatives-1#1" class="">
+      <span class="pg">2.1–2.2</span><span class="t">Rates of change, The derivative</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/derivatives/?set=derivatives-2#3" class="">
+      <span class="pg">2.3–2.4</span><span class="t">Estimating derivatives, Differentiability and continuity</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/derivatives/?set=derivatives-3#5" class="">
+      <span class="pg">2.5–2.6</span><span class="t">The power rule, Sums and constant multiples</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/derivatives/?set=derivatives-4#7" class="">
+      <span class="pg">2.7–2.8</span><span class="t">Sine, cosine, eˣ and ln x, The product rule</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/derivatives/?set=derivatives-5#9" class="">
+      <span class="pg">2.9–2.10</span><span class="t">The quotient rule, Tangent, cotangent, secant, cosecant</span><span class="tag">6 questions · free</span></a></li></ul></section><section class="chapter" id="composite"><h2>3. Composite, implicit and inverse functions<a href="/calculus/composite/">Read the chapter →</a><a href="/calculus/composite/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/composite/?set=composite-1#1" class="">
+      <span class="pg">3.1–3.2</span><span class="t">The chain rule, The chain rule on a graph</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/composite/?set=composite-2#3" class="">
+      <span class="pg">3.3–3.5</span><span class="t">Implicit differentiation, A curve no formula can solve, Derivatives of inverse functions</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/composite/?set=composite-3#6" class="">
+      <span class="pg">3.6–3.9</span><span class="t">Inverse trigonometric functions, Selecting a procedure, Higher-order derivatives, Second derivatives implicitly</span><span class="tag">10 questions · free</span></a></li></ul></section><section class="chapter" id="rates"><h2>4. Derivatives in context<a href="/calculus/rates/">Read the chapter →</a><a href="/calculus/rates/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/rates/?set=rates-1#1" class="">
+      <span class="pg">4.1–4.2</span><span class="t">The derivative in context, Position, velocity, acceleration</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/rates/?set=rates-2#3" class="">
+      <span class="pg">4.3–4.5</span><span class="t">Speeding up or slowing down, Rates in other contexts, Rates from a table</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/rates/?set=rates-3#6" class="">
+      <span class="pg">4.6–4.8</span><span class="t">Related rates, The sliding ladder, The filling cone</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/rates/?set=rates-4#9" class="">
+      <span class="pg">4.9–4.11</span><span class="t">The lengthening shadow, Local linearity, Over or under?</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/rates/?set=rates-5#12" class="">
+      <span class="pg">4.12–4.13</span><span class="t">L’Hôpital’s rule, L’Hôpital at infinity</span><span class="tag">5 questions · free</span></a></li></ul></section><section class="chapter" id="extrema"><h2>5. Analyzing functions<a href="/calculus/extrema/">Read the chapter →</a><a href="/calculus/extrema/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/extrema/?set=extrema-1#1" class="">
+      <span class="pg">5.1–5.3</span><span class="t">The Mean Value Theorem, Extreme values, Increasing and decreasing</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/extrema/?set=extrema-2#4" class="">
+      <span class="pg">5.4–5.6</span><span class="t">The first derivative test, The candidates test, Concavity</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/extrema/?set=extrema-3#7" class="">
+      <span class="pg">5.7–5.9</span><span class="t">The second derivative test, Sketching f, f′ and f″, Reading f from f′</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/extrema/?set=extrema-4#10" class="">
+      <span class="pg">5.10–5.12</span><span class="t">Introduction to optimization, Solving optimization problems, Implicit relations</span><span class="tag">7 questions · free</span></a></li></ul></section><section class="chapter" id="integrals"><h2>6. Integration and accumulation<a href="/calculus/integrals/">Read the chapter →</a><a href="/calculus/integrals/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/integrals/?set=integrals-1#1" class="">
+      <span class="pg">6.1–6.3</span><span class="t">Accumulating change, Riemann sums, The definite integral</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/integrals/?set=integrals-2#4" class="">
+      <span class="pg">6.4–6.6</span><span class="t">Accumulation functions, Reading an accumulation function, Properties of definite integrals</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/integrals/?set=integrals-3#7" class="">
+      <span class="pg">6.7–6.9</span><span class="t">The Fundamental Theorem, part two, Antiderivatives, Substitution</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/integrals/?set=integrals-4#10" class="">
+      <span class="pg">6.10–6.12</span><span class="t">Division and completing the square, Integration by parts, Partial fractions</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/integrals/?set=integrals-5#13" class="">
+      <span class="pg">6.13–6.14</span><span class="t">Improper integrals, Choosing a technique</span><span class="tag">4 questions · free</span></a></li></ul></section><section class="chapter" id="diffeq"><h2>7. Differential equations<a href="/calculus/diffeq/">Read the chapter →</a><a href="/calculus/diffeq/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/diffeq/?set=diffeq-1#1" class="">
+      <span class="pg">7.1–7.3</span><span class="t">Modeling with differential equations, Verifying solutions, Sketching slope fields</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/diffeq/?set=diffeq-2#4" class="">
+      <span class="pg">7.4–7.5</span><span class="t">Reasoning using slope fields, Euler’s method</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/diffeq/?set=diffeq-3#6" class="">
+      <span class="pg">7.6–7.8</span><span class="t">Separation of variables, Particular solutions, Exponential models</span><span class="tag">9 questions · free</span></a></li><li><a href="/calculus/diffeq/?set=diffeq-4#9" class="">
+      <span class="pg">7.9</span><span class="t">Logistic models</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="applications"><h2>8. Applications of integration<a href="/calculus/applications/">Read the chapter →</a><a href="/calculus/applications/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/applications/?set=applications-1#1" class="">
+      <span class="pg">8.1–8.3</span><span class="t">Average value, Motion along a line, Accumulation in context</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/applications/?set=applications-2#4" class="">
+      <span class="pg">8.4–8.6</span><span class="t">Area between curves, Area in y, More than two crossings</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/applications/?set=applications-3#7" class="">
+      <span class="pg">8.7–8.8</span><span class="t">Cross sections: squares and rectangles, Cross sections: triangles and semicircles</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/applications/?set=applications-4#9" class="">
+      <span class="pg">8.9–8.11</span><span class="t">The disc method, Discs about other axes, The washer method</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/applications/?set=applications-5#12" class="">
+      <span class="pg">8.12–8.13</span><span class="t">Washers about other axes, Arc length</span><span class="tag">4 questions · free</span></a></li></ul></section><h3>AP Calculus BC</h3><section class="chapter" id="parametric"><h2>9. Parametric, polar and vector functions<a href="/calculus/parametric/">Read the chapter →</a><a href="/calculus/parametric/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/parametric/?set=parametric-1#1" class="">
+      <span class="pg">9.1–9.3</span><span class="t">Parametric equations, The slope of a parametric curve, The second derivative</span><span class="tag">7 questions · free</span></a></li><li><a href="/calculus/parametric/?set=parametric-2#4" class="">
+      <span class="pg">9.4–9.6</span><span class="t">Arc length, Vector-valued functions, Integrating vector functions</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/parametric/?set=parametric-3#7" class="">
+      <span class="pg">9.7–9.9</span><span class="t">Motion in the plane, Polar coordinates, Slopes of polar curves</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/parametric/?set=parametric-4#10" class="">
+      <span class="pg">9.10–9.11</span><span class="t">Area in polar, Area between polar curves</span><span class="tag">4 questions · free</span></a></li></ul></section><section class="chapter" id="series"><h2>10. Infinite series<a href="/calculus/series/">Read the chapter →</a><a href="/calculus/series/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/calculus/series/?set=series-1#1" class="">
+      <span class="pg">10.1–10.3</span><span class="t">Convergent and divergent series, Geometric series, The nth term test</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/series/?set=series-2#4" class="">
+      <span class="pg">10.4–10.6</span><span class="t">The integral test, Harmonic series and p-series, Comparison tests</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/series/?set=series-3#7" class="">
+      <span class="pg">10.7–10.9</span><span class="t">The alternating series test, The ratio test, Absolute or conditional convergence</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/series/?set=series-4#10" class="">
+      <span class="pg">10.10–10.12</span><span class="t">Alternating series error bound, Taylor polynomials, Lagrange error bound</span><span class="tag">6 questions · free</span></a></li><li><a href="/calculus/series/?set=series-5#13" class="">
+      <span class="pg">10.13–10.15</span><span class="t">Radius and interval of convergence, Taylor and Maclaurin series, Representing functions as power series</span><span class="tag">6 questions · free</span></a></li></ul></section></div><div class="unit-list" data-s="statistics"><h2><a href="?s=statistics">Statistics</a><small>AP Statistics</small></h2>
+    <h3>AP Statistics</h3><section class="chapter" id="onevar"><h2>1. Exploring one-variable data<a href="/statistics/onevar/">Read the chapter →</a><a href="/statistics/onevar/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/onevar/?set=onevar-1#1" class="">
+      <span class="pg">1.1–1.3</span><span class="t">Introducing statistics, The language of variation, Representing a categorical variable with tables</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/onevar/?set=onevar-2#4" class="">
+      <span class="pg">1.4–1.6</span><span class="t">Representing a categorical variable with graphs, Representing a quantitative variable with graphs, Describing the distribution of a quantitative variable</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/onevar/?set=onevar-3#7" class="">
+      <span class="pg">1.7</span><span class="t">Summary statistics: centre, Summary statistics: spread</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/onevar/?set=onevar-4#9" class="">
+      <span class="pg">1.7–1.8</span><span class="t">Changing units, Graphical representations of summary statistics</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/onevar/?set=onevar-5#11" class="">
+      <span class="pg">1.9–1.10</span><span class="t">Comparing distributions of a quantitative variable, The normal distribution, Normal calculations, Is a normal model reasonable?</span><span class="tag">10 questions · free</span></a></li></ul></section><section class="chapter" id="twovar"><h2>2. Exploring two-variable data<a href="/statistics/twovar/">Read the chapter →</a><a href="/statistics/twovar/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/twovar/?set=twovar-1#1" class="">
+      <span class="pg">2.1–2.3</span><span class="t">Are the variables related?, Two categorical variables, Joint, marginal and conditional</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/twovar/?set=twovar-2#4" class="">
+      <span class="pg">2.3–2.4</span><span class="t">Association between categorical variables, Scatterplots</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/twovar/?set=twovar-3#6" class="">
+      <span class="pg">2.5</span><span class="t">Correlation, What r does not say</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/twovar/?set=twovar-4#8" class="">
+      <span class="pg">2.6–2.8</span><span class="t">Linear regression models, Residuals, Least-squares regression</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/twovar/?set=twovar-5#11" class="">
+      <span class="pg">2.8–2.9</span><span class="t">r² and s, Outliers, leverage and influence, Transforming to a line</span><span class="tag">8 questions · free</span></a></li></ul></section><section class="chapter" id="collecting"><h2>3. Collecting data<a href="/statistics/collecting/">Read the chapter →</a><a href="/statistics/collecting/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/collecting/?set=collecting-1#1" class="">
+      <span class="pg">3.1–3.2</span><span class="t">Introducing statistics, Introduction to planning a study, Observational studies and experiments</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/collecting/?set=collecting-2#4" class="">
+      <span class="pg">3.3</span><span class="t">Random sampling and data collection, Stratified, cluster and systematic samples</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/collecting/?set=collecting-3#6" class="">
+      <span class="pg">3.4</span><span class="t">Potential problems with sampling, Bias and variability</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/collecting/?set=collecting-4#8" class="">
+      <span class="pg">3.5–3.6</span><span class="t">Introduction to experimental design, The principles of experimental design, Selecting an experimental design</span><span class="tag">7 questions · free</span></a></li><li><a href="/statistics/collecting/?set=collecting-5#11" class="">
+      <span class="pg">3.6–3.7</span><span class="t">Matched pairs design, Inference and experiments</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/collecting/?set=collecting-6#13" class="">
+      <span class="pg">3.7</span><span class="t">The scope of inference</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="probability"><h2>4. Probability and random variables<a href="/statistics/probability/">Read the chapter →</a><a href="/statistics/probability/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/probability/?set=probability-1#1" class="">
+      <span class="pg">4.1–4.3</span><span class="t">Random and non-random patterns, Estimating probabilities using simulation, Introduction to probability</span><span class="tag">7 questions · free</span></a></li><li><a href="/statistics/probability/?set=probability-2#4" class="">
+      <span class="pg">4.4–4.5</span><span class="t">Mutually exclusive events, Conditional probability, Tree diagrams</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/probability/?set=probability-3#7" class="">
+      <span class="pg">4.6–4.8</span><span class="t">Independent events and unions of events, Random variables and probability distributions, Mean and standard deviation of random variables</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/probability/?set=probability-4#10" class="">
+      <span class="pg">4.9–4.10</span><span class="t">Combining random variables, Sums and differences of random variables, Introduction to the binomial distribution</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/probability/?set=probability-5#13" class="">
+      <span class="pg">4.11–4.12</span><span class="t">Parameters for a binomial distribution, The geometric distribution</span><span class="tag">5 questions · free</span></a></li></ul></section><section class="chapter" id="sampling"><h2>5. Sampling distributions<a href="/statistics/sampling/">Read the chapter →</a><a href="/statistics/sampling/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/sampling/?set=sampling-1#1" class="">
+      <span class="pg">5.1</span><span class="t">Why is my sample not like yours?, Is it just chance?</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/sampling/?set=sampling-2#3" class="">
+      <span class="pg">5.2</span><span class="t">The normal distribution, revisited, Parameters and statistics</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/sampling/?set=sampling-3#5" class="">
+      <span class="pg">5.3–5.4</span><span class="t">The central limit theorem, Biased and unbiased point estimates</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/sampling/?set=sampling-4#7" class="">
+      <span class="pg">5.5</span><span class="t">The sampling distribution of p̂, When p̂ is approximately normal</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/sampling/?set=sampling-5#9" class="">
+      <span class="pg">5.6–5.7</span><span class="t">Differences in sample proportions, The sampling distribution of x̄</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/sampling/?set=sampling-6#11" class="">
+      <span class="pg">5.8</span><span class="t">Differences in sample means</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="proportions"><h2>6. Inference for proportions<a href="/statistics/proportions/">Read the chapter →</a><a href="/statistics/proportions/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/proportions/?set=proportions-1#1" class="">
+      <span class="pg">6.1–6.2</span><span class="t">Why be normal?, Constructing a confidence interval</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/proportions/?set=proportions-2#3" class="">
+      <span class="pg">6.2–6.3</span><span class="t">Margin of error and sample size, Interpreting a confidence interval</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/proportions/?set=proportions-3#5" class="">
+      <span class="pg">6.3–6.5</span><span class="t">Confidence level and width, Setting up a test, Interpreting p-values</span><span class="tag">8 questions · free</span></a></li><li><a href="/statistics/proportions/?set=proportions-4#8" class="">
+      <span class="pg">6.6–6.7</span><span class="t">Concluding a test, Errors and power</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/proportions/?set=proportions-5#10" class="">
+      <span class="pg">6.8–6.10</span><span class="t">An interval for a difference, Justifying a claim about a difference, Setting up a two-sample test</span><span class="tag">7 questions · free</span></a></li><li><a href="/statistics/proportions/?set=proportions-6#13" class="">
+      <span class="pg">6.11</span><span class="t">Carrying out a two-sample test</span><span class="tag">3 questions · free</span></a></li></ul></section><section class="chapter" id="means"><h2>7. Inference for means<a href="/statistics/means/">Read the chapter →</a><a href="/statistics/means/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/means/?set=means-1#1" class="">
+      <span class="pg">7.1–7.2</span><span class="t">The t distributions, A confidence interval for μ</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/means/?set=means-2#3" class="">
+      <span class="pg">7.2–7.3</span><span class="t">Checking the conditions, Justifying a claim with an interval</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/means/?set=means-3#5" class="">
+      <span class="pg">7.4–7.5</span><span class="t">Setting up a test for μ, Carrying out a test for μ</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/means/?set=means-4#7" class="">
+      <span class="pg">7.5–7.6</span><span class="t">Paired data, A confidence interval for μ₁ − μ₂</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/means/?set=means-5#9" class="">
+      <span class="pg">7.7–7.8</span><span class="t">Justifying a claim about μ₁ − μ₂, Setting up a test for μ₁ − μ₂</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/means/?set=means-6#11" class="">
+      <span class="pg">7.9–7.10</span><span class="t">Carrying out a test for μ₁ − μ₂, Choosing a procedure</span><span class="tag">6 questions · free</span></a></li></ul></section><section class="chapter" id="chisquare"><h2>8. Chi-square tests<a href="/statistics/chisquare/">Read the chapter →</a><a href="/statistics/chisquare/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/chisquare/?set=chisquare-1#1" class="">
+      <span class="pg">8.1–8.2</span><span class="t">Are my results unexpected?, Setting up a goodness-of-fit test</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/chisquare/?set=chisquare-2#3" class="">
+      <span class="pg">8.3</span><span class="t">The chi-square statistic, The p-value and the conclusion</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/chisquare/?set=chisquare-3#5" class="">
+      <span class="pg">8.3–8.4</span><span class="t">The chi-square distributions, Expected counts in two-way tables</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/chisquare/?set=chisquare-4#7" class="">
+      <span class="pg">8.5–8.6</span><span class="t">Homogeneity or independence?, Carrying out a test for a two-way table</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/chisquare/?set=chisquare-5#9" class="">
+      <span class="pg">8.6–8.7</span><span class="t">The conclusion, in context, Selecting a procedure</span><span class="tag">7 questions · free</span></a></li></ul></section><section class="chapter" id="slopes"><h2>9. Inference for slopes<a href="/statistics/slopes/">Read the chapter →</a><a href="/statistics/slopes/?samples=1#0">Try samples →</a></h2>
+    <ul class="sets"><li><a href="/statistics/slopes/?set=slopes-1#1" class="">
+      <span class="pg">9.1</span><span class="t">The population regression model, Sample slopes vary</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/slopes/?set=slopes-2#3" class="">
+      <span class="pg">9.2</span><span class="t">Conditions for inference, Reading regression output</span><span class="tag">7 questions · free</span></a></li><li><a href="/statistics/slopes/?set=slopes-3#5" class="">
+      <span class="pg">9.2–9.3</span><span class="t">A confidence interval for the slope, Justifying a claim with an interval</span><span class="tag">6 questions · free</span></a></li><li><a href="/statistics/slopes/?set=slopes-4#7" class="">
+      <span class="pg">9.4–9.5</span><span class="t">Setting up a test for the slope, Carrying out a test for the slope</span><span class="tag">7 questions · free</span></a></li><li><a href="/statistics/slopes/?set=slopes-5#9" class="">
+      <span class="pg">9.5–9.6</span><span class="t">One-sided tests, other claims, errors, Selecting an inference procedure</span><span class="tag">7 questions · free</span></a></li></ul></section></div></section>
+</main>
+<script>
+  // one subject: its sets alone, under "Practice / <subject>"; otherwise the two views, as on the subjects page
+  const root = document.documentElement, one = root.dataset.s && document.querySelector(`.unit-list[data-s="${root.dataset.s}"]`);
+  if (one) {
+    document.querySelectorAll('.unit-list').forEach(u => u.hidden = u !== one);
+    document.getElementById('crumb').textContent = document.getElementById('title').textContent = one.querySelector('h2 a').textContent;
+  } else {
+    delete root.dataset.s;
+    const set = v => { root.dataset.view = v; try { localStorage.practiceView = v; } catch {}
+      document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v)); };
+    set(root.dataset.view || 'subjects');
+    document.querySelector('.seg').onclick = e => e.target.dataset.v && set(e.target.dataset.v);
+  }
+</script>
+<script type="module">
+  import { sb, status, loginUrl, CHAPTERS, chapterPath, chapterNo, esc } from '/js/app.js';
+  const [st, { data: sets, error }] = await Promise.all([status(), sb.from('problem_sets').select('*').order('chapter_no').order('position')]);
+  const banner = document.getElementById('banner');
+  if (error) { Object.assign(document.getElementById('err'), { hidden: false, textContent: error.message }); throw error; }
+
+  // answered problems per set, from this user's attempts (ids are <set id>-NN)
+  const done = {};
+  if (st) {
+    const { data: att } = await sb.from('attempts').select('problem_id');
+    for (const id of new Set((att ?? []).map(a => a.problem_id))) { const s = id.slice(0, id.lastIndexOf('-')); done[s] = (done[s] ?? 0) + 1; }
+  }
+  // samples: the first chapter of the subject shown (of physics, otherwise)
+  const first = document.querySelector('.unit-list:not([hidden]) .chapter')?.id ?? 'kinematics';
+  const free = new Set(st?.free_sets ?? []), left = st ? st.free_limit - free.size : 3;
+
+  banner.hidden = !!st?.premium;   // Premium: nothing to say, every set is open
+  banner.innerHTML = !st
+    ? `<p>Try sample questions on any chapter, no account needed. A free account opens any <b>3 sets</b>.</p>
+       <span style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ghost" href="${chapterPath(first)}?samples=1#0">Try samples</a><a class="btn" href="${loginUrl()}">Make a free account</a></span>`
+    : st.premium ? ''
+    : `<p>${left > 0 ? `You have <b>${left} of ${st.free_limit}</b> free sets left. Pick any.` : 'You’ve used your free sets.'}</p>
+       <a class="btn" href="/pricing/">Unlock all ${sets.length} sets</a>`;
+
+  const tag = s => {
+    const d = done[s.id];
+    if (d) return `<span class="tag done">${d} / ${s.n_problems} done</span>`;
+    if (st?.premium) return `<span class="tag">${s.n_problems} questions</span>`;
+    if (free.has(s.id)) return '<span class="tag free">Your free set</span>';
+    if (left > 0) return `<span class="tag">${s.n_problems} questions · free</span>`;
+    return '<span class="tag lock">Premium</span>';
+  };
+  const locked = s => st && !st.premium && !free.has(s.id) && left <= 0;
+  const byCh = Object.groupBy(sets, s => s.chapter);
+  // each chapter's sets, in its place under its subject and unit (the build lays those out); a chapter with none goes
+  for (const sec of document.querySelectorAll('.chapter')) {
+    const ch = sec.id, ss = byCh[ch];
+    if (!ss) { sec.remove(); continue; }
+    sec.innerHTML = `<h2>${chapterNo(ch)}. ${CHAPTERS[ch] ?? ch}<a href="${chapterPath(ch)}">Read the chapter →</a><a href="${chapterPath(ch)}?samples=1#0">Try samples →</a></h2>
+    <ul class="sets">${ss.map(s => `<li><a href="${locked(s) ? '/pricing/?locked=1' : `${chapterPath(s.chapter)}?set=${s.id}#${s.page_from}`}" class="${locked(s) ? 'locked' : ''}">
+      <span class="pg">${esc(s.pages)}</span><span class="t">${esc(s.title)}</span>${tag(s)}</a></li>`).join('')}</ul>`;
+  }
+  // phones: a strip of the chapters shown, to jump down the list (app.css)
+  document.getElementById('jump').innerHTML = [...document.querySelectorAll('.unit-list:not([hidden]) .chapter')]
+    .map(sec => `<a href="#${sec.id}">${chapterNo(sec.id)} ${CHAPTERS[sec.id] ?? sec.id}</a>`).join('');
+  if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+</script>
+<footer id="foot"><canvas aria-hidden="true" width="1440" height="600"></canvas>
+  <div class="in"><div class="brand"><a class="name" href="/">Atlas</a><span class="soc">
+    <a href="https://x.com/tryatlasclass" target="_blank" rel="noopener" aria-label="Atlas on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a>
+    <a href="https://www.instagram.com/tryatlasclass/" target="_blank" rel="noopener" aria-label="Atlas on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"></rect><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle></svg></a></span></div>
+    <nav class="cols" aria-label="Footer"><div><b>Learn</b><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a></div>
+      <div><b>Plans</b><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></div>
+      <div><b>Atlas</b><a href="/about/">About</a><a href="mailto:support@atlasclass.app">support@atlasclass.app</a></div>
+      <div><b>Legal</b><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></div></nav></div>
+  <div class="base"><span>© 2026 Atlas</span><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button><select id="lang" aria-label="Language"><option value="" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option><option value="ms" lang="ms">Bahasa Melayu</option><option value="vi" lang="vi">Tiếng Việt</option><option value="zh" lang="zh-Hans">简体中文</option><option value="zh-tw" lang="zh-Hant">繁體中文</option><option value="ja" lang="ja">日本語</option><option value="ko" lang="ko">한국어</option><option value="hi" lang="hi">हिन्दी</option><option value="es" lang="es-419">Español</option><option value="pt" lang="pt-BR">Português</option></select><script>(() => { const s = document.getElementById('lang'), rest = location.pathname.replace(/^\/(id|ms|vi|zh|zh-tw|ja|ko|hi|es|pt)(?=\/)/, '');
+  s.value = document.documentElement.dataset.base?.slice(1) ?? '';
+  s.onchange = () => { try { localStorage.lang = s.value || 'en'; } catch {} location.href = (s.value && '/' + s.value) + rest + location.search + location.hash; }; })();</script><span class="ap">AP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, this site.</span></div>
+  <script type="module" src="/js/footer.js"></script><div class="spin" aria-hidden="true" style="left: 1068px; top: 84px; width: 168px; height: 168px;"></div></footer>
+
+
+</body></html>

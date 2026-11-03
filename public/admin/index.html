@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Console · Atlas</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Atlas Administration Console — Invitations, RBAC, Revocation, and Audit Logs.">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/atlas.css">
+<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/nav.css">
+<style>
+  .admin-wrap { max-width: 1120px; margin: 0 auto; padding: 48px 24px 96px; }
+  .admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 24px 0 32px; border-bottom: 1px solid rgba(128,128,128,0.2); padding-bottom: 12px; }
+  .admin-tabs button { font-family: var(--sans, Inter, sans-serif); font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 6px; border: 1px solid transparent; background: transparent; color: inherit; cursor: pointer; opacity: 0.7; }
+  .admin-tabs button[aria-selected="true"] { opacity: 1; border-color: rgba(128,128,128,0.35); background: rgba(128,128,128,0.08); }
+  .admin-card { border: 1px solid rgba(128,128,128,0.22); border-radius: 10px; padding: 20px; margin-bottom: 28px; background: rgba(128,128,128,0.03); }
+  .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; align-items: end; }
+  .admin-table-wrap { overflow-x: auto; border: 1px solid rgba(128,128,128,0.2); border-radius: 10px; }
+  table.admin-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+  table.admin-table th, table.admin-table td { padding: 12px 14px; border-bottom: 1px solid rgba(128,128,128,0.15); vertical-align: middle; }
+  table.admin-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.65; font-weight: 600; }
+  .badge { display: inline-block; font-family: var(--mono, monospace); font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid rgba(128,128,128,0.3); }
+  .badge.ACTIVE, .badge.APPROVED { color: #16a34a; border-color: rgba(22,163,74,0.4); background: rgba(22,163,74,0.08); }
+  .badge.USED { color: #2563eb; border-color: rgba(37,99,235,0.4); background: rgba(37,99,235,0.08); }
+  .badge.REVOKED, .badge.REJECTED { color: #dc2626; border-color: rgba(220,38,38,0.4); background: rgba(220,38,38,0.08); }
+  .badge.EXPIRED, .badge.PENDING { color: #d97706; border-color: rgba(217,119,6,0.4); background: rgba(217,119,6,0.08); }
+  .mono { font-family: var(--mono, monospace); font-size: 12.5px; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(128,128,128,0.35); background: transparent; color: inherit; }
+  .btn-sm.danger { color: #dc2626; border-color: rgba(220,38,38,0.45); }
+</style>
+</head>
+<body>
+<header id="top"><a class="brand" href="/">Atlas</a><nav id="site-menu" aria-label="Site" popover><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a><a href="/admin/" id="nav-admin" aria-current="page">Admin</a></nav><a id="nav-auth" href="/account/">Account</a><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  <button type="button" class="menu" popovertarget="site-menu" aria-label="Menu"><i></i><i></i><i></i></button></header>
+
+<main class="admin-wrap">
+  <div class="kicker">Administration &amp; Governance</div>
+  <h1>Admin Console</h1>
+  <p class="lede">Manage single-use invitation codes, role-based access control (RBAC), account revocation, teacher verifications, and immutable audit logs.</p>
+
+  <div id="admin-denied" class="admin-card" hidden>
+    <h2>Access Denied (403)</h2>
+    <p id="admin-denied-msg">Administrator privileges are required to view this console. Your attempt has been recorded in the security audit log.</p>
+    <p><a class="btn ghost" href="/account/">Back to Account</a></p>
+  </div>
+
+  <div id="admin-content" hidden>
+    <div class="admin-tabs" role="tablist">
+      <button type="button" role="tab" data-tab="invitations" aria-selected="true">Invitations</button>
+      <button type="button" role="tab" data-tab="users" aria-selected="false">Users &amp; Roles</button>
+      <button type="button" role="tab" data-tab="teachers" aria-selected="false">Teacher Requests</button>
+      <button type="button" role="tab" data-tab="audit" aria-selected="false">Audit Logs</button>
+    </div>
+
+    <p id="admin-flash" class="note" role="status"></p>
+
+    <!-- TAB 1: INVITATIONS -->
+    <section id="pane-invitations">
+      <div class="admin-card">
+        <h2 style="margin-top:0">Generate Invitation Code</h2>
+        <form id="create-invite-form" class="admin-grid">
+          <div>
+            <label class="kicker" for="inv-role">Role</label>
+            <select id="inv-role" style="width:100%;padding:8px;border-radius:6px">
+              <option value="STUDENT">STUDENT</option>
+              <option value="TEACHER">TEACHER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+          <div>
+            <label class="kicker" for="inv-email">Restricted Email (optional)</label>
+            <input type="email" id="inv-email" placeholder="Optional email lock" style="width:100%">
+          </div>
+          <div>
+            <label class="kicker" for="inv-hours">Expires in (hours)</label>
+            <input type="number" id="inv-hours" value="72" min="1" max="8760" required style="width:100%">
+          </div>
+          <div>
+            <label class="kicker" for="inv-note">Note</label>
+            <input type="text" id="inv-note" placeholder="e.g. AP Physics cohort" style="width:100%">
+          </div>
+          <div>
+            <button type="submit" class="btn" id="inv-create-btn" style="width:100%">Create Invite</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="invitations-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Email Lock</th>
+              <th>Expires</th>
+              <th>Redeemed By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="invitations-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: USERS & RBAC -->
+    <section id="pane-users" hidden>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="users-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Plan</th>
+              <th>Free Sets</th>
+              <th>Attempts</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: TEACHER REQUESTS -->
+    <section id="pane-teachers" hidden>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="teachers-table">
+          <thead>
+            <tr>
+              <th>Teacher</th>
+              <th>School Email</th>
+              <th>School</th>
+              <th>Courses</th>
+              <th>Status</th>
+              <th>Issued Invite</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="teachers-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: AUDIT LOGS -->
+    <section id="pane-audit" hidden>
+      <div style="margin-bottom:14px;display:flex;gap:12px;align-items:center">
+        <label class="kicker" for="audit-filter">Filter Action:</label>
+        <select id="audit-filter" style="padding:6px 10px;border-radius:6px">
+          <option value="">All Actions</option>
+          <option value="INVITE_CREATED">INVITE_CREATED</option>
+          <option value="INVITE_REDEEMED">INVITE_REDEEMED</option>
+          <option value="INVITE_REDEMPTION_FAILED">INVITE_REDEMPTION_FAILED</option>
+          <option value="INVITE_REVOKED">INVITE_REVOKED</option>
+          <option value="USER_REGISTERED">USER_REGISTERED</option>
+          <option value="USER_LOGIN_SUCCESS">USER_LOGIN_SUCCESS</option>
+          <option value="USER_LOGIN_FAILED">USER_LOGIN_FAILED</option>
+          <option value="USER_ROLE_CHANGED">USER_ROLE_CHANGED</option>
+          <option value="USER_REVOKED">USER_REVOKED</option>
+          <option value="USER_RESTORED">USER_RESTORED</option>
+          <option value="PROBLEM_SET_UNLOCKED">PROBLEM_SET_UNLOCKED</option>
+          <option value="PROBLEM_ATTEMPT_SUBMITTED">PROBLEM_ATTEMPT_SUBMITTED</option>
+          <option value="TEACHER_REQUEST_SUBMITTED">TEACHER_REQUEST_SUBMITTED</option>
+          <option value="TEACHER_REQUEST_APPROVED">TEACHER_REQUEST_APPROVED</option>
+          <option value="SUBSCRIPTION_CHANGED">SUBSCRIPTION_CHANGED</option>
+          <option value="UNAUTHORIZED_ADMIN_ATTEMPT">UNAUTHORIZED_ADMIN_ATTEMPT</option>
+        </select>
+        <button type="button" class="btn-sm" id="audit-refresh">Refresh</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="audit-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Action</th>
+              <th>Actor</th>
+              <th>Target</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="audit-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+  import { session, status, loginUrl, esc } from '/js/app.js';
+  const $ = id => document.getElementById(id);
+
+  const s = await session();
+  if (!s) {
+    location.replace(loginUrl('/admin/'));
+  } else {
+    // Always attempt the admin endpoint so non-admins trigger the server-side 403 + audit log
+    const checkRes = await fetch('/api/admin/invitations/', { credentials: 'same-origin' });
+    if (!checkRes.ok) {
+      $('admin-denied').hidden = false;
+    } else {
+      $('admin-content').hidden = false;
+      const initData = await checkRes.json();
+      renderInvitations(initData.invitations || []);
+      loadUsers();
+      loadTeachers();
+      loadAuditLogs();
+    }
+  }
+
+  document.querySelectorAll('.admin-tabs [role="tab"]').forEach(btn => {
+    btn.onclick = () => {
+      const target = btn.dataset.tab;
+      document.querySelectorAll('.admin-tabs [role="tab"]').forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+      ['invitations', 'users', 'teachers', 'audit'].forEach(t => {
+        $(`pane-${t}`).hidden = t !== target;
+      });
+    };
+  });
+
+  async function loadInvitations() {
+    const res = await fetch('/api/admin/invitations/', { credentials: 'same-origin' });
+    if (res.ok) {
+      const { invitations } = await res.json();
+      renderInvitations(invitations || []);
+    }
+  }
+
+  function renderInvitations(list) {
+    $('invitations-tbody').innerHTML = list.map(inv => `
+      <tr data-code="${esc(inv.code)}">
+        <td class="mono"><b>${esc(inv.code)}</b></td>
+        <td><span class="badge">${esc(inv.role)}</span></td>
+        <td><span class="badge ${esc(inv.status)}">${esc(inv.status)}</span></td>
+        <td>${inv.email ? esc(inv.email) : '<span class="note">Any</span>'}</td>
+        <td class="mono">${new Date(inv.expiresAt).toLocaleString()}</td>
+        <td>${inv.usedBy ? esc(inv.usedBy.email) : '—'}</td>
+        <td>
+          ${inv.status === 'ACTIVE' ? `<button type="button" class="btn-sm danger" data-revoke-invite="${esc(inv.id)}">Revoke</button>` : ''}
+        </td>
+      </tr>
+    `).join('') || '<tr><td colspan="7">No invitations found.</td></tr>';
+  }
+
+  $('create-invite-form').onsubmit = async e => {
+    e.preventDefault();
+    const btn = $('inv-create-btn');
+    btn.disabled = true;
+    const res = await fetch('/api/admin/invitations/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        role: $('inv-role').value,
+        email: $('inv-email').value.trim() || null,
+        expiresInHours: Number($('inv-hours').value),
+        note: $('inv-note').value.trim() || null,
+      }),
+    });
+    btn.disabled = false;
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      $('admin-flash').textContent = data.error || 'Failed to create invitation.';
+      return;
+    }
+    $('inv-email').value = '';
+    $('inv-note').value = '';
+    $('admin-flash').innerHTML = `Created invitation code <b class="mono">${esc(data.invitation.code)}</b> (${esc(data.invitation.role)}).`;
+    await loadInvitations();
+    await loadAuditLogs();
+  };
+
+  $('invitations-tbody').onclick = async e => {
+    const btn = e.target.closest('[data-revoke-invite]');
+    if (!btn) return;
+    btn.disabled = true;
+    const id = btn.dataset.revokeInvite;
+    const res = await fetch(`/api/admin/invitations/${id}/`, {
+      method: 'PATCH',
+      credentials: 'same-origin',
+    });
+    if (res.ok) {
+      $('admin-flash').textContent = 'Invitation revoked.';
+      await loadInvitations();
+      await loadAuditLogs();
+    }
+  };
+
+  async function loadUsers() {
+    const res = await fetch('/api/admin/users/', { credentials: 'same-origin' });
+    if (!res.ok) return;
+    const { users } = await res.json();
+    $('users-tbody').innerHTML = (users || []).map(u => {
+      const isPrem = u.subscription?.status === 'active' || u.subscription?.plan === 'lifetime';
+      return `
+        <tr data-user-email="${esc(u.email)}">
+          <td><b>${esc(u.email)}</b></td>
+          <td>
+            <select data-user-role="${esc(u.id)}" style="padding:4px 8px;border-radius:4px">
+              <option value="STUDENT" ${u.role === 'STUDENT' ? 'selected' : ''}>STUDENT</option>
+              <option value="TEACHER" ${u.role === 'TEACHER' ? 'selected' : ''}>TEACHER</option>
+              <option value="ADMIN" ${u.role === 'ADMIN' ? 'selected' : ''}>ADMIN</option>
+            </select>
+          </td>
+          <td><span class="badge ${esc(u.status)}">${esc(u.status)}</span></td>
+          <td>${isPrem ? `Premium (${esc(u.subscription?.plan || 'active')})` : 'Free'}</td>
+          <td>${(u.freeSets || []).length} / ${u.freeLimit}</td>
+          <td>${u.attemptsCount || 0}</td>
+          <td style="display:flex;gap:6px;flex-wrap:wrap">
+            ${u.status === 'ACTIVE'
+              ? `<button type="button" class="btn-sm danger" data-user-status="${esc(u.id)}" data-next-status="REVOKED">Revoke Access</button>`
+              : `<button type="button" class="btn-sm" data-user-status="${esc(u.id)}" data-next-status="ACTIVE">Restore Access</button>`}
+            <button type="button" class="btn-sm" data-user-premium="${esc(u.id)}" data-grant="${!isPrem}">${isPrem ? 'Remove Premium' : 'Grant Premium'}</button>
+          </td>
+        </tr>
+      `;
+    }).join('') || '<tr><td colspan="7">No users registered yet.</td></tr>';
+  }
+
+  $('users-tbody').onchange = async e => {
+    const sel = e.target.closest('[data-user-role]');
+    if (!sel) return;
+    const id = sel.dataset.userRole;
+    await fetch(`/api/admin/users/${id}/`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ role: sel.value }),
+    });
+    $('admin-flash').textContent = `Updated user role to ${sel.value}.`;
+    await loadUsers();
+    await loadAuditLogs();
+  };
+
+  $('users-tbody').onclick = async e => {
+    const stBtn = e.target.closest('[data-user-status]');
+    if (stBtn) {
+      stBtn.disabled = true;
+      const id = stBtn.dataset.userStatus;
+      const nextStatus = stBtn.dataset.nextStatus;
+      await fetch(`/api/admin/users/${id}/`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ status: nextStatus, reason: 'Administrative action via Admin Console' }),
+      });
+      $('admin-flash').textContent = `User status changed to ${nextStatus}.`;
+      await loadUsers();
+      await loadAuditLogs();
+      return;
+    }
+    const prBtn = e.target.closest('[data-user-premium]');
+    if (prBtn) {
+      prBtn.disabled = true;
+      const id = prBtn.dataset.userPremium;
+      const grantPremium = prBtn.dataset.grant === 'true';
+      await fetch(`/api/admin/users/${id}/`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ grantPremium }),
+      });
+      $('admin-flash').textContent = grantPremium ? 'Granted Lifetime Premium.' : 'Removed Premium.';
+      await loadUsers();
+      await loadAuditLogs();
+    }
+  };
+
+  async function loadTeachers() {
+    const res = await fetch('/api/admin/teacher-requests/', { credentials: 'same-origin' });
+    if (!res.ok) return;
+    const { teacherRequests } = await res.json();
+    $('teachers-tbody').innerHTML = (teacherRequests || []).map(tr => `
+      <tr>
+        <td><b>${esc(tr.name)}</b></td>
+        <td>${esc(tr.email)}</td>
+        <td>${esc(tr.school)}</td>
+        <td>${esc((tr.courses || []).join(', '))}</td>
+        <td><span class="badge ${esc(tr.status)}">${esc(tr.status)}</span></td>
+        <td class="mono">${tr.inviteCode ? esc(tr.inviteCode) : '—'}</td>
+        <td>
+          ${tr.status === 'PENDING' ? `
+            <button type="button" class="btn-sm" data-tr-id="${esc(tr.id)}" data-tr-status="APPROVED">Approve &amp; Issue Invite</button>
+            <button type="button" class="btn-sm danger" data-tr-id="${esc(tr.id)}" data-tr-status="REJECTED">Reject</button>
+          ` : ''}
+        </td>
+      </tr>
+    `).join('') || '<tr><td colspan="7">No teacher verification requests yet.</td></tr>';
+  }
+
+  $('teachers-tbody').onclick = async e => {
+    const btn = e.target.closest('[data-tr-id]');
+    if (!btn) return;
+    btn.disabled = true;
+    await fetch('/api/admin/teacher-requests/', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ id: btn.dataset.trId, status: btn.dataset.trStatus }),
+    });
+    await loadTeachers();
+    await loadInvitations();
+    await loadAuditLogs();
+  };
+
+  async function loadAuditLogs() {
+    const action = $('audit-filter').value;
+    const res = await fetch(`/api/admin/audit-logs/${action ? `?action=${encodeURIComponent(action)}` : ''}`, {
+      credentials: 'same-origin',
+    });
+    if (!res.ok) return;
+    const { auditLogs } = await res.json();
+    $('audit-tbody').innerHTML = (auditLogs || []).map(l => `
+      <tr data-audit-action="${esc(l.action)}">
+        <td class="mono">${new Date(l.createdAt).toLocaleString()}</td>
+        <td><span class="badge">${esc(l.action)}</span></td>
+        <td>${esc(l.actorEmail || 'anonymous')}</td>
+        <td class="mono">${esc(l.targetType)}${l.targetId ? `:${esc(l.targetId.slice(0, 12))}` : ''}</td>
+        <td class="mono" style="max-width:360px;overflow:hidden;text-overflow:ellipsis">${esc(JSON.stringify(l.metadata))}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="5">No audit logs found.</td></tr>';
+  }
+
+  $('audit-filter').onchange = loadAuditLogs;
+  $('audit-refresh').onclick = loadAuditLogs;
+</script>
+
+<footer id="foot"><canvas aria-hidden="true"></canvas>
+  <div class="in"><div class="brand"><a class="name" href="/">Atlas</a></div>
+    <nav class="cols" aria-label="Footer"><div><b>Learn</b><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a></div>
+      <div><b>Plans</b><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></div>
+      <div><b>Atlas</b><a href="/about/">About</a><a href="mailto:support@atlasclass.app">support@atlasclass.app</a></div>
+      <div><b>Legal</b><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></div></nav></div>
+  <div class="base"><span>© 2026 Atlas</span><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div>
+  <script type="module" src="/js/footer.js"></script></footer>
+</body>
+</html>

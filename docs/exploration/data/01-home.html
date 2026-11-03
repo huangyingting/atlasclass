@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="en"><head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas · Interactive 3D textbooks for AP science and math</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Atlas: interactive 3D textbooks, with practice that plays out on the figure.">
+<meta property="og:title" content="Atlas · Interactive 3D textbooks for AP science and math"><meta property="og:description" content="Atlas: interactive 3D textbooks, with practice that plays out on the figure.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/kinematics.jpg"><meta property="og:url" content="https://atlasclass.app/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/atlas.css">
+<link rel="stylesheet" href="/app.css">
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+  "katex": "/katex/katex.mjs", "/physics/engine/book.js": "/js/hero.js", "/calculus/engine/book.js": "/js/hero.js" } }
+</script>
+<!-- the hero's modules, fetched at once rather than one import deep at a time (hero.js → render.js → three → three.core.js,
+     and its first slide, kinematics: main.js → world.js → tex.js → katex) -->
+<link rel="modulepreload" href="/js/hero.js">
+<link rel="modulepreload" href="/physics/kinematics/main.js">
+<link rel="modulepreload" href="/physics/kinematics/world.js">
+<link rel="modulepreload" href="/physics/kinematics/model.js">
+<link rel="modulepreload" href="/physics/kinematics/pages.js">
+<link rel="modulepreload" href="/physics/engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="modulepreload" href="/physics/engine/render.js">
+<link rel="modulepreload" href="/physics/engine/parts.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js">
+<style>
+  /* The landing page: the hero (copy and the live carousel, js/hero.js), what people say, every subject going round,
+     the numbers, then a section for each of the four things Atlas does. Phones stack it; wide screens set the hero
+     and each feature side by side. tools/build.mjs fills in the subjects and the numbers, and leaves out any data-todo
+     section (one waiting on real content) except in --preview builds. */
+  .land { padding: 0 0 24px; }
+  .land h2 { font: 400 clamp(30px, 4.4vw, 46px)/1.06 var(--serif); letter-spacing: -.01em; color: var(--strong); margin: 0; text-wrap: balance; }
+  .land .k { font: 500 11px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .land .go { padding: 16px 28px; font-size: 14px; }
+
+  /* hero */
+  .hero { display: grid; gap: 28px; padding-top: 6vh; }
+  .hero .copy { display: grid; gap: 16px; justify-items: start; align-content: center; }
+  .hero h1 { font: 400 clamp(46px, 7vw, 96px)/.98 var(--serif); letter-spacing: -.02em; margin: 0; max-width: 11ch; text-wrap: balance; }
+  .hero .lede { margin: 0 0 8px; font: italic 400 clamp(20px, 2.2vw, 26px)/1.35 var(--serif); color: var(--text); }
+  .hero figure { margin: 0; min-width: 0; }
+  @media (min-width: 900px) { .hero { grid-template-columns: .82fr 1.18fr; gap: 40px; align-items: center; padding-top: 7vh; } }
+
+  /* the carousel (js/hero.js): a live figure in the middle, its neighbours faded at the sides; going round slides them */
+  .track { display: grid; justify-items: center; overflow: hidden; padding: 6px 0 22px; margin-bottom: -16px;
+    --fade: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent); -webkit-mask-image: var(--fade); mask-image: var(--fade); }   /* the sides melt into the page */
+  .panel { grid-area: 1 / 1; position: relative; width: 82%; aspect-ratio: 900 / 804; border-radius: 16px; box-shadow: var(--lift); overflow: hidden;
+    background: var(--card); transform: translateX(calc(var(--d, 0) * (100% + 24px))) scale(.9); opacity: .38; cursor: pointer;
+    transition: transform .7s cubic-bezier(.65, 0, .35, 1), opacity .7s, visibility 0s; }
+  .panel.on { transform: none; opacity: 1; cursor: auto; }
+  /* past the sides: it slides on out of sight as it fades, then hides; wrapping round to the other side, it jumps unseen */
+  .panel.far { opacity: 0; visibility: hidden; transition: transform .7s cubic-bezier(.65, 0, .35, 1), opacity .7s, visibility 0s .7s; }
+  .panel.jump { transition: none; }
+  @media (prefers-reduced-motion: reduce) { .panel { transition: none; } }
+  .panel img, .panel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .panel img { object-fit: cover; }
+  .panel canvas { touch-action: pan-y; opacity: 0; transition: opacity .3s; }
+  .panel.on canvas { cursor: grab; } .panel.on canvas.pointing { cursor: pointer; } .panel.on canvas:active { cursor: grabbing; }
+  .panel.live canvas { opacity: 1; } .panel.live img { visibility: hidden; }
+  .panel .labels { position: absolute; inset: 0; pointer-events: none; }
+  .panel .lbl { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: italic 22px/1 var(--serif); color: var(--hi); transition: opacity .25s; }
+  .panel .lbl.red { color: var(--red); } .panel .lbl.blue { color: #3d63a8; } .panel .lbl.grey { color: var(--mid); }
+  .panel .lbl.tick { font: 11px/1 var(--mono); color: var(--muted); transform: translate(-100%, -50%); }
+  .panel .lbl.board { font: italic 17px/1 var(--serif); transform: translate(0, -50%); }
+  .panel .lbl.axis { font: italic 15px/1 var(--serif); color: var(--muted); transform: translate(-100%, -50%); }
+  .panel .lbl.mark { font: 15px/1 var(--serif); color: #86868c; }
+  .panel .hint, .panel .readout { position: absolute; font: 12px/1.5 var(--mono); color: var(--muted); pointer-events: none; text-align: left; opacity: 0; transition: opacity .3s; }
+  .panel .hint { top: 14px; left: 18px; } .panel .readout { bottom: 12px; right: 18px; color: var(--hi); white-space: pre; font-variant-numeric: tabular-nums; }
+  .panel.live .readout { opacity: 1; }
+  .panel .hint { display: none; }   /* how to drag and close: clear enough without saying */
+  .panel .card { position: absolute; left: 14px; bottom: 14px; max-width: 46%; text-align: left; background: var(--card); box-shadow: var(--lift); border-radius: 12px; padding: 10px 14px; pointer-events: none; }
+  .panel .card b { display: block; font: 400 20px/1.2 var(--serif); color: var(--strong); } .panel .card span { font-size: 14px; color: var(--text); }
+  /* the carousel: which figure this is, a link into its chapter, and the way to the others */
+  /* the arrows and dots right under the figure; which figure it is under them, a link into its chapter */
+  .bar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 12px; margin: 14px 9% 0; text-align: center; }
+  .bar .prev { order: 0; } .bar .dots { order: 1; } .bar .next { order: 2; }
+  .bar .where { order: 3; flex-basis: 100%; min-width: 0; margin-top: 6px; color: inherit; text-decoration: none; }
+  .bar .where:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; } .bar .where b { display: block; font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .bar .where span { font: italic 18px/1.3 var(--serif); color: var(--strong); }
+  .bar .dots { display: flex; gap: 2px; }
+  .bar .dots button { width: 18px; height: 24px; border: 0; padding: 0; background: none; cursor: pointer; }
+  .bar .dots button::after { content: ''; display: block; width: 6px; height: 6px; margin: auto; border-radius: 50%; background: var(--faint); }
+  .bar .dots button[aria-current="true"]::after { background: var(--hi); }
+  .bar .prev, .bar .next { width: 36px; height: 36px; flex: none; border: 1px solid var(--faint); border-radius: 50%; background: var(--card); color: var(--hi); font: 18px/1 var(--serif); cursor: pointer; }
+  .bar .prev:hover, .bar .next:hover { border-color: var(--mid); }
+
+  /* what people say */
+  .quotes { display: grid; gap: 22px; margin-top: 96px; }
+  /* the quotes go round the other way from the subjects, and much slower, so each can be read as it passes */
+  .qmq { display: flex; overflow: hidden; margin: 0 -16px;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+  .qrow { flex: none; display: flex; gap: 18px; padding: 6px 9px 18px; animation: qmq 110s linear infinite; }
+  .qmq:hover .qrow { animation-play-state: paused; }
+  @keyframes qmq { from { transform: translateX(-100%); } to { transform: none; } }
+  .q { width: min(360px, 80vw); flex: none; margin: 0; background: var(--card); box-shadow: var(--lift); border-radius: 16px; padding: 22px; display: grid; gap: 14px; align-content: space-between; }
+  @media (prefers-reduced-motion: reduce) {
+    .qmq { margin: 0; -webkit-mask-image: none; mask-image: none; }
+    .qrow { animation: none; flex-wrap: wrap; flex: 1; padding: 6px 0 18px; } .qrow + .qrow { display: none; } .q { flex: 1 1 260px; }
+  }
+  .q blockquote { margin: 0; font: italic 400 21px/1.35 var(--serif); color: var(--strong); }
+  .q figcaption { font-size: 13px; color: var(--muted); }
+  .q figcaption b { display: block; font-weight: 500; color: var(--strong); }
+
+  /* every subject, going round: one line of names grows with the catalogue (built from tools/seed.mjs) */
+  .marq { display: grid; gap: 14px; justify-items: center; margin: 80px -16px 0; }
+  .marq .mq { width: 100%; overflow: hidden; display: flex;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
+  .marq .row { flex: none; display: flex; animation: marq 40s linear infinite; }
+  .marq .mq:hover .row { animation-play-state: paused; }
+  .marq .row > * { display: inline-flex; align-items: baseline; gap: 8px; padding: 0 clamp(16px, 2.4vw, 30px); font: 400 clamp(28px, 4vw, 48px)/1.25 var(--serif);
+    color: var(--strong); text-decoration: none; white-space: nowrap; }
+  .marq .row > *::after { content: '·'; margin-left: clamp(16px, 2.4vw, 30px); color: var(--lo); }
+  .marq .row a:hover { color: var(--hi); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .marq .row span.soon { color: var(--muted); }
+  .marq .row em { font: 500 10px var(--mono); font-style: normal; letter-spacing: .06em; text-transform: uppercase; color: #3d63a8; position: relative; top: -.9em; }
+  .marq .all { font: 500 12px var(--mono); letter-spacing: .04em; color: var(--hi); }
+  @keyframes marq { to { transform: translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .marq .mq { flex-wrap: wrap; justify-content: center; -webkit-mask-image: none; mask-image: none; }
+    .marq .row { animation: none; flex-wrap: wrap; justify-content: center; } .marq .row + .row { display: none; }
+  }
+
+  /* the numbers */
+  .nums { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; margin-top: 56px; background: var(--faint); border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--faint); }
+  .nums div { background: var(--card); padding: 22px 24px 18px; display: grid; gap: 4px; }
+  .nums b { font: 400 clamp(36px, 4.6vw, 54px)/1 var(--serif); color: var(--strong); font-variant-numeric: tabular-nums; }
+  .nums span { font: 500 11px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+  /* the four features: words beside a picture of it, sides alternating on wide screens */
+  .feat { display: grid; gap: 22px; margin-top: 96px; align-items: center; }
+  /* each fades up the first time it scrolls into view (the script below sets .pre; without it, all show) */
+  .feat { transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+  .feat.pre { opacity: 0; transform: translateY(28px); }
+  .feat .txt { display: grid; gap: 12px; align-content: center; max-width: 440px; }
+  .feat .txt p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--text); }
+  .feat .pro { font: 600 10px var(--mono); letter-spacing: .08em; color: var(--hi); border: 1px solid var(--hi); border-radius: 999px; padding: 3px 7px; margin-left: 6px; }
+  .vis { position: relative; border-radius: 18px; overflow: hidden; background: var(--card); box-shadow: var(--lift); min-width: 0; }
+  .vis img, .vis video { display: block; width: 100%; height: auto; }
+  .vis.sm { width: 82%; justify-self: center; }   /* the tutor demo is filmed closer in, so it reads larger at full width */
+  .vis .tagp { position: absolute; font: 500 11px var(--mono); letter-spacing: .04em; color: var(--hi); background: #fbfbfaee; border-radius: 999px; padding: 6px 10px; box-shadow: 0 0 0 1px #0000000f; white-space: nowrap; }
+  @media (min-width: 900px) {
+    .feat { grid-template-columns: .8fr 1.2fr; gap: 64px; }
+    .feat.flip { grid-template-columns: 1.2fr .8fr; } .feat.flip .txt { order: 2; }
+  }
+  /* a question, drawn as the practice drawer draws one */
+  .ui { padding: 22px; display: grid; gap: 10px; align-content: start; }
+  .ui .strip { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .ui .qt { margin: 0 0 4px; font-size: 16px; color: var(--strong); }
+  .ui .mc { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: center; min-height: 50px; padding: 8px 12px; border: 1px solid var(--faint); border-radius: 12px; color: var(--strong); }
+  .ui .mc .L { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--faint); display: grid; place-items: center; font: 500 12px var(--mono); color: var(--muted); }
+  .ui .mc.ok { border-color: #2f8f5b; background: #eef7f1; }
+  .ui .mc.ok .L { background: #2f8f5b; border-color: #2f8f5b; color: #fff; }
+  .ui .mc.ok b { color: #2f8f5b; }
+
+  .end { display: grid; gap: 22px; justify-items: center; text-align: center; margin: 110px 0 40px; }
+
+  /* phones: the hero's figure full width, and a little less air between sections */
+  @media (max-width: 600px) {
+    .hero { padding-top: 24px; gap: 22px; }
+    .hero h1 { font-size: 46px; }
+    .land .go { width: 100%; }
+    .track { margin-left: -16px; margin-right: -16px; --fade: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent); }
+    .panel { width: 84%; aspect-ratio: 4 / 3; border-radius: 14px; transform: translateX(calc(var(--d, 0) * (100% + 12px))) scale(.92); }
+    .panel .hint { top: 10px; left: 12px; font-size: 11px; } .panel .readout { display: none; }
+    .bar { margin: 10px 0 0; } .bar .where span { font-size: 16px; }
+    /* what's open: one slim line along the foot, so the figure stays in view (the top is where the opened thing goes) */
+    .panel .card { left: 8px; right: 8px; bottom: 8px; max-width: none; padding: 6px 10px; border-radius: 10px; background: #fbfbfae6;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .panel .card b { display: inline; font-size: 15px; margin-right: 6px; } .panel .card span { font-size: 12px; color: var(--muted); }
+    .quotes, .feat { margin-top: 64px; }
+    .marq { margin-top: 56px; }
+    .nums { margin-top: 40px; grid-template-columns: 1fr 1fr; }
+    .nums div { padding: 16px; }
+    .nums div:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* an odd one out takes the whole row, not half of it */
+    .feat .txt p { font-size: 16px; }
+    .end { margin-top: 80px; }
+  }
+</style>
+<link rel="stylesheet" href="/nav.css">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/">
+<link rel="canonical" href="https://atlasclass.app/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://atlasclass.app/#org","name":"Atlas","url":"https://atlasclass.app/","logo":"https://atlasclass.app/apple-touch-icon.png","email":"support@atlasclass.app","sameAs":["https://github.com/nathanliow/atlas-of-physics"]},{"@type":"WebSite","@id":"https://atlasclass.app/#site","name":"Atlas","url":"https://atlasclass.app/","inLanguage":"en","description":"Atlas: interactive 3D textbooks, with practice that plays out on the figure.","publisher":{"@id":"https://atlasclass.app/#org"}}]}</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
+</head>
+<body>
+<header id="top"><a class="brand" href="/">Atlas</a><nav id="site-menu" aria-label="Site" popover=""><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></nav><a id="nav-auth" href="/login/?next=%2F">Log in</a><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+  <button type="button" class="menu" popovertarget="site-menu" aria-label="Menu"><i></i><i></i><i></i></button></header><script>(() => { const a = document.getElementById('nav-auth'), p = location.pathname; let on = false;
+  try { on = Object.keys(localStorage).some(k => /^sb-.+-auth-token$/.test(k)); } catch {}
+  if (on) { a.textContent = 'Account'; a.href = '/account/'; } else if (!p.startsWith('/login')) a.href = '/login/?next=' + encodeURIComponent(p + location.search);
+  if (p.startsWith(on ? '/account' : '/login')) a.setAttribute('aria-current', 'page'); })();</script>
+<main class="land">
+  <section class="hero">
+    <div class="copy">
+      <h1>Learn it by taking it apart.</h1>
+      <p class="lede">Interact, Learn, and Practice.</p>
+      <a class="btn go" href="/physics/kinematics/?samples=1#0">Check out a lesson →</a>
+    </div>
+    <figure id="hero">
+      <div class="track" role="group" aria-roledescription="carousel" aria-label="Interactive figures from the subjects. Drag the middle one to turn it; click a thing to break it down."><div class="panel live" aria-hidden="true" style="--d: -1;"><img src="/physics/img/kinematics.jpg" alt="A ball thrown straight up beside a position axis, with velocity and acceleration arrows and motion graphs" width="900" height="804"><canvas data-engine="three.js r186" width="552" height="493"></canvas><div class="labels" aria-hidden="true"><div class="lbl vec" style="opacity: 1; left: 337.78px; top: 369.314px;">v</div><div class="lbl vec red" style="opacity: 1; left: 354.286px; top: 352.501px;">a</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">v<sub>x</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">v<sub>y</sub></div><div class="lbl tick" style="opacity: 1; left: 284.725px; top: 413.789px;">0</div><div class="lbl tick" style="opacity: 1; left: 284.77px; top: 349.022px;">1 m</div><div class="lbl tick" style="opacity: 1; left: 284.816px; top: 283.58px;">2 m</div><div class="lbl tick" style="opacity: 1; left: 284.862px; top: 217.454px;">3 m</div><div class="lbl tick" style="opacity: 1; left: 284.909px; top: 150.632px;">4 m</div><div class="lbl tick" style="opacity: 1; left: 284.956px; top: 83.1041px;">5 m</div><div class="lbl board" style="opacity: 1; left: 52.2422px; top: 46.6741px;">position <i>y</i> (m)</div><div class="lbl axis" style="opacity: 1; left: 276.552px; top: 414.251px;"><i>t</i> (s)</div><div class="lbl board" style="opacity: 0; left: -193.469px; top: 47.2743px;">velocity <i>v</i> (m/s)</div><div class="lbl axis" style="opacity: 0; left: 4.34765px; top: 238.574px;"><i>t</i> (s)</div><div class="lbl board" style="opacity: 0; left: -407.572px; top: 47.7973px;">acceleration <i>a</i> (m/s²)</div><div class="lbl axis" style="opacity: 0; left: -231.46px; top: 226.326px;"><i>t</i> (s)</div><div class="lbl vec" style="opacity: 0; left: 5633.81px; top: 822.682px;">v<sub>CG</sub></div><div class="lbl vec" style="opacity: 0; left: 3003.1px; top: 378.339px;">v<sub>RG</sub></div><div class="lbl vec blue" style="opacity: 0; left: 7387.09px; top: 619.382px;">v<sub>RC</sub></div><div class="lbl vec grey" style="opacity: 0; left: 11982.2px; top: 1715.98px;">v<sub>GC</sub></div><div class="lbl board" style="opacity: 0; left: 3321.12px; top: 111.189px;">seen from the road</div><div class="lbl board" style="opacity: 0; left: 7066.31px; top: 141.718px;">seen from the car</div><div class="lbl vec" style="opacity: 0; left: 15477.8px; top: 786.406px;">v<sub>RG</sub></div><div class="lbl vec" style="opacity: 0; left: 13233.9px; top: 1028.94px;">v<sub>GC</sub></div><div class="lbl vec blue" style="opacity: 0; left: 13094.6px; top: 617.419px;">v<sub>RC</sub></div><div class="lbl mark" style="opacity: 0; left: 0px; top: 0px;">θ</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">v<sub>BW</sub></div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">v<sub>WS</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>BS</sub></div><div class="lbl vec" style="opacity: 0; left: 14256.8px; top: 1413.76px;">v<sub>BW</sub></div><div class="lbl vec grey" style="opacity: 0; left: 14358.9px; top: 1399.19px;">v<sub>WS</sub></div><div class="lbl vec blue" style="opacity: 0; left: 17149.3px; top: 1642.58px;">v<sub>BS</sub></div><div class="lbl tick" style="opacity: 0; left: -28863.3px; top: -2863.16px;">straight across ↑</div><div class="lbl tick" style="opacity: 0; left: -52866px; top: -5627.59px;">aimed 37° upstream ↑</div><div class="lbl tick" style="opacity: 0; left: -21201.5px; top: -1865.79px;">current 1.5 m/s →</div><div class="lbl tick" style="opacity: 0; left: -15567.6px; top: -1141.46px;">0</div><div class="lbl tick" style="opacity: 0; left: -14426.9px; top: -1028.11px;">10 m</div><div class="lbl tick" style="opacity: 0; left: -13483.5px; top: -934.374px;">20 m</div><div class="lbl tick" style="opacity: 0; left: -12690.3px; top: -855.566px;">30 m</div><div class="lbl tick" style="opacity: 0; left: -12014.2px; top: -788.381px;">40 m</div><div class="lbl vec" style="opacity: 0; left: -15310.7px; top: -1048.38px;">v</div><div class="lbl vec red" style="opacity: 0; left: -15795.3px; top: -1010.61px;">a</div><div class="lbl tick" style="opacity: 0; left: -9954.61px; top: -575.129px;">−3 m</div><div class="lbl tick" style="opacity: 0; left: -9782.42px; top: -558.25px;">−2 m</div><div class="lbl tick" style="opacity: 0; left: -9619.2px; top: -542.251px;">−1 m</div><div class="lbl tick" style="opacity: 0; left: -9464.28px; top: -527.065px;">0</div><div class="lbl tick" style="opacity: 0; left: -9317.04px; top: -512.632px;">1 m</div><div class="lbl tick" style="opacity: 0; left: -9176.92px; top: -498.896px;">2 m</div><div class="lbl tick" style="opacity: 0; left: -9043.42px; top: -485.81px;">3 m</div><div class="lbl axis" style="opacity: 0; left: -9127.69px; top: -483.731px;"><i>x</i></div><div class="lbl vec" style="opacity: 0; left: -9505.28px; top: -504.8px;">v</div><div class="lbl vec red" style="opacity: 0; left: -9479.9px; top: -457.011px;">a</div><div class="lbl mark" style="opacity: 0; left: -10344.9px; top: -520.965px;">turns at t = 1.00 s</div></div><div class="hint">Drag to turn · click a thing to break it down</div>
+    <div class="readout" aria-hidden="true">t 1.79 s   y  1.84 m
+v −7.74 m/s   a −9.80 m/s²</div><div class="card" aria-live="polite" hidden=""><b></b><span></span></div></div><div class="panel live on" aria-hidden="false" style="--d: 0;"><canvas data-engine="three.js r186" width="552" height="493"></canvas><div class="labels" aria-hidden="true"><div class="lbl vec" style="opacity: 0; left: 25701.1px; top: -3101.09px;">ω</div><div class="lbl vec red" style="opacity: 0; left: 30036.5px; top: -4099.79px;">α</div><div class="lbl vec" style="opacity: 0; left: 25813.4px; top: -3162.15px;">v</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">θ</div><div class="lbl vec" style="opacity: 0; left: 26533.9px; top: -3325.95px;">r</div><div class="lbl vec" style="opacity: 0; left: 42294.4px; top: -5486.22px;">v<sub>1</sub></div><div class="lbl vec" style="opacity: 0; left: 46208px; top: -5941.9px;">v<sub>2</sub></div><div class="lbl vec" style="opacity: 0; left: 31612.1px; top: -3870.99px;">ω</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">a<sub>t</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">a<sub>c</sub></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">a</div><div class="lbl tick" style="opacity: 0; left: 44668px; top: -5982.56px;">r = 0.6 m</div><div class="lbl tick" style="opacity: 0; left: 48443.7px; top: -6447.91px;">r = 1.2 m</div><div class="lbl vec" style="opacity: 0; left: 80498.3px; top: -10366px;">F</div><div class="lbl tick" style="opacity: 0; left: 68722.9px; top: -10104.4px;">τ = 8.50 N·m</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r<sub>⊥</sub></div><div class="lbl vec" style="opacity: 0; left: 74195.6px; top: -9812.03px;">F</div><div class="lbl tick" style="opacity: 0; left: 81610.7px; top: -12069.3px;">τ = 4.25 N·m</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r<sub>⊥</sub></div><div class="lbl vec" style="opacity: 0; left: 105831px; top: -13951.1px;">F</div><div class="lbl tick" style="opacity: 0; left: 101479px; top: -15098.4px;">τ = 4.25 N·m</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r<sub>⊥</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>⊥</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>∥</sub></div><div class="lbl tick" style="opacity: 0; left: 89603.9px; top: -12121.6px;">φ = 30°</div><div class="lbl vec" style="opacity: 0; left: 81516.1px; top: -9460.7px;">F<sub>A</sub></div><div class="lbl vec" style="opacity: 0; left: 1.10139e+08px; top: -1.43485e+07px;">F<sub>B</sub></div><div class="lbl vec" style="opacity: 0; left: -149657px; top: 23124.1px;">Mg</div><div class="lbl vec" style="opacity: 0; left: -193627px; top: 30200.9px;">mg</div><div class="lbl tick" style="opacity: 0; left: 238876px; top: -32632.3px;">A</div><div class="lbl tick" style="opacity: 0; left: -271392px; top: 37610.7px;">B</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">x</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">L/2</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">L</div><div class="lbl vec" style="opacity: 0; left: -27610.6px; top: 4246.48px;">mg</div><div class="lbl vec" style="opacity: 0; left: -31643px; top: 4571.7px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 0; left: -25505.1px; top: 4119.77px;">f<sub>s</sub></div><div class="lbl vec" style="opacity: 0; left: -51110.2px; top: 5791.15px;">F<sub>w</sub></div><div class="lbl tick" style="opacity: 0; left: -30351px; top: 5006.33px;">O</div><div class="lbl vec" style="opacity: 0; left: -28830.8px; top: 4558.06px;">θ</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">L sin θ</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">½L cos θ</div><div class="lbl vec" style="opacity: 0; left: -15481.4px; top: 2455.43px;">F</div><div class="lbl vec" style="opacity: 0; left: -14246.6px; top: 2281.63px;">F</div><div class="lbl vec" style="opacity: 0; left: -13133.9px; top: 2125.04px;">F</div><div class="lbl vec" style="opacity: 0; left: -16964.2px; top: 2500.37px;">ω</div><div class="lbl vec" style="opacity: 0; left: -14930.4px; top: 2192.47px;">ω</div><div class="lbl vec" style="opacity: 0; left: -13469px; top: 1979.4px;">ω</div><div class="lbl tick" style="opacity: 0; left: -13493.1px; top: 2253.24px;">ring · I = MR²</div><div class="lbl tick" style="opacity: 0; left: -12501.7px; top: 2110.18px;">disc · I = ½MR²</div><div class="lbl tick" style="opacity: 0; left: -11596.9px; top: 1979.6px;">sphere · I = ⅖MR²</div><div class="lbl tick" style="opacity: 1; left: 115.619px; top: 256.696px;">sliding box</div><div class="lbl tick" style="opacity: 1; left: 103.966px; top: 212.942px;">solid sphere</div><div class="lbl tick" style="opacity: 1; left: 93.0091px; top: 171.801px;">disc</div><div class="lbl tick" style="opacity: 1; left: 82.9972px; top: 134.208px;">ring</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">v</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">2v</div><div class="lbl tick" style="opacity: 0; left: 0px; top: 0px;">v = 0</div><div class="lbl vec" style="opacity: 0; left: 2540.74px; top: -202.314px;">T</div><div class="lbl vec" style="opacity: 0; left: 2402.23px; top: -45.6401px;">mg</div><div class="lbl vec red" style="opacity: 0; left: 2471.04px; top: -100.157px;">ma</div><div class="lbl vec" style="opacity: 0; left: 2597.35px; top: -242.759px;">T</div><div class="lbl vec red" style="opacity: 0; left: 2688.91px; top: -357.733px;">α</div><div class="lbl vec" style="opacity: 0; left: 2691.9px; top: -323.391px;">ω</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r</div><div class="lbl tick" style="opacity: 0; left: 0px; top: 0px;">free fall</div><div class="lbl vec" style="opacity: 0; left: 3670.76px; top: -350.71px;">L</div><div class="lbl vec" style="opacity: 0; left: 3562.07px; top: -208.075px;">ω</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r</div><div class="lbl vec" style="opacity: 0; left: -7999.99px; top: 1314.95px;">dm</div><div class="lbl vec grey" style="opacity: 0; left: -7736.34px; top: 1318.76px;">r</div><div class="lbl vec" style="opacity: 0; left: -7251.96px; top: 1213.7px;">dm</div><div class="lbl vec grey" style="opacity: 0; left: -7177.08px; top: 1241.68px;">r</div><div class="lbl tick" style="opacity: 0; left: -7263.14px; top: 1434.14px;">axis through the centre · ML²/12</div><div class="lbl tick" style="opacity: 0; left: -6709.61px; top: 1351.41px;">axis through the end · ML²/3</div><div class="lbl tick" style="opacity: 0; left: -6053.43px; top: 1253.33px;">rings · ½MR²</div><div class="lbl vec" style="opacity: 0; left: -6223px; top: 1081.29px;">dr</div><div class="lbl vec" style="opacity: 0; left: -3385.96px; top: 689.77px;">F</div><div class="lbl vec" style="opacity: 0; left: -3677.76px; top: 725.618px;">ω</div><div class="lbl vec" style="opacity: 0; left: -3045.14px; top: 669.143px;">F</div><div class="lbl vec" style="opacity: 0; left: -3357.48px; top: 701.227px;">ω</div><div class="lbl tick" style="opacity: 0; left: -3794.62px; top: 889.636px;">pinned at the centre · I = 0.18 kg·m²</div><div class="lbl tick" style="opacity: 0; left: -3570.32px; top: 914.407px;">pinned at the end · I = 0.72 kg·m²</div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">d</div><div class="lbl tick" style="opacity: 0; left: 0px; top: 0px;">axis through the cm</div><div class="lbl vec" style="opacity: 0; left: -1141.41px; top: 526.997px;">F</div><div class="lbl vec grey" style="opacity: 0; left: -1095.39px; top: 502.036px;">s = rΔθ</div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">r</div><div class="lbl tick" style="opacity: 0; left: -1149.81px; top: 546.64px;"></div><div class="lbl vec" style="opacity: 0; left: 1588.94px; top: 93.5477px;">v</div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">f<sub>k</sub></div><div class="lbl vec" style="opacity: 0; left: 1582.45px; top: 74.1505px;">ω</div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">v − Rω</div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">Rω</div><div class="lbl tick" style="opacity: 0; left: 1529.99px; top: 140.062px;">v = Rω from here</div><div class="lbl tick" style="opacity: 0; left: 1581.28px; top: 71.1061px;"></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F</div><div class="lbl vec" style="opacity: 0; left: 2950.5px; top: -169.441px;">ω</div><div class="lbl tick" style="opacity: 0; left: 2732.06px; top: -159.182px;">A: 200 N for 0.6 s</div><div class="lbl tick" style="opacity: 0; left: 3085.16px; top: -48.0671px;"></div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">r</div><div class="lbl vec" style="opacity: 0; left: 3206.32px; top: -111.279px;">F</div><div class="lbl vec" style="opacity: 0; left: 3138.71px; top: -178.524px;">ω</div><div class="lbl tick" style="opacity: 0; left: 2870.21px; top: -177.344px;">B: 80 N for 1.5 s</div><div class="lbl tick" style="opacity: 0; left: 3229.52px; top: -71.4501px;"></div><div class="lbl vec grey" style="opacity: 0; left: 0px; top: 0px;">r</div><div class="lbl vec" style="opacity: 0; left: 3957.92px; top: -234.552px;">p = mv</div><div class="lbl vec grey" style="opacity: 0; left: 3892.12px; top: -249.074px;">r</div><div class="lbl vec" style="opacity: 0; left: 3852.17px; top: -255.915px;">r<sub>⊥</sub> = d</div><div class="lbl tick" style="opacity: 0; left: 3855.95px; top: -243.315px;">O</div><div class="lbl vec" style="opacity: 0; left: 3808.17px; top: -250.813px;">ω</div><div class="lbl tick" style="opacity: 0; left: 3966.03px; top: -254.574px;"></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">L<sub>ball</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">L<sub>rod</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">L</div></div><div class="hint">Drag to turn · click a thing to break it down</div>
+    <div class="readout" aria-hidden="true">t 0.91 s
+box 3.8   sphere 2.7   disc 2.5   ring 1.9 m/s</div><div class="card" aria-live="polite" hidden=""><b></b><span></span></div></div><div class="panel live" aria-hidden="true" style="--d: 1;"><canvas data-engine="three.js r186" width="552" height="493"></canvas><div class="labels" aria-hidden="true"><div class="lbl tick" style="opacity: 0; left: -2282.54px; top: -320.473px;">1</div><div class="lbl tick" style="opacity: 0; left: -2278.96px; top: -319.731px;">2</div><div class="lbl tick" style="opacity: 0; left: -2275.36px; top: -318.983px;">3</div><div class="lbl tick" style="opacity: 0; left: -2299.76px; top: -340.382px;">1</div><div class="lbl tick" style="opacity: 0; left: -2310.67px; top: -356.385px;">2</div><div class="lbl tick" style="opacity: 0; left: -2321.67px; top: -372.524px;">3</div><div class="lbl tick" style="opacity: 0; left: -2332.77px; top: -388.8px;">4</div><div class="lbl tick" style="opacity: 0; left: -2343.96px; top: -405.217px;">5</div><div class="lbl tick" style="opacity: 0; left: -2355.25px; top: -421.775px;">6</div><div class="lbl axis" style="opacity: 0; left: -2277.47px; top: -325.203px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -2355.85px; top: -424.156px;"><i>y</i></div><div class="lbl mark" style="opacity: 0; left: -2314.33px; top: -370.198px;"><i>c</i> = √3</div><div class="lbl board" style="opacity: 0; left: -2343.16px; top: -414.274px;"><i>y</i> = <i>f</i>(<i>x</i>)</div><div class="lbl mark" style="opacity: 0; left: -2298.4px; top: -356.045px;"></div><div class="lbl tick" style="opacity: 0; left: -2229.88px; top: -309.534px;">1</div><div class="lbl tick" style="opacity: 0; left: -2225.89px; top: -308.705px;">2</div><div class="lbl tick" style="opacity: 0; left: -2221.86px; top: -307.869px;">3</div><div class="lbl tick" style="opacity: 0; left: -2217.81px; top: -307.026px;">4</div><div class="lbl tick" style="opacity: 0; left: -2225.75px; top: -297.271px;">−1</div><div class="lbl tick" style="opacity: 0; left: -2248.06px; top: -330.572px;">1</div><div class="lbl tick" style="opacity: 0; left: -2259.36px; top: -347.447px;">2</div><div class="lbl tick" style="opacity: 0; left: -2270.77px; top: -364.473px;">3</div><div class="lbl axis" style="opacity: 0; left: -2220.59px; top: -313.741px;"><i>t</i></div><div class="lbl axis" style="opacity: 0; left: -2276.97px; top: -375.436px;"><i>v</i></div><div class="lbl tick" style="opacity: 0; left: -2285.71px; top: -388.955px;">0</div><div class="lbl tick" style="opacity: 0; left: -2278.78px; top: -388.025px;">1</div><div class="lbl axis" style="opacity: 0; left: -2277.51px; top: -395.911px;"><i>x</i></div><div class="lbl board" style="opacity: 0; left: -2259.06px; top: -368.856px;"><i>v</i>(<i>t</i>)</div><div class="lbl tick" style="opacity: 0; left: -2172.56px; top: -297.627px;">1</div><div class="lbl tick" style="opacity: 0; left: -2169.79px; top: -297.052px;">2</div><div class="lbl tick" style="opacity: 0; left: -2167.01px; top: -296.473px;">3</div><div class="lbl tick" style="opacity: 0; left: -2164.21px; top: -295.892px;">4</div><div class="lbl tick" style="opacity: 0; left: -2161.39px; top: -295.307px;">5</div><div class="lbl tick" style="opacity: 0; left: -2158.56px; top: -294.719px;">6</div><div class="lbl tick" style="opacity: 0; left: -2192.91px; top: -323.846px;">2</div><div class="lbl tick" style="opacity: 0; left: -2207.49px; top: -346.051px;">4</div><div class="lbl tick" style="opacity: 0; left: -2222.24px; top: -368.52px;">6</div><div class="lbl tick" style="opacity: 0; left: -2237.16px; top: -391.258px;">8</div><div class="lbl axis" style="opacity: 0; left: -2162.64px; top: -302.064px;"><i>t</i></div><div class="lbl axis" style="opacity: 0; left: -2245.12px; top: -405.358px;"><i>L/min</i></div><div class="lbl board" style="opacity: 0; left: -2235.39px; top: -396.495px;"><i>R</i>(<i>t</i>)</div><div class="lbl board" style="opacity: 0; left: -2205.52px; top: -365.204px;"><i>D</i>(<i>t</i>)</div><div class="lbl tick" style="opacity: 0; left: -2190.14px; top: -361.789px;">60 L</div><div class="lbl tick" style="opacity: 0; left: -2168.43px; top: -328.335px;">30 L</div><div class="lbl tick" style="opacity: 0; left: -2104.27px; top: -283.44px;">1</div><div class="lbl tick" style="opacity: 0; left: -2099.18px; top: -282.383px;">2</div><div class="lbl tick" style="opacity: 0; left: -2124.72px; top: -307.169px;">1</div><div class="lbl tick" style="opacity: 0; left: -2136.86px; top: -326.106px;">2</div><div class="lbl tick" style="opacity: 0; left: -2149.12px; top: -345.236px;">3</div><div class="lbl tick" style="opacity: 0; left: -2161.51px; top: -364.561px;">4</div><div class="lbl axis" style="opacity: 0; left: -2100.75px; top: -289.593px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -2168.03px; top: -377.019px;"><i>y</i></div><div class="lbl board" style="opacity: 0; left: -2152.81px; top: -351.88px;"><i>y</i> = 4<i>x</i> − <i>x</i>²</div><div class="lbl board" style="opacity: 0; left: -2136.81px; top: -342.591px;"><i>y</i> = <i>x</i>²</div><div class="lbl tick" style="opacity: 0; left: -2028.52px; top: -267.705px;">1</div><div class="lbl tick" style="opacity: 0; left: -2022.71px; top: -266.498px;">2</div><div class="lbl tick" style="opacity: 0; left: -2016.84px; top: -265.279px;">3</div><div class="lbl tick" style="opacity: 0; left: -2010.92px; top: -264.048px;">4</div><div class="lbl tick" style="opacity: 0; left: -2025.58px; top: -253.362px;">−1</div><div class="lbl tick" style="opacity: 0; left: -2050.33px; top: -293.056px;">1</div><div class="lbl tick" style="opacity: 0; left: -2062.91px; top: -313.225px;">2</div><div class="lbl axis" style="opacity: 0; left: -2012.11px; top: -271.73px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -2069.3px; top: -326.147px;"><i>y</i></div><div class="lbl board" style="opacity: 0; left: -2006.84px; top: -244.11px;"><i>x</i> = <i>y</i>²</div><div class="lbl board" style="opacity: 0; left: -2051.4px; top: -316.724px;"><i>x</i> = <i>y</i> + 2</div><div class="lbl tick" style="opacity: 0; left: -1961.29px; top: -253.739px;">−2</div><div class="lbl tick" style="opacity: 0; left: -1954.8px; top: -252.39px;">−1</div><div class="lbl tick" style="opacity: 0; left: -1941.61px; top: -249.65px;">1</div><div class="lbl tick" style="opacity: 0; left: -1934.9px; top: -248.257px;">2</div><div class="lbl tick" style="opacity: 0; left: -1914.38px; top: -193.009px;">−3</div><div class="lbl tick" style="opacity: 0; left: -1926.82px; top: -213.615px;">−2</div><div class="lbl tick" style="opacity: 0; left: -1939.39px; top: -234.456px;">−1</div><div class="lbl tick" style="opacity: 0; left: -1964.97px; top: -276.86px;">1</div><div class="lbl tick" style="opacity: 0; left: -1977.99px; top: -298.431px;">2</div><div class="lbl tick" style="opacity: 0; left: -1991.16px; top: -320.255px;">3</div><div class="lbl axis" style="opacity: 0; left: -1935.71px; top: -256.335px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -1991px; top: -323.217px;"><i>y</i></div><div class="lbl board" style="opacity: 0; left: -1988.14px; top: -306.395px;"><i>f</i></div><div class="lbl board" style="opacity: 0; left: -1963.9px; top: -301.898px;"><i>g</i></div><div class="lbl tick" style="opacity: 0; left: -1858.03px; top: -234.24px;">−2</div><div class="lbl tick" style="opacity: 0; left: -1850.33px; top: -232.652px;">−1</div><div class="lbl tick" style="opacity: 0; left: -1834.67px; top: -229.421px;">1</div><div class="lbl tick" style="opacity: 0; left: -1826.7px; top: -227.777px;">2</div><div class="lbl tick" style="opacity: 0; left: -1803.43px; top: -235.206px;">1</div><div class="lbl tick" style="opacity: 0; left: -1770.36px; top: -238.326px;">2</div><div class="lbl axis" style="opacity: 0; left: -1806.73px; top: -228.049px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -1743.37px; top: -240.121px;"><i>y</i></div><div class="lbl tick" style="opacity: 0; left: -1675.71px; top: -172.914px;">−2</div><div class="lbl tick" style="opacity: 0; left: -1665.03px; top: -170.546px;">−1</div><div class="lbl tick" style="opacity: 0; left: -1643.22px; top: -165.709px;">1</div><div class="lbl tick" style="opacity: 0; left: -1632.08px; top: -163.239px;">2</div><div class="lbl tick" style="opacity: 0; left: -1609.89px; top: -174.352px;">1</div><div class="lbl tick" style="opacity: 0; left: -1572.32px; top: -178.978px;">2</div><div class="lbl tick" style="opacity: 0; left: -1492.6px; top: -195.028px;">−2</div><div class="lbl tick" style="opacity: 0; left: -1481.43px; top: -192.959px;">−1</div><div class="lbl tick" style="opacity: 0; left: -1458.64px; top: -188.74px;">1</div><div class="lbl tick" style="opacity: 0; left: -1447.02px; top: -186.588px;">2</div><div class="lbl tick" style="opacity: 0; left: -1431.77px; top: -196.285px;">1</div><div class="lbl tick" style="opacity: 0; left: -1398.89px; top: -200.335px;">2</div><div class="lbl tick" style="opacity: 0; left: -1297.79px; top: -115.344px;">1</div><div class="lbl tick" style="opacity: 0; left: -1282.5px; top: -112.163px;">2</div><div class="lbl tick" style="opacity: 0; left: -1266.96px; top: -108.931px;">3</div><div class="lbl tick" style="opacity: 0; left: -1251.17px; top: -105.647px;">4</div><div class="lbl tick" style="opacity: 0; left: -1292.06px; top: -65.4118px;">−2</div><div class="lbl tick" style="opacity: 0; left: -1305.48px; top: -95.4038px;">−1</div><div class="lbl tick" style="opacity: 0; left: -1333.03px; top: -156.955px;">1</div><div class="lbl tick" style="opacity: 0; left: -1347.17px; top: -188.543px;">2</div><div class="lbl axis" style="opacity: 0; left: -1239.83px; top: -116.103px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -1352.7px; top: -211.75px;"><i>y</i></div><div class="lbl tick" style="opacity: 0; left: -1039.5px; top: -61.6121px;">2</div><div class="lbl tick" style="opacity: 0; left: -999.684px; top: -53.3295px;">4</div><div class="lbl tick" style="opacity: 0; left: -958.379px; top: -44.7368px;">6</div><div class="lbl tick" style="opacity: 0; left: -915.499px; top: -35.8165px;">8</div><div class="lbl tick" style="opacity: 0; left: -1098.28px; top: -112.414px;">1</div><div class="lbl tick" style="opacity: 0; left: -1111.89px; top: -147.555px;">2</div><div class="lbl axis" style="opacity: 0; left: -903.792px; top: -48.3859px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -1121.2px; top: -187.8px;"><i>y</i></div><div class="lbl tick" style="opacity: 0; left: -472.23px; top: 56.3967px;">1</div><div class="lbl tick" style="opacity: 0; left: -440.754px; top: 62.9446px;">2</div><div class="lbl tick" style="opacity: 0; left: -408.545px; top: 69.645px;">3</div><div class="lbl tick" style="opacity: 0; left: -375.577px; top: 76.5033px;">4</div><div class="lbl tick" style="opacity: 0; left: -492.847px; top: 121.186px;">−2</div><div class="lbl tick" style="opacity: 0; left: -502.211px; top: 80.7987px;">−1</div><div class="lbl tick" style="opacity: 0; left: -521.639px; top: -3.00066px;">1</div><div class="lbl tick" style="opacity: 0; left: -531.721px; top: -46.4892px;">2</div><div class="lbl axis" style="opacity: 0; left: -342.647px; top: 64.6938px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: -528.532px; top: -78.0628px;"><i>y</i></div><div class="lbl tick" style="opacity: 1; left: 232.143px; top: 202.927px;">1</div><div class="lbl tick" style="opacity: 1; left: 282.067px; top: 213.313px;">2</div><div class="lbl tick" style="opacity: 1; left: 333.462px; top: 224.005px;">3</div><div class="lbl tick" style="opacity: 1; left: 386.393px; top: 235.016px;">4</div><div class="lbl tick" style="opacity: 1; left: 178.799px; top: 369.34px;">−4</div><div class="lbl tick" style="opacity: 1; left: 177.362px; top: 324.01px;">−3</div><div class="lbl tick" style="opacity: 1; left: 175.883px; top: 277.32px;">−2</div><div class="lbl tick" style="opacity: 1; left: 174.359px; top: 229.208px;">−1</div><div class="lbl tick" style="opacity: 1; left: 171.167px; top: 128.453px;">1</div><div class="lbl tick" style="opacity: 1; left: 169.495px; top: 75.6636px;">2</div><div class="lbl axis" style="opacity: 1; left: 446.615px; top: 223.743px;"><i>x</i></div><div class="lbl axis" style="opacity: 1; left: 185.705px; top: 37.7919px;"><i>y</i></div><div class="lbl tick" style="opacity: 0; left: 1425.65px; top: 449.849px;">1</div><div class="lbl tick" style="opacity: 0; left: 1516.72px; top: 468.768px;">2</div><div class="lbl tick" style="opacity: 0; left: 1611.44px; top: 488.445px;">3</div><div class="lbl tick" style="opacity: 0; left: 1347.43px; top: 351.638px;">1</div><div class="lbl tick" style="opacity: 0; left: 1370.61px; top: 284.899px;">2</div><div class="lbl tick" style="opacity: 0; left: 1394.8px; top: 215.21px;">3</div><div class="lbl tick" style="opacity: 0; left: 1420.1px; top: 142.37px;">4</div><div class="lbl axis" style="opacity: 0; left: 1691.29px; top: 474.565px;"><i>x</i></div><div class="lbl axis" style="opacity: 0; left: 1455.84px; top: 135.586px;"><i>y</i></div><div class="lbl board" style="opacity: 0; left: 1503.58px; top: 268.628px;"><i>y</i> = ⅔<i>x</i><sup>3/2</sup></div></div><div class="hint">Drag to turn · click a thing to break it down</div>
+    <div class="readout" aria-hidden="true">turning: 45°
+V = 16π/3 ≈ 16.755</div><div class="card" aria-live="polite" hidden=""><b></b><span></span></div></div><div class="panel far" aria-hidden="true" style="--d: 2;"><canvas></canvas><div class="labels" aria-hidden="true"></div><div class="hint">Drag to turn · click a thing to break it down</div>
+    <div class="readout" aria-hidden="true"></div><div class="card" aria-live="polite" hidden=""><b></b><span></span></div></div><div class="panel far" aria-hidden="true" style="--d: -3;"><canvas></canvas><div class="labels" aria-hidden="true"></div><div class="hint">Drag to turn · click a thing to break it down</div>
+    <div class="readout" aria-hidden="true"></div><div class="card" aria-live="polite" hidden=""><b></b><span></span></div></div><div class="panel live far" aria-hidden="true" style="--d: -2;"><canvas data-engine="three.js r186" width="552" height="493"></canvas><div class="labels" aria-hidden="true"><div class="lbl vec blue" style="opacity: 0; left: -7879.34px; top: 539.932px;">v</div><div class="lbl vec red" style="opacity: 0; left: -8351.71px; top: 550.325px;">a</div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>0</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>f</sub></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">Δv</div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>0</sub></div><div class="lbl axis" style="opacity: 0; left: -8391.1px; top: 554.166px;">r</div><div class="lbl vec blue" style="opacity: 0; left: -6250.57px; top: 535.022px;">v</div><div class="lbl vec" style="opacity: 0; left: -6562.84px; top: 551.798px;">T</div><div class="lbl vec red" style="opacity: 0; left: -6579.42px; top: 516.644px;">ΣF</div><div class="lbl vec" style="opacity: 0; left: -6631.07px; top: 493.803px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 0; left: -6571.57px; top: 619.224px;"><i>mg</i></div><div class="lbl tick" style="opacity: 0; left: -7293.02px; top: 614.219px;">2.0 m/s</div><div class="lbl vec blue" style="opacity: 0; left: -5196.37px; top: 476.634px;">v</div><div class="lbl vec" style="opacity: 0; left: -5851.69px; top: 522.397px;">T</div><div class="lbl vec red" style="opacity: 0; left: -5865.61px; top: 489.387px;">ΣF</div><div class="lbl vec" style="opacity: 0; left: -5563.22px; top: 450.169px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 0; left: -5518.22px; top: 562.709px;"><i>mg</i></div><div class="lbl tick" style="opacity: 0; left: -6657.66px; top: 597.789px;">4.0 m/s</div><div class="lbl vec" style="opacity: 0; left: -3830.09px; top: 750.441px;">F<sub>g</sub></div><div class="lbl vec" style="opacity: 0; left: -3955.31px; top: 314.226px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 0; left: -3718.96px; top: 540.322px;">f<sub>s</sub></div><div class="lbl vec red" style="opacity: 0; left: -3911.41px; top: 488.348px;">ΣF</div><div class="lbl vec blue" style="opacity: 0; left: -3417.71px; top: 500.866px;">v</div><div class="lbl axis" style="opacity: 0; left: 0px; top: 0px;">r</div><div class="lbl vec" style="opacity: 0; left: -1059.8px; top: 240.752px;">T</div><div class="lbl vec" style="opacity: 0; left: -1028.68px; top: 323.842px;"><i>mg</i></div><div class="lbl vec red" style="opacity: 0; left: -1058.03px; top: 300.477px;">ΣF</div><div class="lbl vec blue" style="opacity: 0; left: -1076.64px; top: 280.046px;">v</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">T sin θ</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">T cos θ</div><div class="lbl axis" style="opacity: 0; left: -1089.64px; top: 214.272px;">θ</div><div class="lbl vec" style="opacity: 1; left: 214.278px; top: 261.135px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 1; left: 309.317px; top: 326.153px;"><i>mg</i></div><div class="lbl vec red" style="opacity: 1; left: 209.484px; top: 293.038px;">ΣF</div><div class="lbl vec blue" style="opacity: 1; left: 341.132px; top: 224.242px;">v</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;"><i>mg</i></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">ΣF</div><div class="lbl board" style="opacity: 0; left: 0px; top: 0px;">top</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>N</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;"><i>mg</i></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">ΣF</div><div class="lbl board" style="opacity: 0; left: 0px; top: 0px;">bottom</div><div class="lbl vec" style="opacity: 0; left: 1990.76px; top: 492.836px;">F<sub>g</sub></div><div class="lbl vec" style="opacity: 0; left: 1946.81px; top: 199.781px;">F<sub>N</sub></div><div class="lbl vec red" style="opacity: 0; left: 1909.1px; top: 303.307px;">ΣF</div><div class="lbl vec blue" style="opacity: 0; left: 2028.64px; top: 336.952px;">v</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>N</sub> sin θ</div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>N</sub> cos θ</div><div class="lbl vec blue" style="opacity: 0; left: 2857.18px; top: 313.925px;">v<sub>1</sub></div><div class="lbl vec blue" style="opacity: 0; left: 2792.62px; top: 308.191px;">v<sub>2</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">s<sub>1</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">s<sub>2</sub></div><div class="lbl tick" style="opacity: 0; left: 0px; top: 0px;">1 rad</div><div class="lbl vec" style="opacity: 0; left: 3584.18px; top: 227.134px;">F<sub>12</sub></div><div class="lbl vec" style="opacity: 0; left: 3609.61px; top: 226.755px;">F<sub>21</sub></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">a<sub>1</sub></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;">a<sub>2</sub></div><div class="lbl board" style="opacity: 0; left: 3565.72px; top: 198.829px;">m<sub>1</sub></div><div class="lbl board" style="opacity: 0; left: 3633.25px; top: 191.066px;">m<sub>2</sub></div><div class="lbl axis" style="opacity: 0; left: 3595.1px; top: 249.192px;">r</div><div class="lbl vec blue" style="opacity: 0; left: 3904.54px; top: 141.595px;">v<sub>1</sub></div><div class="lbl vec red" style="opacity: 0; left: 4487.88px; top: 149.478px;">a<sub>1</sub></div><div class="lbl vec blue" style="opacity: 0; left: 3801.98px; top: 145.996px;">v<sub>2</sub></div><div class="lbl vec red" style="opacity: 0; left: 3740.09px; top: 143.148px;">a<sub>2</sub></div><div class="lbl tick" style="opacity: 0; left: 0px; top: 0px;">1 h</div><div class="lbl tick" style="opacity: 0; left: 0px; top: 0px;">1 h</div><div class="lbl tick" style="opacity: 0; left: 5965.54px; top: 142.213px;">1 h</div><div class="lbl tick" style="opacity: 0; left: 5470.17px; top: 146.243px;">1 h</div><div class="lbl board" style="opacity: 0; left: 6232.39px; top: 144.677px;">perigee</div><div class="lbl board" style="opacity: 0; left: 5236.16px; top: 143.593px;">apogee</div><div class="lbl vec blue" style="opacity: 0; left: 4939.91px; top: 132.846px;">v</div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>p</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r<sub>p</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>a</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">r<sub>a</sub></div><div class="lbl vec blue" style="opacity: 0; left: 5776.33px; top: 87.9494px;">v</div><div class="lbl vec red" style="opacity: 0; left: 6559.9px; top: 88.6601px;">F<sub>g</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>∥</sub></div><div class="lbl vec" style="opacity: 0; left: 0px; top: 0px;">F<sub>⊥</sub></div><div class="lbl vec" style="opacity: 0; left: 6601.61px; top: -63.9151px;">K</div><div class="lbl vec" style="opacity: 0; left: 6487.02px; top: 290.45px;">U</div><div class="lbl vec" style="opacity: 0; left: 6572.98px; top: 166.021px;">E</div><div class="lbl axis" style="opacity: 0; left: 7370.65px; top: 27.8943px;">R<sub>E</sub></div><div class="lbl axis" style="opacity: 0; left: 7401.76px; top: 28.1854px;">2R<sub>E</sub></div><div class="lbl axis" style="opacity: 0; left: 7439.63px; top: 28.5397px;">3R<sub>E</sub></div><div class="lbl axis" style="opacity: 0; left: 7477.02px; top: 28.8894px;">4R<sub>E</sub></div><div class="lbl axis" style="opacity: 0; left: 7513.92px; top: 29.2347px;">5R<sub>E</sub></div><div class="lbl axis" style="opacity: 0; left: 7540.23px; top: 46.3454px;">r →∞</div><div class="lbl axis" style="opacity: 0; left: 7140.57px; top: 404.243px;">U</div><div class="lbl vec" style="opacity: 0; left: 7392.61px; top: 169.726px;"><i>U</i> = −<i>GMm</i>/<i>r</i></div><div class="lbl vec red" style="opacity: 0; left: 7329.46px; top: 27.5089px;">F<sub>g</sub></div><div class="lbl tick" style="opacity: 0; left: 7235.82px; top: 347.439px;"></div><div class="lbl vec red" style="opacity: 0; left: 0px; top: 0px;"><i>U</i>(<i>R</i>) + <i>mgh</i></div><div class="lbl vec blue" style="opacity: 0; left: 8869.49px; top: 131.993px;">v<sub>c</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>c</sub> <span style="color:#6e6e74">E &lt; 0</span></div><div class="lbl vec blue" style="opacity: 0; left: 7759.46px; top: 127.616px;">0.8 v<sub>esc</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">0.8 v<sub>esc</sub> <span style="color:#6e6e74">E &lt; 0</span></div><div class="lbl vec blue" style="opacity: 0; left: 6091.96px; top: 117.349px;">v<sub>esc</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">v<sub>esc</sub> <span style="color:#6e6e74">E = 0</span></div><div class="lbl vec blue" style="opacity: 0; left: 6111.37px; top: 116.437px;">1.2 v<sub>esc</sub></div><div class="lbl vec blue" style="opacity: 0; left: 0px; top: 0px;">1.2 v<sub>esc</sub> <span style="color:#6e6e74">E &gt; 0</span></div></div><div class="hint">Drag to turn · click a thing to break it down</div>
+    <div class="readout" aria-hidden="true">67° from the bottom   v 16.23 m/s
+F_N 23.85 kN   mg 4.90 kN</div><div class="card" aria-live="polite" hidden=""><b></b><span></span></div></div></div>
+      <figcaption class="bar">
+        <button type="button" class="prev" aria-label="Previous figure">‹</button>
+        <a class="where" href="/physics/rotation/#9" aria-live="polite"><b>Physics · Rotation</b><span>Box, sphere, disc, ring</span></a>
+        <span class="dots"><button type="button" aria-label="Figure 1 of 6" aria-current="false"></button><button type="button" aria-label="Figure 2 of 6" aria-current="true"></button><button type="button" aria-label="Figure 3 of 6" aria-current="false"></button><button type="button" aria-label="Figure 4 of 6" aria-current="false"></button><button type="button" aria-label="Figure 5 of 6" aria-current="false"></button><button type="button" aria-label="Figure 6 of 6" aria-current="false"></button></span>
+        <button type="button" class="next" aria-label="Next figure">›</button>
+      </figcaption>
+    </figure>
+    <script type="module" src="/js/hero.js"></script>
+  </section>
+
+  <section class="quotes">
+    <h2>From students and teachers</h2>
+    <div class="qmq">
+      <div class="qrow">
+        <figure class="q"><blockquote>“The clarity of your explanations, the way you demonstrate the concepts, and especially the quality of the questions you’ve developed are remarkable … I can absolutely see myself incorporating this into my classroom.”</blockquote><figcaption><b>Cameron C.</b>Teacher, Roanoke, VA</figcaption></figure>
+        <figure class="q"><blockquote>“I was very impressed with the quality of the physics visualizations … I will probably link to this site for my blog.”</blockquote><figcaption><b>Doug N.</b>Professor, Rice University</figcaption></figure>
+        <figure class="q"><blockquote>“I’m so glad I found this site because I’m taking physics right now and this is exactly what I needed to actually understand the concepts.”</blockquote><figcaption><b>Serena O.</b>Student, University of Texas at Austin</figcaption></figure>
+        <figure class="q"><blockquote>“I am using Atlas to essentially redo my college math and physics, as a refresher and brain stimulation. Awesome work!”</blockquote><figcaption><b>Martin C.</b>Retired electrical engineer</figcaption></figure>
+      </div>
+      <div class="qrow" aria-hidden="true" inert="">
+        <figure class="q"><blockquote>“The clarity of your explanations, the way you demonstrate the concepts, and especially the quality of the questions you’ve developed are remarkable … I can absolutely see myself incorporating this into my classroom.”</blockquote><figcaption><b>Cameron C.</b>Teacher, Roanoke, VA</figcaption></figure>
+        <figure class="q"><blockquote>“I was very impressed with the quality of the physics visualizations … I will probably link to this site for my blog.”</blockquote><figcaption><b>Doug N.</b>Professor, Rice University</figcaption></figure>
+        <figure class="q"><blockquote>“I’m so glad I found this site because I’m taking physics right now and this is exactly what I needed to actually understand the concepts.”</blockquote><figcaption><b>Serena O.</b>Student, University of Texas at Austin</figcaption></figure>
+        <figure class="q"><blockquote>“I am using Atlas to essentially redo my college math and physics, as a refresher and brain stimulation. Awesome work!”</blockquote><figcaption><b>Martin C.</b>Retired electrical engineer</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="marq" aria-label="Subjects">
+    <div class="mq"><div class="row"><a href="/physics/">AP Physics 1 and Physics C</a><a href="/calculus/">AP Calculus AB and BC</a><a href="/statistics/">AP Statistics<em>New</em></a><span class="soon">AP Biology<em>Nov 3</em></span><span class="soon">AP Chemistry<em>Nov 5</em></span><span class="soon">AP US History<em>Nov 7</em></span><span class="soon">AP Macroeconomics<em>Soon</em></span><span class="soon">AP US Government and Politics<em>Soon</em></span></div><div class="row" aria-hidden="true" inert=""><a href="/physics/">AP Physics 1 and Physics C</a><a href="/calculus/">AP Calculus AB and BC</a><a href="/statistics/">AP Statistics<em>New</em></a><span class="soon">AP Biology<em>Nov 3</em></span><span class="soon">AP Chemistry<em>Nov 5</em></span><span class="soon">AP US History<em>Nov 7</em></span><span class="soon">AP Macroeconomics<em>Soon</em></span><span class="soon">AP US Government and Politics<em>Soon</em></span></div></div>
+    <a class="all" href="/subjects/">All subjects →</a>
+  </section>
+
+  <div class="nums"><div><b>1,163</b><span>practice questions</span></div>
+      <div><b>177</b><span>practice sets</span></div><div><b>34</b><span>chapters · 3 subjects</span></div></div>
+
+  <section class="feat">
+    <div class="txt">
+      <span class="k">Interactive</span>
+      <h2>Every figure turns, and comes apart.</h2>
+      <p>Drag to see it from any side. Tap a part to break it down, with its live numbers.</p>
+    </div>
+    <div class="vis">
+      <img src="/physics/img/kinematics.jpg" alt="The kinematics figure: a ball thrown up and across, with its velocity arrows" width="900" height="804" loading="lazy">
+      <span class="tagp" style="top:14px; left:14px">↻ Drag to turn</span>
+      <span class="tagp" style="top:24%; right:8%">Tap a part to break it down</span>
+    </div>
+  </section>
+
+  <section class="feat flip">
+    <div class="txt">
+      <span class="k">Practice</span>
+      <h2>AP-style questions on every page.</h2>
+      <p>Multiple choice and numbers, graded as you go, in sets for each chapter. Any 3 sets are free with an account.</p>
+    </div>
+    <div class="vis ui" aria-hidden="true">
+      <div class="strip">Projectile motion · Set 1 · 2 of 4</div>
+      <p class="qt">The ball is thrown again with twice the sideways speed and the same upward speed. How far from the launcher does it land?</p>
+      <div class="mc"><span class="L">A</span>The same distance<span></span></div>
+      <div class="mc ok"><span class="L">B</span>Twice as far<b>✓</b></div>
+      <div class="mc"><span class="L">C</span>Four times as far<span></span></div>
+      <div class="mc"><span class="L">D</span>√2 times as far<span></span></div>
+    </div>
+  </section>
+
+  <section class="feat">
+    <div class="txt">
+      <span class="k">Answers on the figure</span>
+      <h2>See where your answer lands.</h2>
+      <p>Each question sets the figure to its own numbers. Get one wrong and your answer is drawn in, then the working plays out step by step.</p>
+    </div>
+    <div class="vis">
+      <video src="/demos/worked.mp4" poster="/demos/worked.jpg" muted="" loop="" playsinline="" preload="none" width="960" height="712" aria-label="A wrong answer drawn on the figure, then the worked solution played out step by step"></video>
+    </div>
+  </section>
+
+  <section class="feat flip">
+    <div class="txt">
+      <span class="k">AI tutor <span class="pro">PREMIUM</span></span>
+      <h2>Stuck? Ask about that question.</h2>
+      <p>The tutor sees the question, your answer and the working, so it can explain your mistake.</p>
+    </div>
+    <div class="vis sm">
+      <video src="/demos/tutor.mp4" poster="/demos/tutor.jpg" muted="" loop="" playsinline="" preload="none" width="960" height="712" aria-label="A follow-up typed under a practice question, and the AI tutor’s reply with the equation to use"></video>
+    </div>
+  </section>
+
+  <section class="end">
+    <h2>Start with one lesson.</h2>
+    <a class="btn go" href="/physics/kinematics/?samples=1#0">Check out a lesson →</a>
+  </section>
+  <script>
+    // the demo plays only while on screen, and nothing moves at all for reduced motion (its poster frame stays)
+    (() => { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause()), { threshold: .35 });
+      document.querySelectorAll('.feat video').forEach(v => io.observe(v));
+      // the features fade up once, as each first comes into view
+      const up = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove('pre'); up.unobserve(e.target); } }), { threshold: .2 });
+      document.querySelectorAll('.feat').forEach(f => { f.classList.add('pre'); up.observe(f); }); })();
+  </script>
+</main>
+<footer id="foot"><canvas aria-hidden="true" width="1440" height="600"></canvas>
+  <div class="in"><div class="brand"><a class="name" href="/">Atlas</a><span class="soc">
+    <a href="https://x.com/tryatlasclass" target="_blank" rel="noopener" aria-label="Atlas on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a>
+    <a href="https://www.instagram.com/tryatlasclass/" target="_blank" rel="noopener" aria-label="Atlas on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"></rect><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"></circle><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle></svg></a></span></div>
+    <nav class="cols" aria-label="Footer"><div><b>Learn</b><a href="/subjects/">Subjects</a><a href="/practice/">Practice</a></div>
+      <div><b>Plans</b><a href="/pricing/">Premium</a><a href="/teachers/">Teachers</a></div>
+      <div><b>Atlas</b><a href="/about/">About</a><a href="mailto:support@atlasclass.app">support@atlasclass.app</a></div>
+      <div><b>Legal</b><a href="/terms/">Terms</a><a href="/privacy/">Privacy</a></div></nav></div>
+  <div class="base"><span>© 2026 Atlas</span><button type="button" class="theme" aria-label="Switch to dark mode" aria-pressed="false"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button><select id="lang" aria-label="Language"><option value="" lang="en">English</option><option value="id" lang="id">Bahasa Indonesia</option><option value="ms" lang="ms">Bahasa Melayu</option><option value="vi" lang="vi">Tiếng Việt</option><option value="zh" lang="zh-Hans">简体中文</option><option value="zh-tw" lang="zh-Hant">繁體中文</option><option value="ja" lang="ja">日本語</option><option value="ko" lang="ko">한국어</option><option value="hi" lang="hi">हिन्दी</option><option value="es" lang="es-419">Español</option><option value="pt" lang="pt-BR">Português</option></select><script>(() => { const s = document.getElementById('lang'), rest = location.pathname.replace(/^\/(id|ms|vi|zh|zh-tw|ja|ko|hi|es|pt)(?=\/)/, '');
+  s.value = document.documentElement.dataset.base?.slice(1) ?? '';
+  s.onchange = () => { try { localStorage.lang = s.value || 'en'; } catch {} location.href = (s.value && '/' + s.value) + rest + location.search + location.hash; }; })();</script><span class="ap">AP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, this site.</span></div>
+  <script type="module" src="/js/footer.js"></script><div class="spin" aria-hidden="true" style="left: 1068px; top: 84px; width: 168px; height: 168px;"></div></footer>
+
+
+</body></html>

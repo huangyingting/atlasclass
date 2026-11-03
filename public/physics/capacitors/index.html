@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capacitors and Conductors · AP Physics C · Atlas of Physics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="A capacitor is two conductors held apart. A battery moves charge from one to the other, leaving +Q and −Q with a field between them.">
+<meta property="og:title" content="Capacitors and Conductors · AP Physics C · Atlas of Physics"><meta property="og:description" content="A capacitor is two conductors held apart. A battery moves charge from one to the other, leaving +Q and −Q with a field between them.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/capacitors.jpg"><meta property="og:url" content="https://atlasclass.app/physics/capacitors/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "/vendor/three/build/three.module.js", "three/addons/": "/vendor/three/jsm/" } }
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="/vendor/three/build/three.module.js">
+<link rel="modulepreload" href="/vendor/three/build/three.core.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="/vendor/three/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="/vendor/three/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="/vendor/three/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/physics/capacitors/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/physics/capacitors/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/physics/capacitors/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/physics/capacitors/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/physics/capacitors/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/physics/capacitors/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/physics/capacitors/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/physics/capacitors/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/physics/capacitors/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/physics/capacitors/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/physics/capacitors/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/physics/capacitors/">
+<link rel="canonical" href="https://atlasclass.app/physics/capacitors/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/physics/capacitors/#chapter","name":"Capacitors and Conductors","headline":"Capacitors and Conductors · AP Physics C · Atlas of Physics","description":"A capacitor is two conductors held apart. A battery moves charge from one to the other, leaving +Q and −Q with a field between them.","url":"https://atlasclass.app/physics/capacitors/","image":"https://atlasclass.app/physics/img/capacitors.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":4,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Physics C · Electricity and magnetism"},"teaches":["Parallel plates","Two spheres","Two cylinders","Stored energy","Series and parallel","Dielectrics","Connected or not","Conductors"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/physics/#course","name":"Physics","url":"https://atlasclass.app/physics/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Physics","item":"https://atlasclass.app/physics/"},{"@type":"ListItem","position":4,"name":"Capacitors and Conductors","item":"https://atlasclass.app/physics/capacitors/"}]}]}</script>
+
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Physics</a>
+    <span class="crumb">No. 12 · Capacitors and conductors</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Capacitors and conductors</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure: capacitors, dielectrics and a conductor in a field. Hover a scene and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/physics/">Physics</a> · AP Physics C · Electricity and magnetism</p>
+<h1>Capacitors and Conductors</h1>
+<article><h2><a href="#0">Chapter 12 · Capacitors</a></h2><p><i>charge held apart</i></p>
+<p>A <b>capacitor</b> is two conductors held apart. A battery moves charge from one to the other, leaving +<i>Q</i> and −<i>Q</i> with a field between them.</p> <p>Double the voltage and the charge doubles. Their ratio, the <b>capacitance</b>, stays put:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>C</mi><mo>=</mo><mfrac><mi>Q</mi><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">C = \frac{Q}{\Delta V}</annotation></semantics></math></span></div> <p>In farads (1 F = 1 C/V), never negative. It depends only on the <b>geometry</b> and the material in the gap. These plates are 20 cm square, 5 cm apart: <i>C</i> = 7.1 pF.</p> <div></div> <p>One field line per ± pair. Click the plates. Drawn to scale.</p></article>
+<article><h2><a href="#1">12.1 · Parallel plates</a></h2><p><i>Gauss’s law, then ΔV, then C</i></p>
+<p>Three steps, every time: <i>E</i> by Gauss’s law, Δ<i>V</i> by integrating, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">Δ</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">C = Q/\Delta V</annotation></semantics></math></span>.</p> <table><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mi>A</mi><mo>=</mo><mi>σ</mi><mi>A</mi><mi mathvariant="normal">/</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">EA = \sigma A/\varepsilon_0</annotation></semantics></math></span></td><td>pillbox</td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mi>σ</mi><mi mathvariant="normal">/</mi><msub><mi>ε</mi><mn>0</mn></msub><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><msub><mi>ε</mi><mn>0</mn></msub><mi>A</mi></mrow><annotation encoding="application/x-tex">E = \sigma/\varepsilon_0 = Q/\varepsilon_0 A</annotation></semantics></math></span></td><td>uniform</td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mo>−</mo><msubsup><mo>∫</mo><mi>d</mi><mn>0</mn></msubsup><mi>E</mi><mtext> </mtext><mi>d</mi><mi>s</mi><mo>=</mo><mi>E</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">\Delta V = -\int_d^0 E\,ds = Ed</annotation></semantics></math></span></td><td>E constant</td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mi><mrow><msub><mi mathvariant="bold-italic">ε</mi><mn mathvariant="bold">0</mn></msub><mi mathvariant="bold-italic">A</mi><mi mathvariant="bold">/</mi><mi mathvariant="bold-italic">d</mi></mrow></mi></mrow><annotation encoding="application/x-tex">C = Q/\Delta V = \boldsymbol{\varepsilon_0 A/d}</annotation></semantics></math></span></td><td>Q cancels</td></tr></table> <p><i>Q</i> is fixed while the gap changes: <i>E</i> stays 2000 V/m, Δ<i>V</i> = <i>Ed</i> grows, <i>C</i> falls as <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">1/d</annotation></semantics></math></span>.</p> <div></div> <p>Click the pillbox to pull it out.</p></article>
+<article><h2><a href="#2">12.2 · Two spheres</a></h2><p><i>a ball inside a shell</i></p>
+<p>A ball (<i>a</i> = 10 cm, +<i>Q</i>) inside a shell (<i>b</i> = 20 cm, −<i>Q</i>), cut in half.</p> <table><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>⋅</mo><mn>4</mn><mi>π</mi><msup><mi>r</mi><mn>2</mn></msup><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">E\cdot 4\pi r^2 = Q/\varepsilon_0</annotation></semantics></math></span></td><td>Gauss, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>&lt;</mo><mi>r</mi><mo>&lt;</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a &lt; r &lt; b</annotation></semantics></math></span></td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mo>−</mo><msubsup><mo>∫</mo><mi>b</mi><mi>a</mi></msubsup><mi>Q</mi><mtext> </mtext><mi>d</mi><mi>r</mi><mi mathvariant="normal">/</mi><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub><msup><mi>r</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\Delta V = -\int_b^a Q\,dr/4\pi\varepsilon_0 r^2</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>⋅</mo><mi>d</mi><mi>s</mi><mo>=</mo><mi>E</mi><mtext> </mtext><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">E\cdot ds = E\,dr</annotation></semantics></math></span></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>Q</mi><mo stretchy="false">(</mo><mi>b</mi><mo>−</mo><mi>a</mi><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub><mi>a</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">= Q(b - a)/4\pi\varepsilon_0 ab</annotation></semantics></math></span></td><td></td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi><mrow><mn mathvariant="bold">4</mn><mi mathvariant="bold-italic">π</mi><msub><mi mathvariant="bold-italic">ε</mi><mn mathvariant="bold">0</mn></msub><mi mathvariant="bold-italic">a</mi><mi mathvariant="bold-italic">b</mi><mi mathvariant="bold">/</mi><mo stretchy="false">(</mo><mi mathvariant="bold-italic">b</mi><mo mathvariant="bold-italic">−</mo><mi mathvariant="bold-italic">a</mi><mo stretchy="false">)</mo></mrow></mi></mrow><annotation encoding="application/x-tex">C = \boldsymbol{4\pi\varepsilon_0 ab/(b - a)}</annotation></semantics></math></span></td><td>22.2 pF</td></tr></table> <p>As <i>b</i> → ∞, <i>C</i> → 4πε<sub>0</sub><i>a</i>, a lone sphere. Shaded: Δ<i>V</i> = 100 V.</p> <div></div> <p>Click to open the shell. Arrows 2 cm per kV/m.</p></article>
+<article><h2><a href="#3">12.3 · Two cylinders</a></h2><p><i>a rod inside a tube</i></p>
+<p>A rod (<i>a</i> = 2 cm) inside a tube (<i>b</i> = 8 cm), <i>L</i> = 40 cm long: a short coaxial cable.</p> <table><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>⋅</mo><mn>2</mn><mi>π</mi><mi>r</mi><mi>L</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">E\cdot 2\pi rL = Q/\varepsilon_0</annotation></semantics></math></span></td><td>Gauss, side only</td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mo>−</mo><msubsup><mo>∫</mo><mi>b</mi><mi>a</mi></msubsup><mi>Q</mi><mtext> </mtext><mi>d</mi><mi>r</mi><mi mathvariant="normal">/</mi><mn>2</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub><mi>r</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">\Delta V = -\int_b^a Q\,dr/2\pi\varepsilon_0 rL</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>⋅</mo><mi>d</mi><mi>s</mi><mo>=</mo><mi>E</mi><mtext> </mtext><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">E\cdot ds = E\,dr</annotation></semantics></math></span></td></tr><tr><td>&nbsp;&nbsp;&nbsp;&nbsp;<span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false">(</mo><mi>Q</mi><mi mathvariant="normal">/</mi><mn>2</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub><mi>L</mi><mo stretchy="false">)</mo><mi>ln</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>b</mi><mi mathvariant="normal">/</mi><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">= (Q/2\pi\varepsilon_0 L)\ln(b/a)</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∫</mo><mi>d</mi><mi>r</mi><mi mathvariant="normal">/</mi><mi>r</mi><mo>=</mo><mi>ln</mi><mo>⁡</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\int dr/r = \ln r</annotation></semantics></math></span></td></tr><tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi><mrow><mn mathvariant="bold">2</mn><mi mathvariant="bold-italic">π</mi><msub><mi mathvariant="bold-italic">ε</mi><mn mathvariant="bold">0</mn></msub><mi mathvariant="bold-italic">L</mi><mi mathvariant="bold">/</mi><mi>ln</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi mathvariant="bold-italic">b</mi><mi mathvariant="bold">/</mi><mi mathvariant="bold-italic">a</mi><mo stretchy="false">)</mo></mrow></mi></mrow><annotation encoding="application/x-tex">C = \boldsymbol{2\pi\varepsilon_0 L/\ln(b/a)}</annotation></semantics></math></span></td><td>16.0 pF</td></tr></table> <p><i>E</i> ∝ <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">1/r</annotation></semantics></math></span>, gentler than <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><msup><mi>r</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">1/r^{2}</annotation></semantics></math></span>, hence the logarithm. <i>C</i> ∝ length: 40 pF per metre.</p> <div></div> <p>Click to slide the tube off. Arrows 1 cm per kV/m.</p></article>
+<article><h2><a href="#4">12.4 · Stored energy</a></h2><p><i>the work of charging</i></p>
+<p>Each bit <i>dq</i> is carried from − to + against the field already there, through <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mi>q</mi><mi mathvariant="normal">/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">\Delta V = q/C</annotation></semantics></math></span>. The first bits are free; the last cost the full 100 V.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>U</mi><mo>=</mo><msubsup><mo>∫</mo><mn>0</mn><mi>Q</mi></msubsup><mfrac><mi>q</mi><mi>C</mi></mfrac><mtext> </mtext><mi>d</mi><mi>q</mi><mo>=</mo><mfrac><msup><mi>Q</mi><mn>2</mn></msup><mrow><mn>2</mn><mi>C</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">U = \int_0^Q \frac{q}{C}\,dq = \frac{Q^2}{2C}</annotation></semantics></math></span></div> <p>= ½<i>Q</i>Δ<i>V</i> = ½<i>C</i>Δ<i>V</i><sup>2</sup>: the triangle under the line, 35.4 nJ here. The energy lives in the field, at an <b>energy density</b> (J/m³)</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>u</mi><mo>=</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><msub><mi>ε</mi><mn>0</mn></msub><msup><mi>E</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">u = \tfrac12\varepsilon_0 E^2</annotation></semantics></math></span></div> <div></div> <p></p> <p>Blue in the gap darkens with u. Click the plates.</p></article>
+<article><h2><a href="#5">12.5 · Series and parallel</a></h2><p><i>same Q, or same ΔV</i></p>
+<p>2 µF and 4 µF on 9 V. Plate area is drawn ∝ <i>C</i>; one mark is 2 µC.</p> <table> <tr><th>series</th><th>parallel</th></tr> <tr><td>same <i>Q</i> on each</td><td>same Δ<i>V</i> on each</td></tr> <tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mi mathvariant="normal">Δ</mi><msub><mi>V</mi><mn>1</mn></msub><mo>+</mo><mi mathvariant="normal">Δ</mi><msub><mi>V</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">\Delta V = \Delta V_1 + \Delta V_2</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><msub><mi>Q</mi><mn>1</mn></msub><mo>+</mo><msub><mi>Q</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">Q = Q_1 + Q_2</annotation></semantics></math></span></td></tr> <tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><msub><mi>C</mi><mtext>eq</mtext></msub><mo>=</mo><mn>1</mn><mi mathvariant="normal">/</mi><msub><mi>C</mi><mn>1</mn></msub><mo>+</mo><mn>1</mn><mi mathvariant="normal">/</mi><msub><mi>C</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">1/C_\text{eq} = 1/C_1 + 1/C_2</annotation></semantics></math></span></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mtext>eq</mtext></msub><mo>=</mo><msub><mi>C</mi><mn>1</mn></msub><mo>+</mo><msub><mi>C</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">C_\text{eq} = C_1 + C_2</annotation></semantics></math></span></td></tr> <tr><td>1.33 µF: 6 V + 3 V</td><td>6 µF: 18 + 36 µC</td></tr> </table> <p>In series the wire between them is a neutral island: +<i>Q</i> on one end means −<i>Q</i> on the other. The smaller capacitor takes more of the voltage; in parallel the bigger one takes more charge.</p> <div></div> <p>Click a circuit for its charges and voltages.</p></article>
+<article><h2><a href="#6">12.6 · Dielectrics</a></h2><p><i>an insulator in the gap</i></p>
+<p>An insulator in the gap <b>polarizes</b>: each molecular dipole feels τ = <i>p</i>×<i>E</i> = <i>pE</i> sin θ and turns toward <i>U</i> = −<i>p</i>·<i>E</i>, its lowest energy.</p> <p>The lined-up ends leave <b>bound charge</b> on the faces; its field <i>E</i><sub>ind</sub> opposes the plates’:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><msub><mi>E</mi><mn>0</mn></msub><mo>−</mo><msub><mi>E</mi><mtext>ind</mtext></msub><mo>=</mo><mfrac><msub><mi>E</mi><mn>0</mn></msub><mi>κ</mi></mfrac></mrow><annotation encoding="application/x-tex">E = E_0 - E_\text{ind} = \frac{E_0}{\kappa}</annotation></semantics></math></span></div> <p>With <i>Q</i> fixed, Δ<i>V</i> falls by κ and <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>κ</mi><msub><mi>ε</mi><mn>0</mn></msub><mi>A</mi><mi mathvariant="normal">/</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">C = \kappa\varepsilon_0A/d</annotation></semantics></math></span> rises by κ ≥ 1.</p> <table><tr><td>vacuum</td><td>1</td><td>air</td><td>1.0006</td></tr><tr><td>Teflon</td><td>2.1</td><td>plastic</td><td>3</td></tr><tr><td>paper</td><td>3.5</td><td>rubber</td><td>7</td></tr><tr><td>water</td><td>80</td><td>SrTiO₃</td><td>233</td></tr></table> <div></div></article>
+<article><h2><a href="#7">12.7 · Connected or not</a></h2><p><i>what the battery holds fixed</i></p>
+<p>Partly in, the slab and the air beside it are two capacitors in parallel: <i>C</i> = <i>C</i><sub>0</sub>(1 + (κ − 1)<i>x</i>); half in, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>0</mn></msub><mi mathvariant="normal">/</mi><mn>2</mn><mo>⋅</mo><mo stretchy="false">(</mo><mn>1</mn><mo>+</mo><mi>κ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C_0/2 \cdot (1 + \kappa)</annotation></semantics></math></span>.</p> <table> <tr><th>slab fully in</th><th>connected</th><th>disconnected</th></tr> <tr><td>held fixed</td><td>Δ<i>V</i> = 100 V</td><td><i>Q</i> = 708 pC</td></tr> <tr><td><i>Q</i></td><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>κ</mi><msub><mi>Q</mi><mn>0</mn></msub><mo>=</mo><mn>2124</mn><mtext> pC</mtext></mrow><annotation encoding="application/x-tex">\kappa Q_0 = 2124\ \text{pC}</annotation></semantics></math></span></td><td><i>Q</i><sub>0</sub></td></tr> <tr><td>Δ<i>V</i>, <i>E</i></td><td>unchanged</td><td>÷ κ (33.3 V)</td></tr> <tr><td><i>U</i></td><td>× κ (106.2 nJ)</td><td>÷ κ (11.8 nJ)</td></tr> </table> <p>Connected, charge flows on where the slab is; the battery does work Δ<i>V</i>·Δ<i>Q</i>, twice the rise in stored energy. Either way the plates pull the slab in.</p> <div></div> <p>Click either capacitor.</p></article>
+<article><h2><a href="#8">12.8 · Conductors</a></h2><p><i>in electrostatic equilibrium</i></p>
+<p>A neutral metal sphere in a 1000 V/m field. Its free electrons drift until their own field cancels the outside one within. Then:</p> <ul> <li><i>E</i> = 0 everywhere inside the metal;</li> <li>any charge sits on the surface;</li> <li>just outside, <i>E</i> ⊥ surface and <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mi>σ</mi><mi mathvariant="normal">/</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">E = \sigma/\varepsilon_0</annotation></semantics></math></span>;</li> <li>the whole conductor is one potential.</li> </ul> <p>Here σ = 3ε<sub>0</sub><i>E</i><sub>0</sub> cos θ, summing to zero; at the poles <i>E</i> = 3<i>E</i><sub>0</sub>. A metal slab of thickness <i>t</i> in a capacitor leaves two gaps in series: <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><msub><mi>ε</mi><mn>0</mn></msub><mi>A</mi><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mi>d</mi><mo>−</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">C = \varepsilon_0A/(d - t)</annotation></semantics></math></span>.</p> <div></div> <p>Click the sphere to cut it. Field lines traced from the model.</p></article>
+<p><a href="/physics/potential/">← Electric Potential</a> · <a href="/physics/circuits/">Circuits →</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

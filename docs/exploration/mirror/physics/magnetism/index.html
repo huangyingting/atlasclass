@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magnetic Fields · AP Physics C · Atlas of Physics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="A magnetic field B is made by moving charge: a current, or the spinning electrons inside a magnet. It is measured in tesla (1 T = 104 gauss).">
+<meta property="og:title" content="Magnetic Fields · AP Physics C · Atlas of Physics"><meta property="og:description" content="A magnetic field B is made by moving charge: a current, or the spinning electrons inside a magnet. It is measured in tesla (1 T = 104 gauss).">
+<meta property="og:image" content="https://atlasclass.app/physics/img/magnetism.jpg"><meta property="og:url" content="https://atlasclass.app/physics/magnetism/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<style>
+  /* this chapter: B is grey, and ⊗ marks a field into the page */
+  .lbl.vec.grey { color: #6c6c72; }
+  .lbl.mark { font: 15px/1 var(--serif); color: #86868c; }
+</style>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/physics/magnetism/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/physics/magnetism/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/physics/magnetism/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/physics/magnetism/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/physics/magnetism/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/physics/magnetism/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/physics/magnetism/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/physics/magnetism/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/physics/magnetism/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/physics/magnetism/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/physics/magnetism/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/physics/magnetism/">
+<link rel="canonical" href="https://atlasclass.app/physics/magnetism/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/physics/magnetism/#chapter","name":"Magnetic Fields","headline":"Magnetic Fields · AP Physics C · Atlas of Physics","description":"A magnetic field B is made by moving charge: a current, or the spinning electrons inside a magnet. It is measured in tesla (1 T = 104 gauss).","url":"https://atlasclass.app/physics/magnetism/","image":"https://atlasclass.app/physics/img/magnetism.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":6,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Physics C · Electricity and magnetism"},"teaches":["The magnetic force","Circling in a field","Crossed E and B","Force on a current","Ampère’s law","Biot–Savart","Parallel wires","Solenoids"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/physics/#course","name":"Physics","url":"https://atlasclass.app/physics/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Physics","item":"https://atlasclass.app/physics/"},{"@type":"ListItem","position":4,"name":"Magnetic Fields","item":"https://atlasclass.app/physics/magnetism/"}]}]}</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Physics</a>
+    <span class="crumb">No. 14 · Magnetic fields</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Magnetic fields</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure: magnets, moving charges, wires and coils in magnetic fields. Hover a scene and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/physics/">Physics</a> · AP Physics C · Electricity and magnetism</p>
+<h1>Magnetic Fields</h1>
+<article><h2><a href="#0">Chapter 14 · Magnetic fields</a></h2><p><i>made by moving charge</i></p>
+<p>A <b>magnetic field</b> <b>B</b> is made by moving charge: a current, or the spinning electrons inside a magnet. It is measured in tesla (1 T = 10<sup>4</sup> gauss).</p> <p>Outside a magnet the lines run from N to S; inside, from S back to N, so every line closes on itself. There are no magnetic monopoles (cut one and you get two magnets), so through any closed surface</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>∮</mo><mover accent="true"><mi>B</mi><mo>⃗</mo></mover><mo>⋅</mo><mi>d</mi><mover accent="true"><mi>A</mi><mo>⃗</mo></mover><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\oint \vec{B}\cdot d\vec{A} = 0</annotation></semantics></math></span></div> <p>This 20 cm magnet is drawn as Ampère pictured it, a sheet of current round its sides. Every line is traced from that current’s Biot–Savart sum.</p> <div></div> <p>Click the magnet for a closed box round its N end. One grid square is 10 cm.</p></article>
+<article><h2><a href="#1">14.1 · The magnetic force</a></h2><p><i>F = qv × B</i></p>
+<p>A magnetic field pushes only on a <b>moving</b> charge, and sideways: at right angles to both <b>v</b> and <b>B</b>.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>F</mi><mo>⃗</mo></mover><mo>=</mo><mi>q</mi><mtext> </mtext><mover accent="true"><mi>v</mi><mo>⃗</mo></mover><mo>×</mo><mover accent="true"><mi>B</mi><mo>⃗</mo></mover><mo separator="true">,</mo><mspace width="1em"/><mi>F</mi><mo>=</mo><mi>q</mi><mi>v</mi><mi>B</mi><mi>sin</mi><mo>⁡</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">\vec{F} = q\,\vec{v}\times\vec{B},\quad F = qvB\sin\theta</annotation></semantics></math></span></div> <p><b>Right-hand rule:</b> thumb along <b>v</b>, index finger along <b>B</b>; the middle finger gives <b>F</b> on a + charge, reversed for a − charge. Moving along <b>B</b>, there is no force.</p> <p><b>F</b> ⊥ <b>v</b> always, so <b>B</b> does <b>no work</b>: it turns a charge but never speeds it up. With <b>E</b> too, <b>F</b> = <i>q</i><b>E</b> + <i>q</i><b>v</b> × <b>B</b> (the Lorentz force).</p> <div></div> <p>Click to split <b>v</b> along and across <b>B</b>. <i>v</i> = 2.0×10⁵ m/s, <i>B</i> = 0.50 T; <b>F</b> is 1.5 squares at 1.6×10⁻¹⁴ N.</p></article>
+<article><h2><a href="#2">14.2 · Circling in a field</a></h2><p><i>r = mv/qB</i></p>
+<p>Across a uniform <b>B</b> the force stays at right angles to the velocity. It is a centripetal force: the charge circles at constant speed.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>q</mi><mi>v</mi><mi>B</mi><mo>=</mo><mfrac><mrow><mi>m</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><mi>r</mi></mfrac><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><mi>r</mi><mo>=</mo><mfrac><mrow><mi>m</mi><mi>v</mi></mrow><mrow><mi>q</mi><mi>B</mi></mrow></mfrac><mo separator="true">,</mo><mspace width="1em"/><mi>ω</mi><mo>=</mo><mfrac><mrow><mi>q</mi><mi>B</mi></mrow><mi>m</mi></mfrac></mrow><annotation encoding="application/x-tex">qvB = \frac{mv^2}{r}\quad\Rightarrow\quad r = \frac{mv}{qB},\quad \omega = \frac{qB}{m}</annotation></semantics></math></span></div> <p>Two protons start from rest through 50 V and 200 V (50 eV and 200 eV, with <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mtext> </mtext><mi mathvariant="normal">Δ</mi><mi>V</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>m</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">q\,\Delta V = \tfrac12 mv^2</annotation></semantics></math></span>). Four times the energy, twice the speed, twice the radius: 1.02 and 2.04 cm.</p> <p>Yet <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>π</mi><mi>m</mi></mrow><mrow><mi>q</mi><mi>B</mi></mrow></mfrac><mo>=</mo><mn>0.656</mn><mtext> </mtext><mi>μ</mi><mtext>s</mtext></mrow><annotation encoding="application/x-tex">T = \frac{2\pi m}{qB} = 0.656\ \mu\text{s}</annotation></semantics></math></span> for both, so they meet at the start every turn. A <b>cyclotron</b> uses this, kicking them across a gap at 1.52 MHz.</p> <div></div> <p>Click for the forces and radii. <i>B</i> = 0.10 T, down. One grid square is 1 cm; time runs 1.1×10⁷× slower.</p></article>
+<article><h2><a href="#3">14.3 · Crossed E and B</a></h2><p><i>the velocity selector</i></p>
+<p><b>E</b> between the plates pushes a proton toward the − plate with <i>qE</i>. <b>B</b> into the page pushes it back with <i>qvB</i>. They cancel at one speed:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>q</mi><mi>E</mi><mo>=</mo><mi>q</mi><mi>v</mi><mi>B</mi><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><mi>v</mi><mo>=</mo><mfrac><mi>E</mi><mi>B</mi></mfrac></mrow><annotation encoding="application/x-tex">qE = qvB\quad\Rightarrow\quad v = \frac{E}{B}</annotation></semantics></math></span></div> <p>Here <i>E</i> = 1000 V/m and <i>B</i> = 0.010 T, so 1.0×10⁵ m/s goes straight. Slower, <i>qE</i> wins and it bends down; faster, <i>qvB</i> wins and it bends up.</p> <p>The <b>Hall effect</b> is the same balance in a wire: charge piles up on one edge until <i>qE</i> = <i>qv</i><sub>d</sub><i>B</i>, leaving <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><msub><mi>V</mi><mi>H</mi></msub><mo>=</mo><msub><mi>v</mi><mi>d</mi></msub><mi>B</mi><mi>d</mi><mo>=</mo><mfrac><mrow><mi>I</mi><mi>B</mi><mi>d</mi></mrow><mrow><mi>n</mi><mi>q</mi><mi>A</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\Delta V_H = v_dBd = \frac{IBd}{nqA}</annotation></semantics></math></span>.</p> <div></div> <p>Click for <i>q</i><b>E</b> and <i>q</i><b>v</b> × <b>B</b> on each proton. One grid square is 1 cm.</p></article>
+<article><h2><a href="#4">14.4 · Force on a current</a></h2><p><i>and the torque on a loop</i></p>
+<p>A current is many moving charges. With <i>I</i> = <i>nqAv</i><sub>d</sub>, the force on the charge <i>nqAL</i> in a wire becomes</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>F</mi><mo>⃗</mo></mover><mo>=</mo><mi>I</mi><mtext> </mtext><mover accent="true"><mi>L</mi><mo>⃗</mo></mover><mo>×</mo><mover accent="true"><mi>B</mi><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{F} = I\,\vec{L}\times\vec{B}</annotation></semantics></math></span></div> <p>On a loop in a uniform field the side forces add to zero, but the two vertical sides push opposite ways along different lines. They twist it:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>τ</mi><mo>⃗</mo></mover><mo>=</mo><mover accent="true"><mi>μ</mi><mo>⃗</mo></mover><mo>×</mo><mover accent="true"><mi>B</mi><mo>⃗</mo></mover><mo separator="true">,</mo><mspace width="1em"/><mover accent="true"><mi>μ</mi><mo>⃗</mo></mover><mo>=</mo><mi>I</mi><mover accent="true"><mi>A</mi><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">\vec{\tau} = \vec{\mu}\times\vec{B},\quad \vec{\mu} = I\vec{A}</annotation></semantics></math></span></div> <p>As <i>U</i> = −<b>p</b> · <b>E</b> for a charge dipole, <i>U</i> = −<b>μ</b> · <b>B</b>: lowest along <b>B</b> (stable), highest against it (unstable). Here μ = 0.12 A·m².</p> <div></div> <p>The loop is turned slowly through every angle. Click it for the force on each side (4 squares per N).</p></article>
+<article><h2><a href="#5">14.5 · Ampère’s law</a></h2><p><i>B round a long wire</i></p>
+<p>Round a long wire the lines are circles: thumb along <i>I</i>, fingers curl with <b>B</b>.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>∮</mo><mover accent="true"><mi>B</mi><mo>⃗</mo></mover><mo>⋅</mo><mi>d</mi><mover accent="true"><mi>s</mi><mo>⃗</mo></mover><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>I</mi><mtext>enc</mtext></msub></mrow><annotation encoding="application/x-tex">\oint \vec{B}\cdot d\vec{s} = \mu_0 I_\text{enc}</annotation></semantics></math></span></div> <p>On a circle <b>B</b> ∥ d<b>s</b>, <i>B</i> constant: <i>B</i>(2π<i>r</i>) = μ<sub>0</sub><i>I</i>, so <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">B = \frac{\mu_0 I}{2\pi r}</annotation></semantics></math></span>. Inside a thick wire, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi><mi>r</mi></mrow><mrow><mn>2</mn><mi>π</mi><msup><mi>a</mi><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">B = \frac{\mu_0 Ir}{2\pi a^2}</annotation></semantics></math></span>.</p> <p>Through the rectangle, add strips: <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mo>∫</mo><mi>a</mi><mrow><mi>a</mi><mo>+</mo><mi>c</mi></mrow></msubsup><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac><mtext> </mtext><mi>b</mi><mtext> </mtext><mi>d</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">\int_a^{a+c} \frac{\mu_0 I}{2\pi r}\,b\,dr</annotation></semantics></math></span>, or</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi><mi>b</mi></mrow><mrow><mn>2</mn><mi>π</mi></mrow></mfrac><mi>ln</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mrow><mi>a</mi><mo>+</mo><mi>c</mi></mrow><mi>a</mi></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\Phi = \frac{\mu_0 Ib}{2\pi}\ln\left(\frac{a + c}{a}\right)</annotation></semantics></math></span></div> <div></div> <p>Click the wire for d<b>s</b>, the rectangle for its strips. <b>B</b>: 0.8 squares per 100 μT.</p></article>
+<article><h2><a href="#6">14.6 · Biot–Savart</a></h2><p><i>adding up every piece</i></p>
+<p>Without symmetry, add up the field of every piece d<b>l</b> of wire, as Coulomb’s law adds up pieces of charge. <b>r̂</b> points from d<b>l</b> to P:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>d</mi><mover accent="true"><mi>B</mi><mo>⃗</mo></mover><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>4</mn><mi>π</mi></mrow></mfrac><mtext> </mtext><mfrac><mrow><mi>d</mi><mover accent="true"><mi>l</mi><mo>⃗</mo></mover><mo>×</mo><mover accent="true"><mi>r</mi><mo>^</mo></mover></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">d\vec{B} = \frac{\mu_0 I}{4\pi}\,\frac{d\vec{l}\times\hat{r}}{r^2}</annotation></semantics></math></span></div> <p>On a loop’s axis every d<b>l</b> ⊥ <b>r</b>. The sideways parts of d<b>B</b> cancel round the loop; the parts along the axis (<span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>cos</mi><mo>⁡</mo><mi>θ</mi><mo>=</mo><mfrac><mi>R</mi><mi>r</mi></mfrac></mrow><annotation encoding="application/x-tex">\cos\theta = \frac{R}{r}</annotation></semantics></math></span>) add:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>B</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi><msup><mi>R</mi><mn>2</mn></msup></mrow><mrow><mn>2</mn><mo stretchy="false">(</mo><msup><mi>R</mi><mn>2</mn></msup><mo>+</mo><msup><mi>z</mi><mn>2</mn></msup><msup><mo stretchy="false">)</mo><mrow><mn>3</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">B = \frac{\mu_0 IR^2}{2(R^2 + z^2)^{3/2}}</annotation></semantics></math></span></div> <p>At the centre, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi></mrow><mrow><mn>2</mn><mi>R</mi></mrow></mfrac><mo>=</mo><mn>41.9</mn><mtext> </mtext><mi>μ</mi><mtext>T</mtext></mrow><annotation encoding="application/x-tex">\frac{\mu_0 I}{2R} = 41.9\ \mu\text{T}</annotation></semantics></math></span>. Far away, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>I</mi><msup><mi>R</mi><mn>2</mn></msup></mrow><mrow><mn>2</mn><msup><mi>z</mi><mn>3</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{\mu_0 IR^2}{2z^3}</annotation></semantics></math></span>: a dipole’s <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><msup><mi>z</mi><mn>3</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{z^3}</annotation></semantics></math></span>.</p> <div></div> <p>Click the loop for 12 pieces d<b>l</b> and their d<b>B</b> (drawn 5× longer). <b>B</b>: 1 square per 20 μT.</p></article>
+<article><h2><a href="#7">14.7 · Parallel wires</a></h2><p><i>like currents attract</i></p>
+<p>Each wire sits in the other’s field, so each feels <b>F</b> = <i>I</i> <b>L</b> × <b>B</b>.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>B</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>I</mi><mn>1</mn></msub></mrow><mrow><mn>2</mn><mi>π</mi><mi>d</mi></mrow></mfrac><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><mfrac><mi>F</mi><mi>L</mi></mfrac><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>I</mi><mn>1</mn></msub><msub><mi>I</mi><mn>2</mn></msub></mrow><mrow><mn>2</mn><mi>π</mi><mi>d</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">B_1 = \frac{\mu_0 I_1}{2\pi d}\quad\Rightarrow\quad \frac{F}{L} = \frac{\mu_0 I_1 I_2}{2\pi d}</annotation></semantics></math></span></div> <p>With 20 A in each, 20 cm apart, that is 0.40 mN per metre. Currents the <b>same</b> way attract; <b>opposite</b> ways repel, the reverse of charges.</p> <p>The field lines show it. Like currents cancel between the wires (<i>B</i> = 0 midway) and the outer lines wrap round both. Opposite currents crowd the field between them.</p> <div></div> <p>Click a pair for the field each wire feels from the other. Forces: 2 squares per mN/m.</p></article>
+<article><h2><a href="#8">14.8 · Solenoids</a></h2><p><i>and toroids: a uniform field</i></p>
+<p>Stack many loops: their fields add inside and nearly cancel outside. That is a <b>solenoid</b>.</p> <p>Take a rectangle half inside. Only its inside side counts (<b>B</b> ⊥ d<b>s</b> on the ends, <i>B</i> ≈ 0 outside), so <i>BL</i> = μ<sub>0</sub><i>NI</i>. With <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mfrac><mi>N</mi><mi>L</mi></mfrac></mrow><annotation encoding="application/x-tex">n = \frac{N}{L}</annotation></semantics></math></span> turns per metre:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>B</mi><mo>=</mo><msub><mi>μ</mi><mn>0</mn></msub><mi>n</mi><mi>I</mi><mspace width="2em"/><mtext>toroid: </mtext><mi>B</mi><mo>=</mo><mfrac><mrow><msub><mi>μ</mi><mn>0</mn></msub><mi>N</mi><mi>I</mi></mrow><mrow><mn>2</mn><mi>π</mi><mi>r</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">B = \mu_0 nI\qquad\text{toroid: } B = \frac{\mu_0 NI}{2\pi r}</annotation></semantics></math></span></div> <p>Here μ<sub>0</sub><i>nI</i> = 251.3 μT; the Biot–Savart sum gives 240.8 μT, as this coil is only 6.7 radii long. Bent into a ring it is a <b>toroid</b>: <i>B</i>(2π<i>r</i>) = μ<sub>0</sub><i>NI</i> inside, and 0 in the hole and outside.</p> <div></div> <p>Click the solenoid for its Amperian rectangle, the toroid to see inside. <b>B</b>: 1 square per 100 μT.</p></article>
+<p><a href="/physics/circuits/">← Circuits</a> · <a href="/physics/induction/">Electromagnetic Induction →</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

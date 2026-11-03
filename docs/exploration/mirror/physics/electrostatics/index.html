@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>(() => { const d = document.documentElement, q = matchMedia('(prefers-color-scheme: dark)');
+  try { const t = localStorage.theme; if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch {}
+  const dark = () => d.dataset.theme ? d.dataset.theme === 'dark' : q.matches;
+  const sync = () => document.querySelectorAll('.theme').forEach(b => { b.setAttribute('aria-pressed', String(dark())); b.setAttribute('aria-label', dark() ? 'Switch to light mode' : 'Switch to dark mode'); });
+  addEventListener('DOMContentLoaded', sync); addEventListener('load', sync);
+  q.addEventListener('change', () => { sync(); dispatchEvent(new Event('themechange')); });
+  const flip = () => { const t = dark() ? 'light' : 'dark';
+    if ((t === 'dark') === q.matches) { delete d.dataset.theme; try { localStorage.removeItem('theme'); } catch {} }
+    else { d.dataset.theme = t; try { localStorage.theme = t; } catch {} }
+    sync(); dispatchEvent(new Event('themechange')); };
+  // a cross-fade from the old colours to the new (site/theme.css times it), where the browser can; otherwise at once
+  addEventListener('click', e => { if (!e.target.closest('.theme')) return;
+    if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return flip();
+    d.classList.add('theme-vt'); document.startViewTransition(flip).finished.finally(() => d.classList.remove('theme-vt')); }); })();</script>
+<script>(() => { try { if (localStorage.lang) return; } catch { return; }
+  for (const l of navigator.languages ?? [navigator.language]) {
+    const x = l.toLowerCase(), b = x.split('-')[0];
+    const p = b === 'en' ? '' : b === 'zh' ? (/-(tw|hk|mo|hant)/.test(x) ? 'zh-tw' : 'zh') : ["id","ms","vi","zh","zh-tw","ja","ko","hi","es","pt"].includes(b) ? b : null;
+    if (p === '') return;
+    if (p) return location.replace('/' + p + location.pathname + location.search + location.hash);
+  } })();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electrostatics · AP Physics C · Atlas of Physics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Atoms are built from charged parts: protons (+) in the nucleus, electrons (−) around it, and neutral neutrons. Like charges repel; opposite charges attract.">
+<meta property="og:title" content="Electrostatics · AP Physics C · Atlas of Physics"><meta property="og:description" content="Atoms are built from charged parts: protons (+) in the nucleus, electrons (−) around it, and neutral neutrons. Like charges repel; opposite charges attract.">
+<meta property="og:image" content="https://atlasclass.app/physics/img/electrostatics.jpg"><meta property="og:url" content="https://atlasclass.app/physics/electrostatics/"><meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/EBGaramond-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/JetBrainsMono-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="../atlas.css">
+<link rel="stylesheet" href="../engine/book.css">
+<link rel="expect" href="#right" blocking="render">
+<script src="../engine/cover.js"></script>
+<style>.sheet .eq.sm { font-size: 19px; padding-top: 2px; padding-bottom: 2px; } .sheet .data td { padding-top: 4px; padding-bottom: 4px; }</style>
+<script type="importmap">
+{ "imports": { "katex": "/katex/katex.mjs", "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/" } }
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<link rel="stylesheet" href="/katex/katex.min.css">
+<link rel="stylesheet" href="/drawer.css">
+<script type="module" src="/js/drawer.js"></script>
+<link rel="modulepreload" href="../engine/book.js">
+<link rel="modulepreload" href="../engine/render.js">
+<link rel="modulepreload" href="../engine/parts.js">
+<link rel="modulepreload" href="../engine/xrefs.js">
+<link rel="modulepreload" href="../engine/tex.js">
+<link rel="modulepreload" href="/katex/katex.mjs">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js">
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js">
+<link rel="preload" href="/fonts/EBGaramond-400i-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="alternate" hreflang="en" href="https://atlasclass.app/physics/electrostatics/">
+<link rel="alternate" hreflang="id" href="https://atlasclass.app/id/physics/electrostatics/">
+<link rel="alternate" hreflang="ms" href="https://atlasclass.app/ms/physics/electrostatics/">
+<link rel="alternate" hreflang="vi" href="https://atlasclass.app/vi/physics/electrostatics/">
+<link rel="alternate" hreflang="zh-Hans" href="https://atlasclass.app/zh/physics/electrostatics/">
+<link rel="alternate" hreflang="zh-Hant" href="https://atlasclass.app/zh-tw/physics/electrostatics/">
+<link rel="alternate" hreflang="ja" href="https://atlasclass.app/ja/physics/electrostatics/">
+<link rel="alternate" hreflang="ko" href="https://atlasclass.app/ko/physics/electrostatics/">
+<link rel="alternate" hreflang="hi" href="https://atlasclass.app/hi/physics/electrostatics/">
+<link rel="alternate" hreflang="es-419" href="https://atlasclass.app/es/physics/electrostatics/">
+<link rel="alternate" hreflang="pt-BR" href="https://atlasclass.app/pt/physics/electrostatics/">
+<link rel="alternate" hreflang="x-default" href="https://atlasclass.app/physics/electrostatics/">
+<link rel="canonical" href="https://atlasclass.app/physics/electrostatics/">
+<meta property="og:site_name" content="Atlas"><meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="900"><meta property="og:image:height" content="804">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"LearningResource","@id":"https://atlasclass.app/physics/electrostatics/#chapter","name":"Electrostatics","headline":"Electrostatics · AP Physics C · Atlas of Physics","description":"Atoms are built from charged parts: protons (+) in the nucleus, electrons (−) around it, and neutral neutrons. Like charges repel; opposite charges attract.","url":"https://atlasclass.app/physics/electrostatics/","image":"https://atlasclass.app/physics/img/electrostatics.jpg","inLanguage":"en","learningResourceType":"Interactive textbook chapter","educationalLevel":"High school","isAccessibleForFree":true,"position":1,"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"AP Physics C · Electricity and magnetism"},"teaches":["Charging objects","Coulomb’s law","Net force","The electric field","The electric dipole","A charged rod","A ring of charge","A uniform field"],"publisher":{"@id":"https://atlasclass.app/#org"},"isPartOf":{"@type":"Course","@id":"https://atlasclass.app/physics/#course","name":"Physics","url":"https://atlasclass.app/physics/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Atlas","item":"https://atlasclass.app/"},{"@type":"ListItem","position":2,"name":"Subjects","item":"https://atlasclass.app/subjects/"},{"@type":"ListItem","position":3,"name":"Physics","item":"https://atlasclass.app/physics/"},{"@type":"ListItem","position":4,"name":"Electrostatics","item":"https://atlasclass.app/physics/electrostatics/"}]}]}</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+</head>
+<body class="book-body">
+  <header class="topbar">
+    <a href="../" class="brand">Atlas of Physics</a>
+    <span class="crumb">No. 09 · Electrostatics</span>
+    <nav class="dots" id="dots" aria-label="Pages"></nav>
+  </header>
+
+  <div class="scroll-space" id="space"></div>
+
+  <main class="book" id="book">
+    <section class="page left" id="left" aria-live="polite">
+      <article class="sheet" id="sheet"></article>
+      <article class="plate" id="plate" hidden></article>
+      <footer class="folio"><span>Electrostatics</span><span id="folio">1</span></footer>
+    </section>
+
+    <section class="page right" id="right">
+      <div class="figure">
+        <canvas id="gl" aria-label="Interactive figure: charges, fields and charged objects in nine textbook diagrams. Hover a scene and click it to break it down."></canvas>
+        <div id="labels" aria-hidden="true"></div>
+        <div class="corner tl" id="figno">Fig. 1</div>
+        <div class="corner tr" id="figtitle"></div>
+        <div class="corner bl" id="hint">Drag to turn · shift-drag to pan · click to break it down</div>
+        <div class="corner br readout" id="readout"></div>
+      </div>
+    </section>
+
+    <div class="leaf" id="leaf" aria-hidden="true">
+      <div class="leaf-front"><span id="leafnext"></span></div>
+      <div class="leaf-back"><article class="sheet" id="leafsheet"></article></div>
+    </div>
+    <div class="spine" aria-hidden="true"></div>
+  </main>
+
+  <p class="scroll-cue" id="cue">Scroll to turn the page</p>
+  <script type="module" src="main.js"></script>
+<section class="text-version" hidden>
+<p><a href="/physics/">Physics</a> · AP Physics C · Electricity and magnetism</p>
+<h1>Electrostatics</h1>
+<article><h2><a href="#0">Chapter 9 · Electric charge</a></h2><p><i>counted in electrons</i></p>
+<p>Atoms are built from charged parts: <b>protons</b> (+) in the nucleus, <b>electrons</b> (−) around it, and neutral neutrons. Like charges repel; opposite charges attract.</p> <table> <tr><th>particle</th><th>charge</th><th>mass</th></tr> <tr><td>proton</td><td>+<i>e</i></td><td>1.67 × 10<sup>−27</sup> kg</td></tr> <tr><td>electron</td><td>−<i>e</i></td><td>9.11 × 10<sup>−31</sup> kg</td></tr> <tr><td>neutron</td><td>0</td><td>≈ <i>m</i><sub>p</sub></td></tr> </table> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>1</mn><mtext> </mtext><mi>e</mi><mo>=</mo><mn>1.60</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>19</mn></mrow></msup><mtext> C</mtext></mrow><annotation encoding="application/x-tex">1\ e = 1.60 \times 10^{-19}\ \text{C}</annotation></semantics></math></span></div> <p>Equal numbers: <b>neutral</b>. Extra electrons: <b>negative</b>. Too few: <b>positive</b>. In charging solids only electrons move, and every charge is a whole multiple of <i>e</i>.</p> <p><b>Conservation of charge:</b> charge is never made or destroyed, only moved. Rub a rod with fur and one gets +<i>q</i>, the other −<i>q</i>.</p> <p>Click the atoms to find the extra electron and the missing one.</p></article>
+<article><h2><a href="#1">9.1 · Charging objects</a></h2><p><i>four ways to move electrons</i></p>
+<p>Charging never makes charge. It moves electrons onto, off, or across an object.</p> <table> <tr><td><b>friction</b></td><td>rub fur on PVC: electrons cross over</td></tr> <tr><td><b>conduction</b></td><td>touch: spreads over a metal, stays put on an insulator</td></tr> <tr><td><b>induction</b></td><td>no contact: push a metal’s electrons away, ground it</td></tr> <tr><td><b>polarization</b></td><td>an insulator’s molecules stretch into dipoles</td></tr> </table> <p>The −8 nC rod comes within 17 cm. The sphere’s free electrons crowd to the far side; grounding lets them escape. The sphere keeps <b>+2.89 nC</b>, opposite to the rod.</p> <div></div> <p>Bead size is the surface charge σ. Click the sphere or the balloon.</p></article>
+<article><h2><a href="#2">9.2 · Coulomb’s law</a></h2><p><i>the inverse square</i></p>
+<p>The force between two point charges grows with the product of the charges and falls with the square of the distance.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mo>=</mo><mfrac><mrow><mi>k</mi><mi mathvariant="normal">∣</mi><msub><mi>q</mi><mn>1</mn></msub><msub><mi>q</mi><mn>2</mn></msub><mi mathvariant="normal">∣</mi></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">F = \frac{k|q_1 q_2|}{r^2}</annotation></semantics></math></span></div> <p><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>4</mn><mi>π</mi><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">k = \frac{1}{4\pi\varepsilon_0}</annotation></semantics></math></span> = 8.99 × 10<sup>9</sup> N·m²/C². Use sizes |<i>q</i>|; the signs only say attract or repel. The two forces are a third-law pair: equal, even though one charge is twice the other.</p> <div></div> <p><b>How strong?</b> Give two 82 kg people 1 m apart 1% more protons than electrons: 3.93 × 10<sup>7</sup> C each, and <i>F</i> = 1.39 × 10<sup>25</sup> N, enough to accelerate the Earth at 2.3 m/s².</p> <p>10× full size; forces 35 cm per N. Click for a like pair.</p></article>
+<article><h2><a href="#3">9.3 · Net force</a></h2><p><i>and the equilibrium point</i></p>
+<p>With several charges, find each force on your charge, then add them as vectors: <b>superposition</b>.</p> <p>A +0.1 μC test charge sits between A (+4 μC) and B (+1 μC), 45 cm apart. Both push it. The pushes balance where</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mi>k</mi><msub><mi>q</mi><mi>A</mi></msub></mrow><msup><mi>x</mi><mn>2</mn></msup></mfrac><mo>=</mo><mfrac><mrow><mi>k</mi><msub><mi>q</mi><mi>B</mi></msub></mrow><mrow><mo stretchy="false">(</mo><mi>d</mi><mo>−</mo><mi>x</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow></mfrac><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><mi>x</mi><mo>=</mo><mn>30</mn><mtext> cm</mtext></mrow><annotation encoding="application/x-tex">\frac{kq_A}{x^2} = \frac{kq_B}{(d - x)^2} \quad\Rightarrow\quad x = 30\ \text{cm}</annotation></semantics></math></span></div> <p>The balance point is always <b>closer to the smaller charge</b>. It need not lie between them: make B negative and it moves out past B, to 90 cm.</p> <div></div> <p>Forces 4 cm per 0.01 N. Click to park the test charge at the balance point.</p></article>
+<article><h2><a href="#4">9.4 · The electric field</a></h2><p><i>force per unit charge</i></p>
+<p>A charge changes the space around it. A small positive <b>test charge</b> <i>q</i><sub>0</sub> placed anywhere feels a force; the field is that force per coulomb.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>E</mi><mo>⃗</mo></mover><mo>=</mo><mfrac><mover accent="true"><mi>F</mi><mo>⃗</mo></mover><msub><mi>q</mi><mn>0</mn></msub></mfrac><mo>=</mo><mfrac><mrow><mi>k</mi><mi>Q</mi></mrow><msup><mi>r</mi><mn>2</mn></msup></mfrac><mtext> </mtext><mover accent="true"><mi>r</mi><mo>^</mo></mover></mrow><annotation encoding="application/x-tex">\vec{E} = \frac{\vec{F}}{q_0} = \frac{kQ}{r^2}\,\hat{r}</annotation></semantics></math></span></div> <p><b>r̂</b> points away from <i>Q</i>. For +<i>Q</i> the field points out; for −<i>Q</i>, in. Units N/C.</p> <table> <tr><td><b>field lines</b></td><td>direction, and strength by how closely they crowd; start on +, end on −</td></tr> <tr><td><b>field vectors</b></td><td>size too: 899, 225, 100 N/C at 10, 20, 30 cm</td></tr> </table> <div></div> <p>Each charge drawn alone, 10× full size; E 10 cm per 100 N/C. The +0.1 nC test charge’s force is drawn as long as E. Click for r̂.</p></article>
+<article><h2><a href="#5">9.5 · The electric dipole</a></h2><p><i>fields add as vectors</i></p>
+<p>Two opposite charges ±<i>q</i>, 2<i>a</i> apart. <b>E</b> at P is the vector sum of each charge’s field.</p> <p><b>On the axis</b> both fields lie along the line and the nearer charge wins:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mfrac><mrow><mi>k</mi><mi>q</mi></mrow><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>−</mo><mi>a</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow></mfrac><mo>−</mo><mfrac><mrow><mi>k</mi><mi>q</mi></mrow><mrow><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><mi>a</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>4</mn><mi>k</mi><mi>q</mi><mi>a</mi><mi>x</mi></mrow><mrow><mo stretchy="false">(</mo><msup><mi>x</mi><mn>2</mn></msup><mo>−</mo><msup><mi>a</mi><mn>2</mn></msup><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">E = \frac{kq}{(x-a)^2} - \frac{kq}{(x+a)^2} = \frac{4kqax}{(x^2-a^2)^2}</annotation></semantics></math></span></div> <p><b>On the bisector</b> the <i>y</i> parts cancel and the <i>x</i> parts add:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mn>2</mn><mo>⋅</mo><mfrac><mrow><mi>k</mi><mi>q</mi></mrow><mrow><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup></mrow></mfrac><mo>⋅</mo><mi>cos</mi><mo>⁡</mo><mi>θ</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>k</mi><mi>q</mi><mi>a</mi></mrow><mrow><mo stretchy="false">(</mo><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup><msup><mo stretchy="false">)</mo><mrow><mn>3</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">E = 2 \cdot \frac{kq}{a^2+y^2} \cdot \cos\theta = \frac{2kqa}{(a^2+y^2)^{3/2}}</annotation></semantics></math></span></div> <p>Far away these become <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>k</mi><mi>q</mi><mi>a</mi><mi mathvariant="normal">/</mi><msup><mi>x</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">4kqa/x^3</annotation></semantics></math></span> and <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>k</mi><mi>q</mi><mi>a</mi><mi mathvariant="normal">/</mi><msup><mi>y</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">2kqa/y^3</annotation></semantics></math></span>: the two fields nearly cancel, so E falls as <b><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><msup><mi>r</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">1/r^3</annotation></semantics></math></span></b>.</p> <div></div> <p>Dashed: 1/r³. 10× full size; E 15 cm per 100 N/C. Click to split E into E₊ and E₋.</p></article>
+<article><h2><a href="#6">9.6 · A charged rod</a></h2><p><i>add up the slices</i></p>
+<p>Cut the rod into slices d<i>x</i>, each holding d<i>q</i> = λ d<i>x</i> (<span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mi>Q</mi><mi mathvariant="normal">/</mi><mi>L</mi></mrow><annotation encoding="application/x-tex">\lambda = Q/L</annotation></semantics></math></span> = 10 nC/m). Each slice is a point charge; integrate.</p> <p><b>On the axis</b>, <i>a</i> past the end:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><msubsup><mo>∫</mo><mi>a</mi><mrow><mi>a</mi><mo>+</mo><mi>L</mi></mrow></msubsup><mfrac><mrow><mi>k</mi><mi>λ</mi><mtext> </mtext><mi>d</mi><mi>x</mi></mrow><msup><mi>x</mi><mn>2</mn></msup></mfrac><mo>=</mo><mi>k</mi><mi>λ</mi><mrow><mo fence="true">[</mo><mfrac><mn>1</mn><mi>a</mi></mfrac><mo>−</mo><mfrac><mn>1</mn><mrow><mi>a</mi><mo>+</mo><mi>L</mi></mrow></mfrac><mo fence="true">]</mo></mrow><mo>=</mo><mfrac><mrow><mi>k</mi><mi>Q</mi></mrow><mrow><mi>a</mi><mo stretchy="false">(</mo><mi>a</mi><mo>+</mo><mi>L</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">E = \int_a^{a+L} \frac{k\lambda\,dx}{x^2} = k\lambda\left[\frac{1}{a} - \frac{1}{a+L}\right] = \frac{kQ}{a(a+L)}</annotation></semantics></math></span></div> <p><b>On the bisector</b>, <i>a</i> above the middle, the <i>x</i> parts cancel:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mo>∫</mo><mfrac><mrow><mi>k</mi><mi>λ</mi><mi>a</mi><mtext> </mtext><mi>d</mi><mi>x</mi></mrow><mrow><mo stretchy="false">(</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>a</mi><mn>2</mn></msup><msup><mo stretchy="false">)</mo><mrow><mn>3</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>k</mi><mi>Q</mi></mrow><mrow><mi>a</mi><msqrt><mrow><msup><mi>L</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mn>4</mn><mo>+</mo><msup><mi>a</mi><mn>2</mn></msup></mrow></msqrt></mrow></mfrac></mrow><annotation encoding="application/x-tex">E = \int \frac{k\lambda a\,dx}{(x^2+a^2)^{3/2}} = \frac{kQ}{a\sqrt{L^2/4 + a^2}}</annotation></semantics></math></span></div> <p>Far away (<i>a</i> ≫ <i>L</i>) both become <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><msup><mi>a</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">kQ/a^2</annotation></semantics></math></span>, a point charge. Close to the middle (<i>a</i> ≪ <i>L</i>) it is <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>k</mi><mi>λ</mi><mi mathvariant="normal">/</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">2k\lambda/a</annotation></semantics></math></span>.</p> <div></div> <p>10× full size; E 15 cm per 100 N/C. Click to cut the rod into 6 slices.</p></article>
+<article><h2><a href="#7">9.7 · A ring of charge</a></h2><p><i>and a disc</i></p>
+<p>Every piece of a ring is the same distance from a point P on its axis. The sideways parts cancel; only <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>cos</mi><mo>⁡</mo><mi>φ</mi><mo>=</mo><mi>z</mi><mi mathvariant="normal">/</mi><msqrt><mrow><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><msup><mi>R</mi><mn>2</mn></msup></mrow></msqrt></mrow><annotation encoding="application/x-tex">\cos\varphi = z/\sqrt{z^2+R^2}</annotation></semantics></math></span> of each survives.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><msubsup><mo>∫</mo><mn>0</mn><mrow><mn>2</mn><mi>π</mi></mrow></msubsup><mi>k</mi><mi>λ</mi><mi>R</mi><mtext> </mtext><mi>d</mi><mi>θ</mi><mo>⋅</mo><mfrac><mi>z</mi><mrow><mo stretchy="false">(</mo><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><msup><mi>R</mi><mn>2</mn></msup><msup><mo stretchy="false">)</mo><mrow><mn>3</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup></mrow></mfrac><mo>=</mo><mfrac><mrow><mi>k</mi><mi>Q</mi><mi>z</mi></mrow><mrow><mo stretchy="false">(</mo><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><msup><mi>R</mi><mn>2</mn></msup><msup><mo stretchy="false">)</mo><mrow><mn>3</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">E = \int_0^{2\pi} k\lambda R\,d\theta \cdot \frac{z}{(z^2+R^2)^{3/2}} = \frac{kQz}{(z^2+R^2)^{3/2}}</annotation></semantics></math></span></div> <p>Zero at the centre, <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mi>Q</mi><mi mathvariant="normal">/</mi><msup><mi>z</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">kQ/z^2</annotation></semantics></math></span> far away, and a peak between, at <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi><mo>=</mo><mi>R</mi><mi mathvariant="normal">/</mi><msqrt><mn>2</mn></msqrt></mrow><annotation encoding="application/x-tex">z = R/\sqrt{2}</annotation></semantics></math></span> = 14.1 cm.</p> <div></div> <p><b>A disc</b> is a stack of rings, d<i>q</i> = σ 2π<i>r</i> d<i>r</i>:</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo>=</mo><mfrac><mi>σ</mi><mrow><mn>2</mn><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac><mrow><mo fence="true">(</mo><mn>1</mn><mo>−</mo><mfrac><mi>z</mi><msqrt><mrow><msup><mi>z</mi><mn>2</mn></msup><mo>+</mo><msup><mi>R</mi><mn>2</mn></msup></mrow></msqrt></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">E = \frac{\sigma}{2\varepsilon_0}\left(1 - \frac{z}{\sqrt{z^2+R^2}}\right)</annotation></semantics></math></span></div> <p>Just above its centre it is <span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mi mathvariant="normal">/</mi><mn>2</mn><msub><mi>ε</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">\sigma/2\varepsilon_0</annotation></semantics></math></span>, not zero: the disc has charge right under P.</p> <p>10× full size; E 20 cm per 100 N/C, d<i>E</i> ×2. Click for the pieces.</p></article>
+<article><h2><a href="#8">9.8 · A uniform field</a></h2><p><i>projectile motion, again</i></p>
+<p>Between two large, oppositely charged plates the field is the same everywhere, from + to −. A charge there feels a constant force and moves like a thrown ball.</p> <div><span><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mo>=</mo><mi>q</mi><mi>E</mi><mo>=</mo><mi>m</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">F = qE = ma</annotation></semantics></math></span></div> <p>An electron enters at 2.0 × 10<sup>7</sup> m/s; <i>E</i> = 5000 N/C. Its force points <i>against</i> <b>E</b>, toward the + plate.</p> <table> <tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>e</mi><mi>E</mi><mi mathvariant="normal">/</mi><msub><mi>m</mi><mi>e</mi></msub></mrow><annotation encoding="application/x-tex">a = eE/m_e</annotation></semantics></math></span></td><td>8.78 × 10<sup>14</sup> m/s², up</td></tr> <tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mi>L</mi><mi mathvariant="normal">/</mi><msub><mi>v</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">t = L/v_0</annotation></semantics></math></span></td><td>4.0 ns between the 8 cm plates</td></tr> <tr><td><span><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>a</mi><msup><mi>t</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">y = \tfrac12 at^2</annotation></semantics></math></span></td><td>7.03 mm; leaves at 10.0°</td></tr> </table> <p>A proton would bend the other way, 1833× less: 3.8 μm.</p> <div></div> <p>Slowed ~10⁹×; 50× full size; E 14 cm per kN/C. Click for v<sub>x</sub>, v<sub>y</sub>.</p></article>
+<p><a href="/physics/gauss/">Gauss’s Law →</a></p>
+</section><noscript><style>.text-version { display: block; max-width: 44rem; margin: 40px auto; padding: 0 16px; } .scroll-space, .book, .scroll-cue { display: none; }</style></noscript>
+</body>
+</html>

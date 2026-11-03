@@ -1,0 +1,593 @@
+{
+  "info": {
+    "title": "Atlas · Interactive 3D textbooks for AP science and math",
+    "url": "https://atlasclass.app/",
+    "meta": [
+      {
+        "name": null,
+        "content": ""
+      },
+      {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1"
+      },
+      {
+        "name": "description",
+        "content": "Atlas: interactive 3D textbooks, with practice that plays out on the figure."
+      },
+      {
+        "name": "og:title",
+        "content": "Atlas · Interactive 3D textbooks for AP science and math"
+      },
+      {
+        "name": "og:description",
+        "content": "Atlas: interactive 3D textbooks, with practice that plays out on the figure."
+      },
+      {
+        "name": "og:image",
+        "content": "https://atlasclass.app/physics/img/kinematics.jpg"
+      },
+      {
+        "name": "og:url",
+        "content": "https://atlasclass.app/"
+      },
+      {
+        "name": "og:type",
+        "content": "website"
+      },
+      {
+        "name": "twitter:card",
+        "content": "summary_large_image"
+      },
+      {
+        "name": "og:site_name",
+        "content": "Atlas"
+      },
+      {
+        "name": "og:locale",
+        "content": "en_US"
+      },
+      {
+        "name": "og:image:width",
+        "content": "900"
+      },
+      {
+        "name": "og:image:height",
+        "content": "804"
+      }
+    ],
+    "headings": [
+      {
+        "tag": "H1",
+        "text": "Learn it by taking it apart."
+      },
+      {
+        "tag": "H2",
+        "text": "From students and teachers"
+      },
+      {
+        "tag": "H2",
+        "text": "Every figure turns, and comes apart."
+      },
+      {
+        "tag": "H2",
+        "text": "AP-style questions on every page."
+      },
+      {
+        "tag": "H2",
+        "text": "See where your answer lands."
+      },
+      {
+        "tag": "H2",
+        "text": "Stuck? Ask about that question."
+      },
+      {
+        "tag": "H2",
+        "text": "Start with one lesson."
+      }
+    ],
+    "links": [
+      {
+        "text": "Atlas",
+        "href": "https://atlasclass.app/",
+        "pathname": "/"
+      },
+      {
+        "text": "SUBJECTS",
+        "href": "https://atlasclass.app/subjects/",
+        "pathname": "/subjects/"
+      },
+      {
+        "text": "PRACTICE",
+        "href": "https://atlasclass.app/practice/",
+        "pathname": "/practice/"
+      },
+      {
+        "text": "PREMIUM",
+        "href": "https://atlasclass.app/pricing/",
+        "pathname": "/pricing/"
+      },
+      {
+        "text": "TEACHERS",
+        "href": "https://atlasclass.app/teachers/",
+        "pathname": "/teachers/"
+      },
+      {
+        "text": "LOG IN",
+        "href": "https://atlasclass.app/login/?next=%2F",
+        "pathname": "/login/"
+      },
+      {
+        "text": "Check out a lesson →",
+        "href": "https://atlasclass.app/physics/kinematics/?samples=1#0",
+        "pathname": "/physics/kinematics/"
+      },
+      {
+        "text": "PHYSICS · ROTATION\nBox, sphere, disc, ring",
+        "href": "https://atlasclass.app/physics/rotation/#9",
+        "pathname": "/physics/rotation/"
+      },
+      {
+        "text": "AP Physics 1 and Physics C",
+        "href": "https://atlasclass.app/physics/",
+        "pathname": "/physics/"
+      },
+      {
+        "text": "AP Calculus AB and BC",
+        "href": "https://atlasclass.app/calculus/",
+        "pathname": "/calculus/"
+      },
+      {
+        "text": "AP Statistics\nNEW",
+        "href": "https://atlasclass.app/statistics/",
+        "pathname": "/statistics/"
+      },
+      {
+        "text": "AP Physics 1 and Physics C",
+        "href": "https://atlasclass.app/physics/",
+        "pathname": "/physics/"
+      },
+      {
+        "text": "AP Calculus AB and BC",
+        "href": "https://atlasclass.app/calculus/",
+        "pathname": "/calculus/"
+      },
+      {
+        "text": "AP Statistics\nNEW",
+        "href": "https://atlasclass.app/statistics/",
+        "pathname": "/statistics/"
+      },
+      {
+        "text": "All subjects →",
+        "href": "https://atlasclass.app/subjects/",
+        "pathname": "/subjects/"
+      },
+      {
+        "text": "Check out a lesson →",
+        "href": "https://atlasclass.app/physics/kinematics/?samples=1#0",
+        "pathname": "/physics/kinematics/"
+      },
+      {
+        "text": "Atlas",
+        "href": "https://atlasclass.app/",
+        "pathname": "/"
+      },
+      {
+        "text": "",
+        "href": "https://x.com/tryatlasclass",
+        "pathname": "/tryatlasclass"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/tryatlasclass/",
+        "pathname": "/tryatlasclass/"
+      },
+      {
+        "text": "Subjects",
+        "href": "https://atlasclass.app/subjects/",
+        "pathname": "/subjects/"
+      },
+      {
+        "text": "Practice",
+        "href": "https://atlasclass.app/practice/",
+        "pathname": "/practice/"
+      },
+      {
+        "text": "Premium",
+        "href": "https://atlasclass.app/pricing/",
+        "pathname": "/pricing/"
+      },
+      {
+        "text": "Teachers",
+        "href": "https://atlasclass.app/teachers/",
+        "pathname": "/teachers/"
+      },
+      {
+        "text": "About",
+        "href": "https://atlasclass.app/about/",
+        "pathname": "/about/"
+      },
+      {
+        "text": "support@atlasclass.app",
+        "href": "mailto:support@atlasclass.app",
+        "pathname": "support@atlasclass.app"
+      },
+      {
+        "text": "Terms",
+        "href": "https://atlasclass.app/terms/",
+        "pathname": "/terms/"
+      },
+      {
+        "text": "Privacy",
+        "href": "https://atlasclass.app/privacy/",
+        "pathname": "/privacy/"
+      }
+    ],
+    "buttons": [
+      {
+        "text": "",
+        "ariaLabel": "Switch to dark mode",
+        "classes": "theme"
+      },
+      {
+        "text": "",
+        "ariaLabel": "Menu",
+        "classes": "menu"
+      },
+      {
+        "text": "‹",
+        "ariaLabel": "Previous figure",
+        "classes": "prev"
+      },
+      {
+        "text": "",
+        "ariaLabel": "Figure 1 of 6",
+        "classes": ""
+      },
+      {
+        "text": "",
+        "ariaLabel": "Figure 2 of 6",
+        "classes": ""
+      },
+      {
+        "text": "",
+        "ariaLabel": "Figure 3 of 6",
+        "classes": ""
+      },
+      {
+        "text": "",
+        "ariaLabel": "Figure 4 of 6",
+        "classes": ""
+      },
+      {
+        "text": "",
+        "ariaLabel": "Figure 5 of 6",
+        "classes": ""
+      },
+      {
+        "text": "",
+        "ariaLabel": "Figure 6 of 6",
+        "classes": ""
+      },
+      {
+        "text": "›",
+        "ariaLabel": "Next figure",
+        "classes": "next"
+      },
+      {
+        "text": "",
+        "ariaLabel": "Switch to dark mode",
+        "classes": "theme"
+      }
+    ],
+    "scripts": [
+      "https://atlasclass.app/_vercel/insights/script.js",
+      "https://atlasclass.app/js/hero.js",
+      "https://atlasclass.app/js/footer.js"
+    ],
+    "stylesheets": [
+      "https://atlasclass.app/fonts/fonts.css",
+      "https://atlasclass.app/atlas.css",
+      "https://atlasclass.app/app.css",
+      "https://atlasclass.app/nav.css"
+    ],
+    "bodyText": "Atlas\nSUBJECTS\nPRACTICE\nPREMIUM\nTEACHERS\nLOG IN\nLearn it by taking it apart.\n\nInteract, Learn, and Practice.\n\nCheck out a lesson →\nv\na\nvx\nvy\n0\n1 m\n2 m\n3 m\n4 m\n5 m\nposition y (m)\nt (s)\nvelocity v (m/s)\nt (s)\nacceleration a (m/s²)\nt (s)\nvCG\nvRG\nvRC\nvGC\nseen from the road\nseen from the car\nvRG\nvGC\nvRC\nθ\nvBW\nvWS\nvBS\nvBW\nvWS\nvBS\nstraight across ↑\naimed 37° upstream ↑\ncurrent 1.5 m/s →\n0\n10 m\n20 m\n30 m\n40 m\nv\na\n−3 m\n−2 m\n−1 m\n0\n1 m\n2 m\n3 m\nx\nv\na\nturns at t = 1.00 s\nt 1.66 s   y  2.78 m\nv −6.45 m/s   a −9.80 m/s²\nω\nα\nv\nθ\nr\nv1\nv2\nω\nat\nac\na\nr = 0.6 m\nr = 1.2 m\nF\nτ = 8.50 N·m\nr⊥\nF\nτ = 4.25 N·m\nr⊥\nF\nτ = 4.25 N·m\nr⊥\nF⊥\nF∥\nφ = 30°\nFA\nFB\nMg\nmg\nA\nB\nx\nL/2\nL\nmg\nFN\nfs\nFw\nO\nθ\nL sin θ\n½L cos θ\nF\nF\nF\nω\nω\nω\nring · I = MR²\ndisc · I = ½MR²\nsphere · I = ⅖MR²\nsliding box\nsolid sphere\ndisc\nring\nv\n2v\nv = 0\nT\nmg\nma\nT\nα\nω\nr\nfree fall\nL\nω\nr\ndm\nr\ndm\nr\naxis through the centre · ML²/12\naxis through the end · ML²/3\nrings · ½MR²\ndr\nF\nω\nF\nω\npinned at the centre · I = 0.18 kg·m²\npinned at the end · I = 0.72 kg·m²\nd\naxis through the cm\nF\ns = rΔθ\nr\nv\nfk\nω\nv − Rω\nRω\nv = Rω from here\nF\nω\nA: 200 N for 0.6 s\nr\nF\nω\nB: 80 N for 1.5 s\nr\np = mv\nr\nr⊥ = d\nO\nω\nLball\nLrod\nL\nt 0.75 s\nbox 3.1   sphere 2.2   disc 2.1   ring 1.6 m/s\n1\n2\n3\n1\n2\n3\n4\n5\n6\nx\ny\nc\n= √3\ny = f(x)\n1\n2\n3\n4\n−1\n1\n2\n3\nt\nv\n0\n1\nx\nv(t)\n1\n2\n3\n4\n5\n6\n2\n4\n6\n8\nt\nL/min\nR(t)\nD(t)\n60 L\n30 L\n1\n2\n1\n2\n3\n4\nx\ny\ny = 4x − x²\ny = x²\n1\n2\n3\n4\n−1\n1\n2\nx\ny\nx = y²\nx = y + 2\n−2\n−1\n1\n2\n−3\n−2\n−1\n1\n2\n3\nx\ny\nf\ng\n−2\n−1\n1\n2\n1\n2\nx\ny\n−2\n−1\n1\n2\n1\n2\n−2\n−1\n1\n2\n1\n2\n1\n2\n3\n4\n−2\n−1\n1\n2\nx\ny\n2\n4\n6\n8\n1\n2\nx\ny\n1\n2\n3\n4\n−2\n−1\n1\n2\nx\ny\n1\n2\n3\n4\n−4\n−3\n−2\n−1\n1\n2\nx\ny\n1\n2\n3\n1\n2\n3\n4\nx\ny\ny = ⅔x3/2\nturning: 9°\nV = 16π/3 ≈ 16.755\n‹\nPHYSICS · ROTATION\nBox, sphere, disc, ring\n›\nFrom students and teachers\n“The clarity of your explanations, the way you demonstrate the concepts, and especially the quality of the questions you’ve developed are remarkable … I can absolutely see myself incorporating this into my classroom.”\nCameron C.\nTeacher, Roanoke, VA\n“I was very impressed with the quality of the physics visualizations … I will probably link to this site for my blog.”\nDoug N.\nProfessor, Rice University\n“I’m so glad I found this site because I’m taking physics right now and this is exactly what I needed to actually understand the concepts.”\nSerena O.\nStudent, University of Texas at Austin\n“I am using Atlas to essentially redo my college math and physics, as a refresher and brain stimulation. Awesome work!”\nMartin C.\nRetired electrical engineer\n“The clarity of your explanations, the way you demonstrate the concepts, and especially the quality of the questions you’ve developed are remarkable … I can absolutely see myself incorporating this into my classroom.”\nCameron C.\nTeacher, Roanoke, VA\n“I was very impressed with the quality of the physics visualizations … I will probably link to this site for my blog.”\nDoug N.\nProfessor, Rice University\n“I’m so glad I found this site because I’m taking physics right now and this is exactly what I needed to actually understand the concepts.”\nSerena O.\nStudent, University of Texas at Austin\n“I am using Atlas to essentially redo my college math and physics, as a refresher and brain stimulation. Awesome work!”\nMartin C.\nRetired electrical engineer\nAP Physics 1 and Physics C\nAP Calculus AB and BC\nAP Statistics\nNEW\nAP Biology\nNOV 3\nAP Chemistry\nNOV 5\nAP US History\nNOV 7\nAP Macroeconomics\nSOON\nAP US Government and Politics\nSOON\nAP Physics 1 and Physics C\nAP Calculus AB and BC\nAP Statistics\nNEW\nAP Biology\nNOV 3\nAP Chemistry\nNOV 5\nAP US History\nNOV 7\nAP Macroeconomics\nSOON\nAP US Government and Politics\nSOON\nAll subjects →\n1,163\nPRACTICE QUESTIONS\n177\nPRACTICE SETS\n34\nCHAPTERS · 3 SUBJECTS\nINTERACTIVE\nEvery figure turns, and comes apart.\n\nDrag to see it from any side. Tap a part to break it down, with its live numbers.\n\n↻ Drag to turn\nTap a part to break it down\nPRACTICE\nAP-style questions on every page.\n\nMultiple choice and numbers, graded as you go, in sets for each chapter. Any 3 sets are free with an account.\n\nPROJECTILE MOTION · SET 1 · 2 OF 4\n\nThe ball is thrown again with twice the sideways speed and the same upward speed. How far from the launcher does it land?\n\nA\nThe same distance\nB\nTwice as far\n✓\nC\nFour times as far\nD\n√2 times as far\nANSWERS ON THE FIGURE\nSee where your answer lands.\n\nEach question sets the figure to its own numbers. Get one wrong and your answer is drawn in, then the working plays out step by step.\n\nAI TUTOR PREMIUM\nStuck? Ask about that question.\n\nThe tutor sees the question, your answer and the working, so it can explain your mistake.\n\nStart with one lesson.\nCheck out a lesson →\nAtlas\nLearn\nSubjects\nPractice\nPlans\nPremium\nTeachers\nAtlas\nAbout\nsupport@atlasclass.app\nLegal\nTerms\nPrivacy\n© 2026 Atlas\nEnglish\nBahasa Indonesia\nBahasa Melayu\nTiếng Việt\n简体中文\n繁體中文\n日本語\n한국어\nहिन्दी\nEspañol\nPortuguês\nAP® is a trademark registered by the College Board, which is not affiliated with, and does not endorse, this site.",
+    "htmlSample": "\n<header id=\"top\"><a class=\"brand\" href=\"/\">Atlas</a><nav id=\"site-menu\" aria-label=\"Site\" popover=\"\"><a href=\"/subjects/\">Subjects</a><a href=\"/practice/\">Practice</a><a href=\"/pricing/\">Premium</a><a href=\"/teachers/\">Teachers</a></nav><a id=\"nav-auth\" href=\"/login/?next=%2F\">Log in</a><button type=\"button\" class=\"theme\" aria-label=\"Switch to dark mode\" aria-pressed=\"false\"><svg class=\"moon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z\"></path></svg><svg class=\"sun\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"></circle><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"></path></svg></button>\n  <button type=\"button\" class=\"menu\" popovertarget=\"site-menu\" aria-label=\"Menu\"><i></i><i></i><i></i></button></header><script>(() => { const a = document.getElementById('nav-auth'), p = location.pathname; let on = false;\n  try { on = Object.keys(localStorage).some(k => /^sb-.+-auth-token$/.test(k)); } catch {}\n  if (on) { a.textContent = 'Account'; a.href = '/account/'; } else if (!p.startsWith('/login')) a.href = '/login/?next=' + encodeURIComponent(p + location.search);\n  if (p.startsWith(on ? '/account' : '/login')) a.setAttribute('aria-current', 'page'); })();</script>\n<main class=\"land\">\n  <section class=\"hero\">\n    <div class=\"copy\">\n      <h1>Learn it by taking it apart.</h1>\n      <p class=\"lede\">Interact, Learn, and Practice.</p>\n      <a class=\"btn go\" href=\"/physics/kinematics/?samples=1#0\">Check out a lesson →</a>\n    </div>\n    <figure id=\"hero\">\n      <div class=\"track\" role=\"group\" aria-roledescription=\"carousel\" aria-label=\"Interactive figures from the subjects. Drag the middle one to turn it; click a thing to break it down.\"><div class=\"panel live\" aria-hidden=\"true\" style=\"--d: -1;\"><img src=\"/physics/img/kinematics.jpg\" alt=\"A ball thrown straight up beside a position axis, with velocity and acceleration arrows and motion graphs\" width=\"900\" height=\"804\"><canvas data-engine=\"three.js r186\" width=\"552\" height=\"493\"></canvas><div class=\"labels\" aria-hidden=\"true\"><div class=\"lbl vec\" style=\"opacity: 1; left: 337.862px; top: 297.627px;\">v</div><div class=\"lbl vec red\" style=\"opacity: 1; left: 354.338px; top: 290.661px;\">a</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">v<sub>x</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">v<sub>y</sub></div><div class=\"lbl tick\" style=\"opacity: 1; left: 284.651px; top: 413.812px;\">0</div><div class=\"lbl tick\" style=\"opacity: 1; left: 284.696px; top: 349.04px;\">1 m</div><div class=\"lbl tick\" style=\"opacity: 1; left: 284.741px; top: 283.595px;\">2 m</div><div class=\"lbl tick\" style=\"opacity: 1; left: 284.787px; top: 217.465px;\">3 m</div><div class=\"lbl tick\" style=\"opacity: 1; left: 284.833px; top: 150.639px;\">4 m</div><div class=\"lbl tick\" style=\"opacity: 1; left: 284.88px; top: 83.1059px;\">5 m</div><div class=\"lbl board\" style=\"opacity: 1; left: 54.4313px; top: 46.6883px;\">position <i>y</i> (m)</div><div class=\"lbl axis\" style=\"opacity: 1; left: 277.322px; top: 414.254px;\"><i>t</i> (s)</div><div class=\"lbl board\" style=\"opacity: 0; left: -188.914px; top: 47.3021px;\">velocity <i>v</i> (m/s)</div><div class=\"lbl axis\" style=\"opacity: 0; left: 6.91753px; top: 238.211px;\"><i>t</i> (s)</div><div class=\"lbl board\" style=\"opacity: 0; left: -400.245px; top: 47.8351px;\">acceleration <i>a</i> (m/s²)</div><div class=\"lbl axis\" style=\"opacity: 0; left: -226.472px; top: 225.694px;\"><i>t</i> (s)</div><div class=\"lbl vec\" style=\"opacity: 0; left: 5582.27px; top: 832.938px;\">v<sub>CG</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 3048.17px; top: 384.921px;\">v<sub>RG</sub></div><div class=\"lbl vec blue\" style=\"opacity: 0; left: 7746.59px; top: 650.363px;\">v<sub>RC</sub></div><div class=\"lbl vec grey\" style=\"opacity: 0; left: 13007.4px; top: 1871.55px;\">v<sub>GC</sub></div><div class=\"lbl board\" style=\"opacity: 0; left: 3375.55px; top: 112.461px;\">seen from the road</div><div class=\"lbl board\" style=\"opacity: 0; left: 7387.08px; top: 146.233px;\">seen from the car</div><div class=\"lbl vec\" style=\"opacity: 0; left: 17299px; top: 877.939px;\">v<sub>RG</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 14522.9px; top: 1130.96px;\">v<sub>GC</sub></div><div class=\"lbl vec blue\" style=\"opacity: 0; left: 14353.8px; top: 675.616px;\">v<sub>RC</sub></div><div class=\"lbl mark\" style=\"opacity: 0; left: 0px; top: 0px;\">θ</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">v<sub>BW</sub></div><div class=\"lbl vec grey\" style=\"opacity: 0; left: 0px; top: 0px;\">v<sub>WS</sub></div><div class=\"lbl vec blue\" style=\"opacity: 0; left: 0px; top: 0px;\">v<sub>BS</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 16862.5px; top: 1677.97px;\">v<sub>BW</sub></div><div class=\"lbl vec grey\" style=\"opacity: 0; left: 16987.9px; top: 1660.76px;\">v<sub>WS</sub></div><div class=\"lbl vec blue\" style=\"opacity: 0; left: 21073.9px; top: 2025.09px;\">v<sub>BS</sub></div><div class=\"lbl tick\" style=\"opacity: 0; left: -23606.3px; top: -2350.24px;\">straight across ↑</div><div class=\"lbl tick\" style=\"opacity: 0; left: -37768.9px; top: -4036.5px;\">aimed 37° upstream ↑</div><div class=\"lbl tick\" style=\"opacity: 0; left: -18185px; top: -1604.83px;\">current 1.5 m/s →</div><div class=\"lbl tick\" style=\"opacity: 0; left: -13850.9px; top: -1017.08px;\">0</div><div class=\"lbl tick\" style=\"opacity: 0; left: -12932.7px; top: -922.829px;\">10 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -12162.8px; top: -843.808px;\">20 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -11507.9px; top: -776.599px;\">30 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -10944.2px; top: -718.738px;\">40 m</div><div class=\"lbl vec\" style=\"opacity: 0; left: -13769.2px; top: -947.145px;\">v</div><div class=\"lbl vec red\" style=\"opacity: 0; left: -14127.9px; top: -906.786px;\">a</div><div class=\"lbl tick\" style=\"opacity: 0; left: -9195.44px; top: -531.199px;\">−3 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -9046.96px; top: -516.166px;\">−2 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -8905.91px; top: -501.884px;\">−1 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -8771.73px; top: -488.299px;\">0</div><div class=\"lbl tick\" style=\"opacity: 0; left: -8643.93px; top: -475.36px;\">1 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -8522.08px; top: -463.023px;\">2 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: -8405.76px; top: -451.246px;\">3 m</div><div class=\"lbl axis\" style=\"opacity: 0; left: -8479.55px; top: -449.008px;\"><i>x</i></div><div class=\"lbl vec\" style=\"opacity: 0; left: -8938.71px; top: -480.033px;\">v</div><div class=\"lbl vec red\" style=\"opacity: 0; left: -8899.02px; top: -432.916px;\">a</div><div class=\"lbl mark\" style=\"opacity: 0; left: -9531.8px; top: -479.385px;\">turns at t = 1.00 s</div></div><div class=\"hint\">Drag to turn · click a thing to break it down</div>\n    <div class=\"readout\" aria-hidden=\"true\">t 1.66 s   y  2.78 m\nv −6.45 m/s   a −9.80 m/s²</div><div class=\"card\" aria-live=\"polite\" hidden=\"\"><b></b><span></span></div></div><div class=\"panel live on\" aria-hidden=\"false\" style=\"--d: 0;\"><canvas data-engine=\"three.js r186\" width=\"552\" height=\"493\"></canvas><div class=\"labels\" aria-hidden=\"true\"><div class=\"lbl vec\" style=\"opacity: 0; left: 30623.8px; top: -3549.12px;\">ω</div><div class=\"lbl vec red\" style=\"opacity: 0; left: 36589.9px; top: -4797.25px;\">α</div><div class=\"lbl vec\" style=\"opacity: 0; left: 30919.8px; top: -3648.57px;\">v</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">θ</div><div class=\"lbl vec\" style=\"opacity: 0; left: 31713.6px; top: -3817.47px;\">r</div><div class=\"lbl vec\" style=\"opacity: 0; left: 55586px; top: -6929.55px;\">v<sub>1</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 61173.6px; top: -7579.26px;\">v<sub>2</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 38066.3px; top: -4475.28px;\">ω</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">a<sub>t</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">a<sub>c</sub></div><div class=\"lbl vec red\" style=\"opacity: 0; left: 0px; top: 0px;\">a</div><div class=\"lbl tick\" style=\"opacity: 0; left: 59157.8px; top: -7632.1px;\">r = 0.6 m</div><div class=\"lbl tick\" style=\"opacity: 0; left: 64574.1px; top: -8297.8px;\">r = 1.2 m</div><div class=\"lbl vec\" style=\"opacity: 0; left: 138359px; top: -17215.3px;\">F</div><div class=\"lbl tick\" style=\"opacity: 0; left: 116601px; top: -16510.5px;\">τ = 8.50 N·m</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">r<sub>⊥</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 127115px; top: -16171.6px;\">F</div><div class=\"lbl tick\" style=\"opacity: 0; left: 159309px; top: -22693.7px;\">τ = 4.25 N·m</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">r<sub>⊥</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 237821px; top: -30245.2px;\">F</div><div class=\"lbl tick\" style=\"opacity: 0; left: 257947px; top: -36974.5px;\">τ = 4.25 N·m</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">r<sub>⊥</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">F<sub>⊥</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">F<sub>∥</sub></div><div class=\"lbl tick\" style=\"opacity: 0; left: 168107px; top: -21947.6px;\">φ = 30°</div><div class=\"lbl vec\" style=\"opacity: 0; left: 155121px; top: -17106.9px;\">F<sub>A</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: -162891px; top: 20400.3px;\">F<sub>B</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: -78938.1px; top: 11765px;\">Mg</div><div class=\"lbl vec\" style=\"opacity: 0; left: -90864px; top: 13670.2px;\">mg</div><div class=\"lbl tick\" style=\"opacity: 0; left: -557350px; top: 73107.9px;\">A</div><div class=\"lbl tick\" style=\"opacity: 0; left: -103420px; top: 13768.6px;\">B</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">x</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">L/2</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">L</div><div class=\"lbl vec\" style=\"opacity: 0; left: -23674.6px; top: 3510.08px;\">mg</div><div class=\"lbl vec\" style=\"opacity: 0; left: -26547.7px; top: 3690.2px;\">F<sub>N</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: -22087.1px; top: 3446.2px;\">f<sub>s</sub></div><div class=\"lbl vec\" style=\"opacity: 0; left: -39164px; top: 4221.6px;\">F<sub>w</sub></div><div class=\"lbl tick\" style=\"opacity: 0; left: -25634.1px; top: 4087.08px;\">O</div><div class=\"lbl vec\" style=\"opacity: 0; left: -24549.3px; top: 3745.38px;\">θ</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">L sin θ</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">½L cos θ</div><div class=\"lbl vec\" style=\"opacity: 0; left: -14163px; top: 2167.41px;\">F</div><div class=\"lbl vec\" style=\"opacity: 0; left: -13122.1px; top: 2028.29px;\">F</div><div class=\"lbl vec\" style=\"opacity: 0; left: -12172px; top: 1901.3px;\">F</div><div class=\"lbl vec\" style=\"opacity: 0; left: -15489.5px; top: 2200.51px;\">ω</div><div class=\"lbl vec\" style=\"opacity: 0; left: -13880.6px; top: 1970.62px;\">ω</div><div class=\"lbl vec\" style=\"opacity: 0; left: -12655.4px; top: 1801.73px;\">ω</div><div class=\"lbl tick\" style=\"opacity: 0; left: -12478.6px; top: 2014.21px;\">ring · I = MR²</div><div class=\"lbl tick\" style=\"opacity: 0; left: -11625.6px; top: 1897.31px;\">disc · I = ½MR²</div><div class=\"lbl tick\" style=\"opacity: 0; left: -10838.7px; top: 1789.47px;\">sphere · I = ⅖MR²</div><div class=\"lbl tick\" style=\"opacity: 1; left: 113.932px; top: 255.597px;\">sliding box</div><div class=\"lbl tick\" style=\"opacity: 1; left: 103.222px; top: 211.811px;\">solid sphere</div><div class=\"lbl tick\" style=\"opacity: 1; left: 93.1525px; top: 170.646px;\">disc</div><div class=\"lbl tick\" style=\"opacity: 1; left: 83.9527px; top: 133.036px;\">ring</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">v</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">2v</div><div class=\"lbl tick\" style=\"opacity: 0; left: 0px; top: 0px;\">v = 0</div><div class=\"lbl vec\" style=\"opacity: 0; left: 2611.72px; top: -231.01px;\">T</div><div class=\"lbl vec\" style=\"opacity: 0; left: 2465.06px; top: -68.3584px;\">mg</div><div class=\"lbl vec red\" style=\"opacity: 0; left: 2537.4px; top: -124.606px;\">ma</div><div class=\"lbl vec\" style=\"opacity: 0; left: 2635.96px; top: -233.716px;\">T</div><div class=\"lbl vec red\" style=\"opacity: 0; left: 2730.41px; top: -350.013px;\">α</div><div class=\"lbl vec\" style=\"opacity: 0; left: 2738px; top: -321.248px;\">ω</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">r</div><div class=\"lbl tick\" style=\"opacity: 0; left: 0px; top: 0px;\">free fall</div><div class=\"lbl vec\" style=\"opacity: 0; left: 3750.6px; top: -339.637px;\">L</div><div class=\"lbl vec\" style=\"opacity: 0; left: 3636.9px; top: -194.501px;\">ω</div><div class=\"lbl vec\" style=\"opacity: 0; left: 0px; top: 0px;\">r</div><div class=\"lbl vec\" style=\"opacity: 0; left: -7630.52px; top: 1211.09px;\">dm</div><div class=\"lbl vec grey\" style=\"opacity: 0; left: -7390.18px; top: 1217.88px;\">r</div><div class=\"lbl vec\" style=\"opacity: 0; left: -6946.72px; top: 1123.19px;\">dm</div><div class=\"lbl vec grey\" style=\"opacity: 0; left: -6877.94px; top: 1150.84px;\">r</div><div class=\"lbl tick\" style=\"opacity: 0; left: -6957.7px; top: 1333.98px;\">axis through the centre · ML²/12</div><div class=\"lbl tick\" style=\"opacity: 0; left: -6447.95px; top: 1261.62px;\">axis through the end · ML²/3</div><div class=\"lbl tick\" style=\"opacity: 0; left: -5839.46px; top: 1175.25px;\">rings · ½MR²</div><div class=\"lbl vec\" style=\"opacity: 0; left: -5996.46px; top: 1007.65px;\">dr</div><div class=\"lbl vec\" style=\"opacity: 0; left: -3328.34px; top: 667.516px;\">F</div><div class=\"lbl vec\" style=\"opacity: 0; left: -3621.37px; top: 696.711px;\">ω</div><div class=\"lbl vec\" style=\"opacity: 0; left: -2995.25px; top: 642.618px;\">F</div><div class=\"lbl vec\" style=\"opacity: 0; left: -3295.8px; top: 668.856px;\">ω</div><div class=\"lbl tick\" style=\"opacity: 0; left: -3710.59px; top: 847.408px;\">pinned at the centre · I = 0.18 kg·m²</div><div class=\"lbl tick\" style=\"opacity: 0; left: -3497.06px; top: 873.889px;\">pinned at the end · I = 0.72 kg·m²</div><div class=\"lbl vec grey\" style=\"opacity: 0; left: 0px; top: 0px;\">d</div><div class=\"lbl tick\" style=\"opacity: 0; left: 0px; top: 0px;\">axis through the cm</div><div class=\"lbl vec\" style=\"opacity: 0; left: -1118.89px; top: 511.74px;\">F</div><div class=\"lbl vec grey\" style=\"opacity: 0; left: -1083.45px; top: 487.739px;\">s = rΔθ</div><div class=\"lbl vec grey\" style=\"opacity: 0; left: 0px; top: 0px;\">r</div><div class=\"lbl tick\" style=\"opacity: 0; left: -1142.54px; top: 534.521px;\"></div><div class=\"lbl vec\" style=\"opacity: 0; left: 1582.43px; top: 104.156px;\">v</div><div class=\"lbl vec red\" style=\"opacity: 0; left: 0px; top: "
+  },
+  "requests": [
+    {
+      "url": "https://atlasclass.app/",
+      "status": 200,
+      "method": "GET",
+      "contentType": "text/html; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/atlas.css",
+      "status": 200,
+      "method": "GET",
+      "contentType": "text/css; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/fonts/fonts.css",
+      "status": 200,
+      "method": "GET",
+      "contentType": "text/css; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/app.css",
+      "status": 200,
+      "method": "GET",
+      "contentType": "text/css; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/js/hero.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/kinematics/main.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/engine/render.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/kinematics/world.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/kinematics/model.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/kinematics/pages.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/nav.css",
+      "status": 200,
+      "method": "GET",
+      "contentType": "text/css; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/engine/parts.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/engine/tex.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/js/footer.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/katex/katex.mjs",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/Pass.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/MaskPass.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/CopyShader.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/_vercel/insights/script.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/RenderPass.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/shaders/OutputShader.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/EffectComposer.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/ShaderPass.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/postprocessing/OutputPass.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.core.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/rotation/main.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/rotation/pages.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/rotation/world.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/rotation/model.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/circular/main.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/circular/world.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/circular/model.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/physics/circular/pages.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/applications/main.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/applications/model.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/applications/world.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/applications/pages.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/kit.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/engine/tex.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    },
+    {
+      "url": "https://atlasclass.app/calculus/engine/parts.js",
+      "status": 200,
+      "method": "GET",
+      "contentType": "application/javascript; charset=utf-8",
+      "body": null
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String?
+  passwordHash     String?
+  emailVerified    DateTime?
+  role             String    @default("STUDENT") // STUDENT | TEACHER | ADMIN
+  status           String    @default("ACTIVE")  // ACTIVE | REVOKED
+  revokedAt        DateTime?
+  revokedReason    String?
+  freeLimit        Int       @default(3)
+  freeSetsJson     String    @default("[]")
+  referralCode     String    @unique
+  referredByCode   String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  accounts         Account[]
+  sessions         Session[]
+  subscription     Subscription?
+  attempts         Attempt[]
+  invitationsSent  Invitation[]     @relation("InvitationCreator")
+  invitationUsed   Invitation?      @relation("InvitationRecipient")
+  auditLogs        AuditLog[]       @relation("AuditActor")
+  classesTaught    Classroom[]      @relation("TeacherClasses")
+  enrollments      ClassEnrollment[]
+  tutorChats       TutorChat[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Invitation {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  email       String?
+  role        String    @default("STUDENT") // STUDENT | TEACHER | ADMIN
+  status      String    @default("ACTIVE")  // ACTIVE | USED | REVOKED | EXPIRED
+  expiresAt   DateTime
+  usedAt      DateTime?
+  usedById    String?   @unique
+  usedBy      User?     @relation("InvitationRecipient", fields: [usedById], references: [id])
+  revokedAt   DateTime?
+  createdById String?
+  createdBy   User?     @relation("InvitationCreator", fields: [createdById], references: [id])
+  note        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([code])
+  @@index([status])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorId     String?
+  actor       User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actorEmail  String?
+  action      String
+  targetType  String
+  targetId    String?
+  metadata    String   @default("{}")
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([action])
+  @@index([actorId])
+  @@index([createdAt])
+}
+
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String    @unique
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                 String?   // monthly | yearly | lifetime
+  status               String    @default("none") // none | active | canceled | past_due
+  via                  String?   // stripe | school | referral | admin_grant
+  periodEnd            DateTime?
+  cancels              Boolean   @default(false)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+model ProblemSet {
+  id          String    @id
+  subject     String
+  chapter     String
+  chapterNo   Int
+  position    Int
+  title       String
+  pages       String
+  nProblems   Int
+  pageFrom    Int
+  pageTo      Int
+  i18nJson    String    @default("{}")
+  problems    Problem[]
+
+  @@index([chapter, position])
+  @@index([chapterNo, position])
+}
+
+model Problem {
+  id          String     @id
+  setId       String?
+  problemSet  ProblemSet? @relation(fields: [setId], references: [id], onDelete: SetNull)
+  chapter     String
+  isSample    Boolean    @default(false)
+  sampleOrder Int?
+  kind        String     // mc | num
+  prompt      String
+  choicesJson String?
+  sceneJson   String
+  unit        String?
+  answer      Int?
+  value       Float?
+  solution    String
+  stepsJson   String
+  slipsJson   String     @default("[]")
+  ghostJson   String     @default("[]")
+  translations String    @default("{}")
+  attempts    Attempt[]
+
+  @@index([chapter, isSample])
+  @@index([setId])
+}
+
+model Attempt {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemId   String
+  problem     Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  correct     Boolean
+  answer      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, problemId])
+  @@index([userId])
+}
+
+model TeacherRequest {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  school      String
+  courses     String   // JSON array of courses
+  students    String?
+  notes       String?
+  status      String   @default("PENDING") // PENDING | APPROVED | REJECTED
+  inviteCode  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Classroom {
+  id          String            @id @default(cuid())
+  name        String
+  subject     String
+  joinCode    String            @unique
+  teacherId   String
+  teacher     User              @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
+  enrollments ClassEnrollment[]
+  createdAt   DateTime          @default(now())
+}
+
+model ClassEnrollment {
+  id          String    @id @default(cuid())
+  classroomId String
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  studentId   String
+  student     User      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+
+  @@unique([classroomId, studentId])
+}
+
+model TutorChat {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemId   String
+  messages    String   // JSON array of { role, content }
+  createdAt   DateTime @default(now())
+}
